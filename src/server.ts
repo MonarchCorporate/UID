@@ -2,6 +2,14 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { startScheduler } from "./lib/scheduler.server";
+import { runMigrations } from "./lib/db/migrate.server";
+
+// Node.js runtime (Hostinger): create/upgrade the MySQL schema, then start
+// the background job scheduler that replaced pg_cron.
+void runMigrations()
+  .catch((e) => console.error("[db] migration failed", e))
+  .finally(() => startScheduler());
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;

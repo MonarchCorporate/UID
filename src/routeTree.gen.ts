@@ -64,7 +64,10 @@ import { Route as OSlugShopRouteImport } from './routes/o/$slug.shop'
 import { Route as OSlugKalenderRouteImport } from './routes/o/$slug.kalender'
 import { Route as OSlugFlotteRouteImport } from './routes/o/$slug.flotte'
 import { Route as ApiPublicTreasuryChartRouteImport } from './routes/api/public/treasury-chart'
+import { Route as ApiPublicStorageUploadRouteImport } from './routes/api/public/storage-upload'
 import { Route as ApiPublicRsiDiagRouteImport } from './routes/api/public/rsi-diag'
+import { Route as ApiPublicRestRouteImport } from './routes/api/public/rest'
+import { Route as ApiPublicRealtimeRouteImport } from './routes/api/public/realtime'
 import { Route as ApiPublicImgRouteImport } from './routes/api/public/img'
 import { Route as AuthenticatedSchiffskomponentenRefRouteImport } from './routes/_authenticated/schiffskomponenten.$ref'
 import { Route as AuthenticatedSchiffSlugRouteImport } from './routes/_authenticated/schiff.$slug'
@@ -122,10 +125,16 @@ import { Route as ApiPublicHooksSyncSccrafterRouteImport } from './routes/api/pu
 import { Route as ApiPublicHooksSyncFleetRouteImport } from './routes/api/public/hooks/sync-fleet'
 import { Route as ApiPublicHooksGiveawaysTickRouteImport } from './routes/api/public/hooks/giveaways-tick'
 import { Route as ApiPublicHooksDiscordBotRouteImport } from './routes/api/public/hooks/discord-bot'
+import { Route as ApiPublicAuthVerifyRouteImport } from './routes/api/public/auth/verify'
+import { Route as ApiPublicAuthUserRouteImport } from './routes/api/public/auth/user'
+import { Route as ApiPublicAuthRefreshRouteImport } from './routes/api/public/auth/refresh'
+import { Route as ApiPublicAuthLogoutRouteImport } from './routes/api/public/auth/logout'
+import { Route as ApiPublicAdminImportRouteImport } from './routes/api/public/admin/import'
 import { Route as AuthenticatedOpsSlugEditRouteImport } from './routes/_authenticated/ops.$slug.edit'
 import { Route as AuthenticatedMarketplaceIdEditRouteImport } from './routes/_authenticated/marketplace.$id.edit'
 import { Route as AuthenticatedHandelCommoditySlugRouteImport } from './routes/_authenticated/handel.commodity.$slug'
 import { Route as AuthenticatedFarmListsJoinTokenRouteImport } from './routes/_authenticated/farm-lists.join.$token'
+import { Route as ApiPublicStorageBucketSplatRouteImport } from './routes/api/public/storage.$bucket.$'
 import { Route as ApiPublicOrgLogoOrgIdFilenameRouteImport } from './routes/api/public/org-logo.$orgId.$filename'
 import { Route as ApiPublicAvatarUserIdFilenameRouteImport } from './routes/api/public/avatar.$userId.$filename'
 import { Route as ApiPublicAuthDiscordStartRouteImport } from './routes/api/public/auth/discord/start'
@@ -416,9 +425,24 @@ const ApiPublicTreasuryChartRoute = ApiPublicTreasuryChartRouteImport.update({
   path: '/api/public/treasury-chart',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicStorageUploadRoute = ApiPublicStorageUploadRouteImport.update({
+  id: '/api/public/storage-upload',
+  path: '/api/public/storage-upload',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicRsiDiagRoute = ApiPublicRsiDiagRouteImport.update({
   id: '/api/public/rsi-diag',
   path: '/api/public/rsi-diag',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicRestRoute = ApiPublicRestRouteImport.update({
+  id: '/api/public/rest',
+  path: '/api/public/rest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicRealtimeRoute = ApiPublicRealtimeRouteImport.update({
+  id: '/api/public/realtime',
+  path: '/api/public/realtime',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicImgRoute = ApiPublicImgRouteImport.update({
@@ -745,6 +769,31 @@ const ApiPublicHooksDiscordBotRoute =
     path: '/api/public/hooks/discord-bot',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicAuthVerifyRoute = ApiPublicAuthVerifyRouteImport.update({
+  id: '/api/public/auth/verify',
+  path: '/api/public/auth/verify',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAuthUserRoute = ApiPublicAuthUserRouteImport.update({
+  id: '/api/public/auth/user',
+  path: '/api/public/auth/user',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAuthRefreshRoute = ApiPublicAuthRefreshRouteImport.update({
+  id: '/api/public/auth/refresh',
+  path: '/api/public/auth/refresh',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAuthLogoutRoute = ApiPublicAuthLogoutRouteImport.update({
+  id: '/api/public/auth/logout',
+  path: '/api/public/auth/logout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAdminImportRoute = ApiPublicAdminImportRouteImport.update({
+  id: '/api/public/admin/import',
+  path: '/api/public/admin/import',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedOpsSlugEditRoute =
   AuthenticatedOpsSlugEditRouteImport.update({
     id: '/ops/$slug/edit',
@@ -768,6 +817,12 @@ const AuthenticatedFarmListsJoinTokenRoute =
     id: '/farm-lists/join/$token',
     path: '/farm-lists/join/$token',
     getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const ApiPublicStorageBucketSplatRoute =
+  ApiPublicStorageBucketSplatRouteImport.update({
+    id: '/api/public/storage/$bucket/$',
+    path: '/api/public/storage/$bucket/$',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const ApiPublicOrgLogoOrgIdFilenameRoute =
   ApiPublicOrgLogoOrgIdFilenameRouteImport.update({
@@ -874,7 +929,10 @@ export interface FileRoutesByFullPath {
   '/schiff/$slug': typeof AuthenticatedSchiffSlugRoute
   '/schiffskomponenten/$ref': typeof AuthenticatedSchiffskomponentenRefRoute
   '/api/public/img': typeof ApiPublicImgRoute
+  '/api/public/realtime': typeof ApiPublicRealtimeRoute
+  '/api/public/rest': typeof ApiPublicRestRoute
   '/api/public/rsi-diag': typeof ApiPublicRsiDiagRoute
+  '/api/public/storage-upload': typeof ApiPublicStorageUploadRoute
   '/api/public/treasury-chart': typeof ApiPublicTreasuryChartRoute
   '/o/$slug/flotte': typeof OSlugFlotteRoute
   '/o/$slug/kalender': typeof OSlugKalenderRoute
@@ -898,6 +956,11 @@ export interface FileRoutesByFullPath {
   '/handel/commodity/$slug': typeof AuthenticatedHandelCommoditySlugRoute
   '/marketplace/$id/edit': typeof AuthenticatedMarketplaceIdEditRoute
   '/ops/$slug/edit': typeof AuthenticatedOpsSlugEditRoute
+  '/api/public/admin/import': typeof ApiPublicAdminImportRoute
+  '/api/public/auth/logout': typeof ApiPublicAuthLogoutRoute
+  '/api/public/auth/refresh': typeof ApiPublicAuthRefreshRoute
+  '/api/public/auth/user': typeof ApiPublicAuthUserRoute
+  '/api/public/auth/verify': typeof ApiPublicAuthVerifyRoute
   '/api/public/hooks/discord-bot': typeof ApiPublicHooksDiscordBotRoute
   '/api/public/hooks/giveaways-tick': typeof ApiPublicHooksGiveawaysTickRoute
   '/api/public/hooks/sync-fleet': typeof ApiPublicHooksSyncFleetRoute
@@ -915,6 +978,7 @@ export interface FileRoutesByFullPath {
   '/api/public/auth/discord/start': typeof ApiPublicAuthDiscordStartRoute
   '/api/public/avatar/$userId/$filename': typeof ApiPublicAvatarUserIdFilenameRoute
   '/api/public/org-logo/$orgId/$filename': typeof ApiPublicOrgLogoOrgIdFilenameRoute
+  '/api/public/storage/$bucket/$': typeof ApiPublicStorageBucketSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -991,7 +1055,10 @@ export interface FileRoutesByTo {
   '/schiff/$slug': typeof AuthenticatedSchiffSlugRoute
   '/schiffskomponenten/$ref': typeof AuthenticatedSchiffskomponentenRefRoute
   '/api/public/img': typeof ApiPublicImgRoute
+  '/api/public/realtime': typeof ApiPublicRealtimeRoute
+  '/api/public/rest': typeof ApiPublicRestRoute
   '/api/public/rsi-diag': typeof ApiPublicRsiDiagRoute
+  '/api/public/storage-upload': typeof ApiPublicStorageUploadRoute
   '/api/public/treasury-chart': typeof ApiPublicTreasuryChartRoute
   '/o/$slug/flotte': typeof OSlugFlotteRoute
   '/o/$slug/kalender': typeof OSlugKalenderRoute
@@ -1015,6 +1082,11 @@ export interface FileRoutesByTo {
   '/handel/commodity/$slug': typeof AuthenticatedHandelCommoditySlugRoute
   '/marketplace/$id/edit': typeof AuthenticatedMarketplaceIdEditRoute
   '/ops/$slug/edit': typeof AuthenticatedOpsSlugEditRoute
+  '/api/public/admin/import': typeof ApiPublicAdminImportRoute
+  '/api/public/auth/logout': typeof ApiPublicAuthLogoutRoute
+  '/api/public/auth/refresh': typeof ApiPublicAuthRefreshRoute
+  '/api/public/auth/user': typeof ApiPublicAuthUserRoute
+  '/api/public/auth/verify': typeof ApiPublicAuthVerifyRoute
   '/api/public/hooks/discord-bot': typeof ApiPublicHooksDiscordBotRoute
   '/api/public/hooks/giveaways-tick': typeof ApiPublicHooksGiveawaysTickRoute
   '/api/public/hooks/sync-fleet': typeof ApiPublicHooksSyncFleetRoute
@@ -1032,6 +1104,7 @@ export interface FileRoutesByTo {
   '/api/public/auth/discord/start': typeof ApiPublicAuthDiscordStartRoute
   '/api/public/avatar/$userId/$filename': typeof ApiPublicAvatarUserIdFilenameRoute
   '/api/public/org-logo/$orgId/$filename': typeof ApiPublicOrgLogoOrgIdFilenameRoute
+  '/api/public/storage/$bucket/$': typeof ApiPublicStorageBucketSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -1115,7 +1188,10 @@ export interface FileRoutesById {
   '/_authenticated/schiff/$slug': typeof AuthenticatedSchiffSlugRoute
   '/_authenticated/schiffskomponenten/$ref': typeof AuthenticatedSchiffskomponentenRefRoute
   '/api/public/img': typeof ApiPublicImgRoute
+  '/api/public/realtime': typeof ApiPublicRealtimeRoute
+  '/api/public/rest': typeof ApiPublicRestRoute
   '/api/public/rsi-diag': typeof ApiPublicRsiDiagRoute
+  '/api/public/storage-upload': typeof ApiPublicStorageUploadRoute
   '/api/public/treasury-chart': typeof ApiPublicTreasuryChartRoute
   '/o/$slug/flotte': typeof OSlugFlotteRoute
   '/o/$slug/kalender': typeof OSlugKalenderRoute
@@ -1139,6 +1215,11 @@ export interface FileRoutesById {
   '/_authenticated/handel/commodity/$slug': typeof AuthenticatedHandelCommoditySlugRoute
   '/_authenticated/marketplace/$id/edit': typeof AuthenticatedMarketplaceIdEditRoute
   '/_authenticated/ops/$slug/edit': typeof AuthenticatedOpsSlugEditRoute
+  '/api/public/admin/import': typeof ApiPublicAdminImportRoute
+  '/api/public/auth/logout': typeof ApiPublicAuthLogoutRoute
+  '/api/public/auth/refresh': typeof ApiPublicAuthRefreshRoute
+  '/api/public/auth/user': typeof ApiPublicAuthUserRoute
+  '/api/public/auth/verify': typeof ApiPublicAuthVerifyRoute
   '/api/public/hooks/discord-bot': typeof ApiPublicHooksDiscordBotRoute
   '/api/public/hooks/giveaways-tick': typeof ApiPublicHooksGiveawaysTickRoute
   '/api/public/hooks/sync-fleet': typeof ApiPublicHooksSyncFleetRoute
@@ -1156,6 +1237,7 @@ export interface FileRoutesById {
   '/api/public/auth/discord/start': typeof ApiPublicAuthDiscordStartRoute
   '/api/public/avatar/$userId/$filename': typeof ApiPublicAvatarUserIdFilenameRoute
   '/api/public/org-logo/$orgId/$filename': typeof ApiPublicOrgLogoOrgIdFilenameRoute
+  '/api/public/storage/$bucket/$': typeof ApiPublicStorageBucketSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1239,7 +1321,10 @@ export interface FileRouteTypes {
     | '/schiff/$slug'
     | '/schiffskomponenten/$ref'
     | '/api/public/img'
+    | '/api/public/realtime'
+    | '/api/public/rest'
     | '/api/public/rsi-diag'
+    | '/api/public/storage-upload'
     | '/api/public/treasury-chart'
     | '/o/$slug/flotte'
     | '/o/$slug/kalender'
@@ -1263,6 +1348,11 @@ export interface FileRouteTypes {
     | '/handel/commodity/$slug'
     | '/marketplace/$id/edit'
     | '/ops/$slug/edit'
+    | '/api/public/admin/import'
+    | '/api/public/auth/logout'
+    | '/api/public/auth/refresh'
+    | '/api/public/auth/user'
+    | '/api/public/auth/verify'
     | '/api/public/hooks/discord-bot'
     | '/api/public/hooks/giveaways-tick'
     | '/api/public/hooks/sync-fleet'
@@ -1280,6 +1370,7 @@ export interface FileRouteTypes {
     | '/api/public/auth/discord/start'
     | '/api/public/avatar/$userId/$filename'
     | '/api/public/org-logo/$orgId/$filename'
+    | '/api/public/storage/$bucket/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1356,7 +1447,10 @@ export interface FileRouteTypes {
     | '/schiff/$slug'
     | '/schiffskomponenten/$ref'
     | '/api/public/img'
+    | '/api/public/realtime'
+    | '/api/public/rest'
     | '/api/public/rsi-diag'
+    | '/api/public/storage-upload'
     | '/api/public/treasury-chart'
     | '/o/$slug/flotte'
     | '/o/$slug/kalender'
@@ -1380,6 +1474,11 @@ export interface FileRouteTypes {
     | '/handel/commodity/$slug'
     | '/marketplace/$id/edit'
     | '/ops/$slug/edit'
+    | '/api/public/admin/import'
+    | '/api/public/auth/logout'
+    | '/api/public/auth/refresh'
+    | '/api/public/auth/user'
+    | '/api/public/auth/verify'
     | '/api/public/hooks/discord-bot'
     | '/api/public/hooks/giveaways-tick'
     | '/api/public/hooks/sync-fleet'
@@ -1397,6 +1496,7 @@ export interface FileRouteTypes {
     | '/api/public/auth/discord/start'
     | '/api/public/avatar/$userId/$filename'
     | '/api/public/org-logo/$orgId/$filename'
+    | '/api/public/storage/$bucket/$'
   id:
     | '__root__'
     | '/'
@@ -1479,7 +1579,10 @@ export interface FileRouteTypes {
     | '/_authenticated/schiff/$slug'
     | '/_authenticated/schiffskomponenten/$ref'
     | '/api/public/img'
+    | '/api/public/realtime'
+    | '/api/public/rest'
     | '/api/public/rsi-diag'
+    | '/api/public/storage-upload'
     | '/api/public/treasury-chart'
     | '/o/$slug/flotte'
     | '/o/$slug/kalender'
@@ -1503,6 +1606,11 @@ export interface FileRouteTypes {
     | '/_authenticated/handel/commodity/$slug'
     | '/_authenticated/marketplace/$id/edit'
     | '/_authenticated/ops/$slug/edit'
+    | '/api/public/admin/import'
+    | '/api/public/auth/logout'
+    | '/api/public/auth/refresh'
+    | '/api/public/auth/user'
+    | '/api/public/auth/verify'
     | '/api/public/hooks/discord-bot'
     | '/api/public/hooks/giveaways-tick'
     | '/api/public/hooks/sync-fleet'
@@ -1520,6 +1628,7 @@ export interface FileRouteTypes {
     | '/api/public/auth/discord/start'
     | '/api/public/avatar/$userId/$filename'
     | '/api/public/org-logo/$orgId/$filename'
+    | '/api/public/storage/$bucket/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1541,8 +1650,16 @@ export interface RootRouteChildren {
   OpsSlugRoute: typeof OpsSlugRoute
   FlotteIndexRoute: typeof FlotteIndexRoute
   ApiPublicImgRoute: typeof ApiPublicImgRoute
+  ApiPublicRealtimeRoute: typeof ApiPublicRealtimeRoute
+  ApiPublicRestRoute: typeof ApiPublicRestRoute
   ApiPublicRsiDiagRoute: typeof ApiPublicRsiDiagRoute
+  ApiPublicStorageUploadRoute: typeof ApiPublicStorageUploadRoute
   ApiPublicTreasuryChartRoute: typeof ApiPublicTreasuryChartRoute
+  ApiPublicAdminImportRoute: typeof ApiPublicAdminImportRoute
+  ApiPublicAuthLogoutRoute: typeof ApiPublicAuthLogoutRoute
+  ApiPublicAuthRefreshRoute: typeof ApiPublicAuthRefreshRoute
+  ApiPublicAuthUserRoute: typeof ApiPublicAuthUserRoute
+  ApiPublicAuthVerifyRoute: typeof ApiPublicAuthVerifyRoute
   ApiPublicHooksDiscordBotRoute: typeof ApiPublicHooksDiscordBotRoute
   ApiPublicHooksGiveawaysTickRoute: typeof ApiPublicHooksGiveawaysTickRoute
   ApiPublicHooksSyncFleetRoute: typeof ApiPublicHooksSyncFleetRoute
@@ -1559,6 +1676,7 @@ export interface RootRouteChildren {
   ApiPublicAuthDiscordStartRoute: typeof ApiPublicAuthDiscordStartRoute
   ApiPublicAvatarUserIdFilenameRoute: typeof ApiPublicAvatarUserIdFilenameRoute
   ApiPublicOrgLogoOrgIdFilenameRoute: typeof ApiPublicOrgLogoOrgIdFilenameRoute
+  ApiPublicStorageBucketSplatRoute: typeof ApiPublicStorageBucketSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1948,11 +2066,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicTreasuryChartRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/storage-upload': {
+      id: '/api/public/storage-upload'
+      path: '/api/public/storage-upload'
+      fullPath: '/api/public/storage-upload'
+      preLoaderRoute: typeof ApiPublicStorageUploadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/rsi-diag': {
       id: '/api/public/rsi-diag'
       path: '/api/public/rsi-diag'
       fullPath: '/api/public/rsi-diag'
       preLoaderRoute: typeof ApiPublicRsiDiagRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/rest': {
+      id: '/api/public/rest'
+      path: '/api/public/rest'
+      fullPath: '/api/public/rest'
+      preLoaderRoute: typeof ApiPublicRestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/realtime': {
+      id: '/api/public/realtime'
+      path: '/api/public/realtime'
+      fullPath: '/api/public/realtime'
+      preLoaderRoute: typeof ApiPublicRealtimeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/img': {
@@ -2354,6 +2493,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksDiscordBotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/auth/verify': {
+      id: '/api/public/auth/verify'
+      path: '/api/public/auth/verify'
+      fullPath: '/api/public/auth/verify'
+      preLoaderRoute: typeof ApiPublicAuthVerifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/auth/user': {
+      id: '/api/public/auth/user'
+      path: '/api/public/auth/user'
+      fullPath: '/api/public/auth/user'
+      preLoaderRoute: typeof ApiPublicAuthUserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/auth/refresh': {
+      id: '/api/public/auth/refresh'
+      path: '/api/public/auth/refresh'
+      fullPath: '/api/public/auth/refresh'
+      preLoaderRoute: typeof ApiPublicAuthRefreshRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/auth/logout': {
+      id: '/api/public/auth/logout'
+      path: '/api/public/auth/logout'
+      fullPath: '/api/public/auth/logout'
+      preLoaderRoute: typeof ApiPublicAuthLogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/admin/import': {
+      id: '/api/public/admin/import'
+      path: '/api/public/admin/import'
+      fullPath: '/api/public/admin/import'
+      preLoaderRoute: typeof ApiPublicAdminImportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/ops/$slug/edit': {
       id: '/_authenticated/ops/$slug/edit'
       path: '/ops/$slug/edit'
@@ -2381,6 +2555,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/farm-lists/join/$token'
       preLoaderRoute: typeof AuthenticatedFarmListsJoinTokenRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/api/public/storage/$bucket/$': {
+      id: '/api/public/storage/$bucket/$'
+      path: '/api/public/storage/$bucket/$'
+      fullPath: '/api/public/storage/$bucket/$'
+      preLoaderRoute: typeof ApiPublicStorageBucketSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/org-logo/$orgId/$filename': {
       id: '/api/public/org-logo/$orgId/$filename'
@@ -2662,8 +2843,16 @@ const rootRouteChildren: RootRouteChildren = {
   OpsSlugRoute: OpsSlugRoute,
   FlotteIndexRoute: FlotteIndexRoute,
   ApiPublicImgRoute: ApiPublicImgRoute,
+  ApiPublicRealtimeRoute: ApiPublicRealtimeRoute,
+  ApiPublicRestRoute: ApiPublicRestRoute,
   ApiPublicRsiDiagRoute: ApiPublicRsiDiagRoute,
+  ApiPublicStorageUploadRoute: ApiPublicStorageUploadRoute,
   ApiPublicTreasuryChartRoute: ApiPublicTreasuryChartRoute,
+  ApiPublicAdminImportRoute: ApiPublicAdminImportRoute,
+  ApiPublicAuthLogoutRoute: ApiPublicAuthLogoutRoute,
+  ApiPublicAuthRefreshRoute: ApiPublicAuthRefreshRoute,
+  ApiPublicAuthUserRoute: ApiPublicAuthUserRoute,
+  ApiPublicAuthVerifyRoute: ApiPublicAuthVerifyRoute,
   ApiPublicHooksDiscordBotRoute: ApiPublicHooksDiscordBotRoute,
   ApiPublicHooksGiveawaysTickRoute: ApiPublicHooksGiveawaysTickRoute,
   ApiPublicHooksSyncFleetRoute: ApiPublicHooksSyncFleetRoute,
@@ -2681,6 +2870,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicAuthDiscordStartRoute: ApiPublicAuthDiscordStartRoute,
   ApiPublicAvatarUserIdFilenameRoute: ApiPublicAvatarUserIdFilenameRoute,
   ApiPublicOrgLogoOrgIdFilenameRoute: ApiPublicOrgLogoOrgIdFilenameRoute,
+  ApiPublicStorageBucketSplatRoute: ApiPublicStorageBucketSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

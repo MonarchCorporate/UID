@@ -1,0 +1,86 @@
+{
+ "app_role": [
+  "admin",
+  "user"
+ ],
+ "board_cargo_status": [
+  "loaded",
+  "unloaded",
+  "lost"
+ ],
+ "board_session_status": [
+  "standby",
+  "in_flight",
+  "docked"
+ ],
+ "farm_list_role": [
+  "viewer",
+  "editor"
+ ],
+ "farm_list_status": [
+  "active",
+  "completed",
+  "archived"
+ ],
+ "marketplace_claim_status": [
+  "angenommen",
+  "in_lieferung",
+  "geliefert",
+  "abgeschlossen",
+  "storniert"
+ ],
+ "marketplace_listing_status": [
+  "offen",
+  "angenommen",
+  "in_lieferung",
+  "abgeschlossen",
+  "storniert",
+  "abgelaufen"
+ ],
+ "marketplace_listing_type": [
+  "auftrag",
+  "suche",
+  "verkauf",
+  "tausch"
+ ],
+ "marketplace_scope": [
+  "intern",
+  "allianz"
+ ],
+ "membership_application_status": [
+  "open",
+  "accepted",
+  "rejected"
+ ],
+ "mission_status": [
+  "draft",
+  "active",
+  "completed",
+  "cancelled"
+ ],
+ "org_claim_status": [
+  "pending",
+  "claimed",
+  "cancelled"
+ ],
+ "org_role": [
+  "member",
+  "quartermaster",
+  "treasurer",
+  "officer",
+  "owner"
+ ],
+ "org_treasury_kind": [
+  "deposit",
+  "withdraw",
+  "expense",
+  "adjust"
+ ],
+ "ship_op_status": [
+  "ready",
+  "waiting_crew",
+  "enroute_station",
+  "enroute_mission",
+  "disabled"
+ ]
+}

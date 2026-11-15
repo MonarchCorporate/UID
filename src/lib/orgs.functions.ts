@@ -472,21 +472,8 @@ export const checkOrgSlugAvailable = createServerFn({ method: "POST" })
 export const getOrgBySlug = createServerFn({ method: "GET" })
   .inputValidator((input) => z.object({ slug: slugSchema }).parse(input))
   .handler(async ({ data }) => {
-    const { createClient } = await import("@supabase/supabase-js");
-    const url = process.env.SUPABASE_URL!;
-    const key = process.env.SUPABASE_PUBLISHABLE_KEY!;
-    const client = createClient(url, key, {
-      auth: { persistSession: false, autoRefreshToken: false },
-      global: {
-        fetch: (input, init) => {
-          const h = new Headers(init?.headers);
-          if (key.startsWith("sb_") && h.get("Authorization") === `Bearer ${key}`)
-            h.delete("Authorization");
-          h.set("apikey", key);
-          return fetch(input, { ...init, headers: h });
-        },
-      },
-    });
+    const { createDbClient } = await import("@/lib/db/client.server");
+    const client = createDbClient({ kind: "anon" });
     const { data: row, error } = await client
       .from("orgs")
       .select("id, slug, name, tag, branding, is_active")

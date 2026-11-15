@@ -1,0 +1,1996 @@
+[
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "app_settings_admin_read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "app_settings",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": "has_role(auth.uid(), 'admin'::app_role)",
+  "cmd": "ALL",
+  "name": "app_settings_admin_write",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "app_settings",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "App admins can read audit log",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "audit_log",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "bpc read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "blueprint_components",
+  "using": "(EXISTS ( SELECT 1\n   FROM blueprints b\n  WHERE ((b.id = blueprint_components.blueprint_id) AND ((b.source <> 'manual'::text) OR (b.owner_id = auth.uid()) OR ((b.visibility = 'org'::text) AND shares_org_with(auth.uid(), b.owner_id))))))"
+ },
+ {
+  "check": "(EXISTS ( SELECT 1\n   FROM blueprints b\n  WHERE ((b.id = blueprint_components.blueprint_id) AND (b.owner_id = auth.uid()))))",
+  "cmd": "ALL",
+  "name": "bpc write",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "blueprint_components",
+  "using": "(EXISTS ( SELECT 1\n   FROM blueprints b\n  WHERE ((b.id = blueprint_components.blueprint_id) AND (b.owner_id = auth.uid()))))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "bm_read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "blueprint_missions",
+  "using": "true"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "bp delete",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "blueprints",
+  "using": "(owner_id = auth.uid())"
+ },
+ {
+  "check": "(owner_id = auth.uid())",
+  "cmd": "INSERT",
+  "name": "bp insert",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "blueprints",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "bp read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "blueprints",
+  "using": "((owner_id = auth.uid()) OR ((visibility = 'org'::text) AND shares_org_with(auth.uid(), owner_id)) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": "(owner_id = auth.uid())",
+  "cmd": "UPDATE",
+  "name": "bp update",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "blueprints",
+  "using": "(owner_id = auth.uid())"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "bc_select_member_or_commander",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "board_cargo",
+  "using": "(is_board_member(auth.uid(), session_id) OR (EXISTS ( SELECT 1\n   FROM board_sessions s\n  WHERE ((s.id = board_cargo.session_id) AND (s.commander_id = auth.uid())))))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "bm_select_member_or_commander",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "board_members",
+  "using": "((user_id = auth.uid()) OR is_board_member(auth.uid(), session_id) OR (EXISTS ( SELECT 1\n   FROM board_sessions s\n  WHERE ((s.id = board_members.session_id) AND (s.commander_id = auth.uid())))))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "board_sessions_select_mission_participants",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "board_sessions",
+  "using": "((mission_id IS NOT NULL) AND (EXISTS ( SELECT 1\n   FROM mission_participants mp\n  WHERE ((mp.mission_id = board_sessions.mission_id) AND (mp.user_id = auth.uid())))))"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "bs_delete_commander",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "board_sessions",
+  "using": "(auth.uid() = commander_id)"
+ },
+ {
+  "check": "(auth.uid() = commander_id)",
+  "cmd": "INSERT",
+  "name": "bs_insert_self",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "board_sessions",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "bs_select_commander_or_member",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "board_sessions",
+  "using": "((auth.uid() = commander_id) OR is_board_member(auth.uid(), id))"
+ },
+ {
+  "check": null,
+  "cmd": "UPDATE",
+  "name": "bs_update_commander",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "board_sessions",
+  "using": "(auth.uid() = commander_id)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "bst_select_member_or_commander",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "board_stations",
+  "using": "(is_board_member(auth.uid(), session_id) OR (EXISTS ( SELECT 1\n   FROM board_sessions s\n  WHERE ((s.id = board_stations.session_id) AND (s.commander_id = auth.uid())))))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "board voice channels: members read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "board_voice_channels",
+  "using": "is_board_member(auth.uid(), session_id)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "board voice presence: members read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "board_voice_presence",
+  "using": "is_board_member(auth.uid(), session_id)"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "ch delete",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "craft_history",
+  "using": "(user_id = auth.uid())"
+ },
+ {
+  "check": "(user_id = auth.uid())",
+  "cmd": "INSERT",
+  "name": "ch insert",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "craft_history",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "ch read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "craft_history",
+  "using": "(user_id = auth.uid())"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "admins read activity events",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_activity_events",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "admins read bot commands",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_bot_commands",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "admins read bot status",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_bot_status",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Admins can view discord category templates",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_category_templates",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Org members read their managed channels",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_managed_channels",
+  "using": "(is_org_member(auth.uid(), org_id) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Org members can view their managed roles",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_managed_roles",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Org members read their category releases",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_org_categories",
+  "using": "(is_org_member(auth.uid(), org_id) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Org members can view their discord channels",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_org_channels",
+  "using": "(is_org_member(auth.uid(), org_id) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Org members can view their discord posts",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_posts",
+  "using": "(is_org_member(auth.uid(), org_id) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": "has_role(auth.uid(), 'admin'::app_role)",
+  "cmd": "ALL",
+  "name": "Admins manage reaction role panels",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_reaction_role_panels",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": "has_role(auth.uid(), 'admin'::app_role)",
+  "cmd": "ALL",
+  "name": "App admins manage discord mappings",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_role_mappings",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Org members read discord mappings",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_role_mappings",
+  "using": "(has_role(auth.uid(), 'admin'::app_role) OR is_org_member(auth.uid(), org_id))"
+ },
+ {
+  "check": "has_role(auth.uid(), 'admin'::app_role)",
+  "cmd": "ALL",
+  "name": "App admins manage discord settings",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_settings",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Authenticated can read discord settings",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_settings",
+  "using": "true"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "admins read voice sessions",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "discord_voice_sessions",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "farm_list_blueprints read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_list_blueprints",
+  "using": "can_access_farm_list(list_id, auth.uid())"
+ },
+ {
+  "check": "can_edit_farm_list(list_id, auth.uid())",
+  "cmd": "ALL",
+  "name": "farm_list_blueprints write",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_list_blueprints",
+  "using": "can_edit_farm_list(list_id, auth.uid())"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "farm_list_contrib delete own or owner",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_list_contributions",
+  "using": "((user_id = auth.uid()) OR is_farm_list_owner(list_id, auth.uid()))"
+ },
+ {
+  "check": "((user_id = auth.uid()) AND can_edit_farm_list(list_id, auth.uid()))",
+  "cmd": "INSERT",
+  "name": "farm_list_contrib insert",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_list_contributions",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "farm_list_contrib read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_list_contributions",
+  "using": "can_access_farm_list(list_id, auth.uid())"
+ },
+ {
+  "check": "((user_id = auth.uid()) OR is_farm_list_owner(list_id, auth.uid()))",
+  "cmd": "UPDATE",
+  "name": "farm_list_contrib update own or owner",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_list_contributions",
+  "using": "((user_id = auth.uid()) OR is_farm_list_owner(list_id, auth.uid()))"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "farm_list_members leave",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_list_members",
+  "using": "(user_id = auth.uid())"
+ },
+ {
+  "check": "is_farm_list_owner(list_id, auth.uid())",
+  "cmd": "ALL",
+  "name": "farm_list_members manage by owner",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_list_members",
+  "using": "is_farm_list_owner(list_id, auth.uid())"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "farm_list_members read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_list_members",
+  "using": "can_access_farm_list(list_id, auth.uid())"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "farm_list_members read own invite",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_list_members",
+  "using": "(user_id = auth.uid())"
+ },
+ {
+  "check": "(user_id = auth.uid())",
+  "cmd": "UPDATE",
+  "name": "farm_list_members respond own invite",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_list_members",
+  "using": "(user_id = auth.uid())"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "farm_lists delete own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_lists",
+  "using": "(owner_id = auth.uid())"
+ },
+ {
+  "check": "(owner_id = auth.uid())",
+  "cmd": "INSERT",
+  "name": "farm_lists insert own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_lists",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "farm_lists read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_lists",
+  "using": "can_access_farm_list(id, auth.uid())"
+ },
+ {
+  "check": "(owner_id = auth.uid())",
+  "cmd": "UPDATE",
+  "name": "farm_lists update own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "farm_lists",
+  "using": "(owner_id = auth.uid())"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "fleet_ships_public_read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "anon",
+   "authenticated"
+  ],
+  "table": "fleet_ships",
+  "using": "true"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "giveaway_entries_read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "giveaway_entries",
+  "using": "((user_id = auth.uid()) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Users can see their own giveaway signup",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "giveaway_optins",
+  "using": "((user_id = auth.uid()) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "giveaway_winners_read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "giveaway_winners",
+  "using": "((user_id = auth.uid()) OR has_role(auth.uid(), 'admin'::app_role) OR (EXISTS ( SELECT 1\n   FROM giveaways g\n  WHERE ((g.id = giveaway_winners.giveaway_id) AND ((g.org_id IS NULL) OR is_org_member(auth.uid(), g.org_id))))))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "giveaways_read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "giveaways",
+  "using": "((status <> 'draft'::text) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "catalog read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "inventory_item_catalog",
+  "using": "true"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "inv delete",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "inventory_items",
+  "using": "(owner_id = auth.uid())"
+ },
+ {
+  "check": "(owner_id = auth.uid())",
+  "cmd": "INSERT",
+  "name": "inv insert",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "inventory_items",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "inv read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "inventory_items",
+  "using": "((owner_id = auth.uid()) OR ((visibility = 'org'::text) AND shares_org_with(auth.uid(), owner_id)))"
+ },
+ {
+  "check": "(owner_id = auth.uid())",
+  "cmd": "UPDATE",
+  "name": "inv update",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "inventory_items",
+  "using": "(owner_id = auth.uid())"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "loc delete own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "inventory_locations",
+  "using": "(owner_id = auth.uid())"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "loc read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "inventory_locations",
+  "using": "((owner_id = auth.uid()) OR ((visibility = 'org'::text) AND shares_org_with(auth.uid(), owner_id)))"
+ },
+ {
+  "check": "(owner_id = auth.uid())",
+  "cmd": "UPDATE",
+  "name": "loc update own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "inventory_locations",
+  "using": "(owner_id = auth.uid())"
+ },
+ {
+  "check": "(owner_id = auth.uid())",
+  "cmd": "INSERT",
+  "name": "loc write own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "inventory_locations",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Participants can view their transfers",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "inventory_transfers",
+  "using": "((from_user_id = auth.uid()) OR (to_user_id = auth.uid()))"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "claims delete admin",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "marketplace_claims",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": "(auth.uid() = claimed_by)",
+  "cmd": "INSERT",
+  "name": "claims insert own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "marketplace_claims",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "claims read participants",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "marketplace_claims",
+  "using": "((auth.uid() = claimed_by) OR has_role(auth.uid(), 'admin'::app_role) OR (EXISTS ( SELECT 1\n   FROM marketplace_listings l\n  WHERE ((l.id = marketplace_claims.listing_id) AND (l.created_by = auth.uid())))))"
+ },
+ {
+  "check": "(((auth.uid() = claimed_by) OR (EXISTS ( SELECT 1\n   FROM marketplace_listings l\n  WHERE ((l.id = marketplace_claims.listing_id) AND (l.created_by = auth.uid())))) OR has_role(auth.uid(), 'admin'::app_role)) AND (listing_id = ( SELECT c.listing_id\n   FROM marketplace_claims c\n  WHERE (c.id = marketplace_claims.id))) AND (claimed_by = ( SELECT c.claimed_by\n   FROM marketplace_claims c\n  WHERE (c.id = marketplace_claims.id))))",
+  "cmd": "UPDATE",
+  "name": "claims update participants",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "marketplace_claims",
+  "using": "((auth.uid() = claimed_by) OR (EXISTS ( SELECT 1\n   FROM marketplace_listings l\n  WHERE ((l.id = marketplace_claims.listing_id) AND (l.created_by = auth.uid())))) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "listings delete own or admin",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "marketplace_listings",
+  "using": "((auth.uid() = created_by) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": "(auth.uid() = created_by)",
+  "cmd": "INSERT",
+  "name": "listings insert own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "marketplace_listings",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "listings read scoped",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "marketplace_listings",
+  "using": "((auth.uid() = created_by) OR (scope = 'allianz'::marketplace_scope) OR (org_id IS NULL) OR is_org_member(auth.uid(), org_id) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": "((auth.uid() = created_by) OR has_role(auth.uid(), 'admin'::app_role))",
+  "cmd": "UPDATE",
+  "name": "listings update own or admin",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "marketplace_listings",
+  "using": "((auth.uid() = created_by) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "msg delete own or admin",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "marketplace_messages",
+  "using": "((auth.uid() = author_id) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": "(auth.uid() = author_id)",
+  "cmd": "INSERT",
+  "name": "msg insert own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "marketplace_messages",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "msg read participants",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "marketplace_messages",
+  "using": "((auth.uid() = author_id) OR has_role(auth.uid(), 'admin'::app_role) OR (EXISTS ( SELECT 1\n   FROM marketplace_listings l\n  WHERE ((l.id = marketplace_messages.listing_id) AND (l.created_by = auth.uid())))) OR (EXISTS ( SELECT 1\n   FROM marketplace_claims c\n  WHERE ((c.listing_id = marketplace_messages.listing_id) AND (c.claimed_by = auth.uid())))))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "fields readable by authenticated",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "membership_application_fields",
+  "using": "active"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "settings readable by authenticated",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "membership_application_settings",
+  "using": "true"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "own applications readable",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "membership_applications",
+  "using": "((auth.uid() = user_id) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "categories readable by org members",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "mission_categories",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "officers can delete categories",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "mission_categories",
+  "using": "has_org_role(auth.uid(), org_id, ARRAY['officer'::org_role, 'owner'::org_role])"
+ },
+ {
+  "check": "has_org_role(auth.uid(), org_id, ARRAY['officer'::org_role, 'owner'::org_role])",
+  "cmd": "INSERT",
+  "name": "officers can insert categories",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "mission_categories",
+  "using": null
+ },
+ {
+  "check": "has_org_role(auth.uid(), org_id, ARRAY['officer'::org_role, 'owner'::org_role])",
+  "cmd": "UPDATE",
+  "name": "officers can update categories",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "mission_categories",
+  "using": "has_org_role(auth.uid(), org_id, ARRAY['officer'::org_role, 'owner'::org_role])"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "mp_select_participant_or_leader",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "mission_participants",
+  "using": "((user_id = auth.uid()) OR is_mission_participant(auth.uid(), mission_id) OR (EXISTS ( SELECT 1\n   FROM missions m\n  WHERE ((m.id = mission_participants.mission_id) AND (m.leader_id = auth.uid())))))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "msc_select_leader_or_participant",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "mission_ship_crew",
+  "using": "(EXISTS ( SELECT 1\n   FROM (mission_ships ms\n     JOIN missions m ON ((m.id = ms.mission_id)))\n  WHERE ((ms.id = mission_ship_crew.mission_ship_id) AND ((m.leader_id = auth.uid()) OR is_mission_participant(auth.uid(), m.id)))))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "mss_select_leader_or_participant",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "mission_ship_stations",
+  "using": "(EXISTS ( SELECT 1\n   FROM (mission_ships ms\n     JOIN missions m ON ((m.id = ms.mission_id)))\n  WHERE ((ms.id = mission_ship_stations.mission_ship_id) AND ((m.leader_id = auth.uid()) OR is_mission_participant(auth.uid(), m.id)))))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "ms_select_leader_or_participant",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "mission_ships",
+  "using": "((EXISTS ( SELECT 1\n   FROM missions m\n  WHERE ((m.id = mission_ships.mission_id) AND (m.leader_id = auth.uid())))) OR is_mission_participant(auth.uid(), mission_id))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "voice channels visible to mission participants",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "mission_voice_channels",
+  "using": "(is_mission_participant(auth.uid(), mission_id) OR (EXISTS ( SELECT 1\n   FROM missions m\n  WHERE ((m.id = mission_voice_channels.mission_id) AND (m.leader_id = auth.uid())))))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "voice presence visible to mission participants",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "mission_voice_presence",
+  "using": "(is_mission_participant(auth.uid(), mission_id) OR (EXISTS ( SELECT 1\n   FROM missions m\n  WHERE ((m.id = mission_voice_presence.mission_id) AND (m.leader_id = auth.uid())))))"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "missions_delete_leader",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "missions",
+  "using": "(auth.uid() = leader_id)"
+ },
+ {
+  "check": "(auth.uid() = leader_id)",
+  "cmd": "INSERT",
+  "name": "missions_insert_self",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "missions",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "missions_select_leader",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "missions",
+  "using": "(auth.uid() = leader_id)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "missions_select_participant",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "missions",
+  "using": "is_mission_participant(auth.uid(), id)"
+ },
+ {
+  "check": null,
+  "cmd": "UPDATE",
+  "name": "missions_update_leader",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "missions",
+  "using": "(auth.uid() = leader_id)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "missions read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "missions_catalog",
+  "using": "true"
+ },
+ {
+  "check": "(auth.uid() = user_id)",
+  "cmd": "ALL",
+  "name": "Users manage own notification preferences",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "notification_preferences",
+  "using": "(auth.uid() = user_id)"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "org member managers can delete role notification settings",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "notification_role_settings",
+  "using": "has_org_perm(auth.uid(), org_id, 'members.manage'::text)"
+ },
+ {
+  "check": "has_org_perm(auth.uid(), org_id, 'members.manage'::text)",
+  "cmd": "INSERT",
+  "name": "org member managers can insert role notification settings",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "notification_role_settings",
+  "using": null
+ },
+ {
+  "check": "has_org_perm(auth.uid(), org_id, 'members.manage'::text)",
+  "cmd": "UPDATE",
+  "name": "org member managers can update role notification settings",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "notification_role_settings",
+  "using": "has_org_perm(auth.uid(), org_id, 'members.manage'::text)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "org members can read role notification settings",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "notification_role_settings",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": "(auth.uid() = user_id)",
+  "cmd": "UPDATE",
+  "name": "Users mark own notifications read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "notifications",
+  "using": "(auth.uid() = user_id)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Users read own notifications",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "notifications",
+  "using": "(auth.uid() = user_id)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Org members can read blueprint settings",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_blueprint_settings",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "managers can delete custom roles",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_custom_roles",
+  "using": "(has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role]) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": "(has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role]) OR has_role(auth.uid(), 'admin'::app_role))",
+  "cmd": "INSERT",
+  "name": "managers can insert custom roles",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_custom_roles",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "UPDATE",
+  "name": "managers can update custom roles",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_custom_roles",
+  "using": "(has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role]) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "members can view custom roles",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_custom_roles",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "org members read fleet",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_fleet_ships",
+  "using": "(EXISTS ( SELECT 1\n   FROM org_members m\n  WHERE ((m.org_id = org_fleet_ships.org_id) AND (m.user_id = auth.uid()))))"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "members: leave self",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_members",
+  "using": "(user_id = auth.uid())"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "members: officer manage plain members delete",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_members",
+  "using": "(has_org_role(auth.uid(), org_id, ARRAY['officer'::org_role]) AND (user_id <> auth.uid()) AND (role <> ALL (ARRAY['owner'::org_role, 'officer'::org_role])))"
+ },
+ {
+  "check": "(has_org_role(auth.uid(), org_id, ARRAY['officer'::org_role]) AND (user_id <> auth.uid()) AND (role = 'member'::org_role) AND (COALESCE(array_length(permissions, 1), 0) = 0) AND (custom_role_id IS NULL))",
+  "cmd": "INSERT",
+  "name": "members: officer manage plain members insert",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_members",
+  "using": null
+ },
+ {
+  "check": "(has_org_role(auth.uid(), org_id, ARRAY['officer'::org_role]) AND (user_id <> auth.uid()) AND (role = 'member'::org_role) AND (COALESCE(array_length(permissions, 1), 0) = 0) AND (custom_role_id IS NULL))",
+  "cmd": "UPDATE",
+  "name": "members: officer manage plain members update",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_members",
+  "using": "(has_org_role(auth.uid(), org_id, ARRAY['officer'::org_role]) AND (user_id <> auth.uid()) AND (role <> ALL (ARRAY['owner'::org_role, 'officer'::org_role])))"
+ },
+ {
+  "check": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role])",
+  "cmd": "ALL",
+  "name": "members: owner manage",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_members",
+  "using": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role])"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "members: read same org",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_members",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "treasury categories: members read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_treasury_categories",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": "true",
+  "cmd": "ALL",
+  "name": "service role manages treasury discord settings",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "service_role"
+  ],
+  "table": "org_treasury_discord_settings",
+  "using": "true"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "treasury: members read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_treasury_entries",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role, 'officer'::org_role, 'treasurer'::org_role])",
+  "cmd": "ALL",
+  "name": "treasury: treasurer write",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_treasury_entries",
+  "using": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role, 'officer'::org_role, 'treasurer'::org_role])"
+ },
+ {
+  "check": "(((player_id = auth.uid()) AND (status = ANY (ARRAY['pending'::text, 'cancelled'::text]))) OR has_org_perm(auth.uid(), org_id, 'treasury.manage'::text))",
+  "cmd": "UPDATE",
+  "name": "author cancels, treasurer reviews",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_treasury_requests",
+  "using": "(((player_id = auth.uid()) AND (status = 'pending'::text)) OR has_org_perm(auth.uid(), org_id, 'treasury.manage'::text))"
+ },
+ {
+  "check": "((player_id = auth.uid()) AND (status = 'pending'::text) AND is_org_member(auth.uid(), org_id))",
+  "cmd": "INSERT",
+  "name": "members insert own request",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_treasury_requests",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "members read own, treasurers read all",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_treasury_requests",
+  "using": "(((player_id = auth.uid()) AND is_org_member(auth.uid(), org_id)) OR has_org_perm(auth.uid(), org_id, 'treasury.manage'::text))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "warehouse: members read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_warehouse",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role, 'officer'::org_role, 'quartermaster'::org_role])",
+  "cmd": "ALL",
+  "name": "warehouse: quartermaster write",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_warehouse",
+  "using": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role, 'officer'::org_role, 'quartermaster'::org_role])"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "claims: members read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_warehouse_claims",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role, 'officer'::org_role, 'quartermaster'::org_role])",
+  "cmd": "UPDATE",
+  "name": "claims: quartermaster updates",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_warehouse_claims",
+  "using": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role, 'officer'::org_role, 'quartermaster'::org_role])"
+ },
+ {
+  "check": "((offered_by = auth.uid()) AND (status = 'cancelled'::org_claim_status) AND (org_id = ( SELECT c.org_id\n   FROM org_warehouse_claims c\n  WHERE (c.id = org_warehouse_claims.id))) AND (offered_by = ( SELECT c.offered_by\n   FROM org_warehouse_claims c\n  WHERE (c.id = org_warehouse_claims.id))))",
+  "cmd": "UPDATE",
+  "name": "claims: user cancels own pending",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_warehouse_claims",
+  "using": "((offered_by = auth.uid()) AND (status = 'pending'::org_claim_status))"
+ },
+ {
+  "check": "((offered_by = auth.uid()) AND is_org_member(auth.uid(), org_id))",
+  "cmd": "INSERT",
+  "name": "claims: user inserts own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_warehouse_claims",
+  "using": null
+ },
+ {
+  "check": "(is_org_member(auth.uid(), org_id) AND (requested_by = auth.uid()))",
+  "cmd": "INSERT",
+  "name": "members can create own request",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_warehouse_release_requests",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "members can view requests",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_warehouse_release_requests",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": "(requested_by = auth.uid())",
+  "cmd": "UPDATE",
+  "name": "owner can cancel own pending",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_warehouse_release_requests",
+  "using": "((requested_by = auth.uid()) AND (status = 'pending'::text))"
+ },
+ {
+  "check": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role, 'officer'::org_role, 'quartermaster'::org_role])",
+  "cmd": "UPDATE",
+  "name": "qm can decide requests",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_warehouse_release_requests",
+  "using": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role, 'officer'::org_role, 'quartermaster'::org_role])"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "members can view releases",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_warehouse_releases",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role, 'officer'::org_role, 'quartermaster'::org_role])",
+  "cmd": "ALL",
+  "name": "qm can write releases",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "org_warehouse_releases",
+  "using": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role, 'officer'::org_role, 'quartermaster'::org_role])"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Org members can view reservations",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "orga_order_reservations",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": "(is_org_member(auth.uid(), org_id) AND (requested_by = auth.uid()))",
+  "cmd": "INSERT",
+  "name": "orga_orders: members create own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "orga_orders",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "orga_orders: members read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "orga_orders",
+  "using": "is_org_member(auth.uid(), org_id)"
+ },
+ {
+  "check": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role, 'officer'::org_role, 'quartermaster'::org_role])",
+  "cmd": "UPDATE",
+  "name": "orga_orders: qm decide",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "orga_orders",
+  "using": "has_org_role(auth.uid(), org_id, ARRAY['owner'::org_role, 'officer'::org_role, 'quartermaster'::org_role])"
+ },
+ {
+  "check": "((requested_by = auth.uid()) AND (status = ANY (ARRAY['pending'::text, 'cancelled'::text])))",
+  "cmd": "UPDATE",
+  "name": "orga_orders: requester cancel pending",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "orga_orders",
+  "using": "((requested_by = auth.uid()) AND (status = 'pending'::text))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Orgs sind öffentlich lesbar",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "anon",
+   "authenticated"
+  ],
+  "table": "orgs",
+  "using": "(is_active = true)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "orgs: members read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "orgs",
+  "using": "is_org_member(auth.uid(), id)"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "orgs: owner delete",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "orgs",
+  "using": "(owner_id = auth.uid())"
+ },
+ {
+  "check": "((owner_id = auth.uid()) OR has_role(auth.uid(), 'admin'::app_role))",
+  "cmd": "UPDATE",
+  "name": "orgs: owner or admin update",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "orgs",
+  "using": "((owner_id = auth.uid()) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": "(auth.uid() = id)",
+  "cmd": "INSERT",
+  "name": "profiles_insert_own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "profiles",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "profiles_read_scoped",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "profiles",
+  "using": "((auth.uid() = id) OR has_role(auth.uid(), 'admin'::app_role) OR shares_org_with(auth.uid(), id))"
+ },
+ {
+  "check": null,
+  "cmd": "UPDATE",
+  "name": "profiles_update_own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "profiles",
+  "using": "(auth.uid() = id)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "own rsi code read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "rsi_verification_codes",
+  "using": "(auth.uid() = user_id)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Bespoke mappings are public read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "public"
+  ],
+  "table": "ship_bespoke_components",
+  "using": "true"
+ },
+ {
+  "check": "has_role(auth.uid(), 'admin'::app_role)",
+  "cmd": "ALL",
+  "name": "ship_catalog_admin_write",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_catalog",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "ship_catalog_public_read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "anon",
+   "authenticated"
+  ],
+  "table": "ship_catalog",
+  "using": "true"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "ship_components_read_all",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_components_catalog",
+  "using": "true"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "Own builds delete",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_loadout_builds",
+  "using": "(user_id = auth.uid())"
+ },
+ {
+  "check": "(user_id = auth.uid())",
+  "cmd": "INSERT",
+  "name": "Own builds insert",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_loadout_builds",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "Own builds read",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_loadout_builds",
+  "using": "(user_id = auth.uid())"
+ },
+ {
+  "check": "(user_id = auth.uid())",
+  "cmd": "UPDATE",
+  "name": "Own builds update",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_loadout_builds",
+  "using": "(user_id = auth.uid())"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "sls_select_all_authenticated",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_loadout_stations",
+  "using": "true"
+ },
+ {
+  "check": "can_write_loadout_template(template_id)",
+  "cmd": "ALL",
+  "name": "sls_write_via_template",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_loadout_stations",
+  "using": "can_write_loadout_template(template_id)"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "slt_admin_delete",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_loadout_templates",
+  "using": "((scope = 'admin'::text) AND has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": "((scope = 'admin'::text) AND has_role(auth.uid(), 'admin'::app_role))",
+  "cmd": "INSERT",
+  "name": "slt_admin_insert",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_loadout_templates",
+  "using": null
+ },
+ {
+  "check": "((scope = 'admin'::text) AND has_role(auth.uid(), 'admin'::app_role))",
+  "cmd": "UPDATE",
+  "name": "slt_admin_update",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_loadout_templates",
+  "using": "((scope = 'admin'::text) AND has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "slt_select_all_authenticated",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_loadout_templates",
+  "using": "true"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "slt_user_delete_own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_loadout_templates",
+  "using": "((scope = 'user'::text) AND (user_id = auth.uid()))"
+ },
+ {
+  "check": "((scope = 'user'::text) AND (user_id = auth.uid()) AND (EXISTS ( SELECT 1\n   FROM user_ships us\n  WHERE ((us.user_id = auth.uid()) AND (us.ship_slug = ship_loadout_templates.ship_slug)))))",
+  "cmd": "INSERT",
+  "name": "slt_user_insert_own_owned",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_loadout_templates",
+  "using": null
+ },
+ {
+  "check": "((scope = 'user'::text) AND (user_id = auth.uid()))",
+  "cmd": "UPDATE",
+  "name": "slt_user_update_own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "ship_loadout_templates",
+  "using": "((scope = 'user'::text) AND (user_id = auth.uid()))"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "stock loadouts readable by anyone",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "public"
+  ],
+  "table": "ship_stock_loadouts",
+  "using": "true"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "warehouse mgr reads allocations",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "shop_reservation_allocations",
+  "using": "has_org_perm(auth.uid(), org_id, 'warehouse.manage'::text)"
+ },
+ {
+  "check": "has_org_perm(auth.uid(), org_id, 'warehouse.manage'::text)",
+  "cmd": "INSERT",
+  "name": "warehouse mgr inserts history",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "shop_reservation_history",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "warehouse mgr reads history",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "shop_reservation_history",
+  "using": "has_org_perm(auth.uid(), org_id, 'warehouse.manage'::text)"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "warehouse managers delete shop reservations",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "shop_reservations",
+  "using": "has_org_perm(auth.uid(), org_id, 'warehouse.manage'::text)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "warehouse managers see shop reservations",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "shop_reservations",
+  "using": "has_org_perm(auth.uid(), org_id, 'warehouse.manage'::text)"
+ },
+ {
+  "check": "has_org_perm(auth.uid(), org_id, 'warehouse.manage'::text)",
+  "cmd": "UPDATE",
+  "name": "warehouse managers update shop reservations",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "shop_reservations",
+  "using": "has_org_perm(auth.uid(), org_id, 'warehouse.manage'::text)"
+ },
+ {
+  "check": "(auth.uid() = user_id)",
+  "cmd": "ALL",
+  "name": "ubc_own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "user_blueprint_collection",
+  "using": "(auth.uid() = user_id)"
+ },
+ {
+  "check": "has_role(auth.uid(), 'admin'::app_role)",
+  "cmd": "ALL",
+  "name": "user_roles_admin_manage",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "user_roles",
+  "using": "has_role(auth.uid(), 'admin'::app_role)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "user_roles_select_own_or_admin",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "user_roles",
+  "using": "((auth.uid() = user_id) OR has_role(auth.uid(), 'admin'::app_role))"
+ },
+ {
+  "check": null,
+  "cmd": "DELETE",
+  "name": "user_ships_delete_own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "user_ships",
+  "using": "(auth.uid() = user_id)"
+ },
+ {
+  "check": "(auth.uid() = user_id)",
+  "cmd": "INSERT",
+  "name": "user_ships_insert_own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "user_ships",
+  "using": null
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "user_ships_select_own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "user_ships",
+  "using": "(auth.uid() = user_id)"
+ },
+ {
+  "check": null,
+  "cmd": "UPDATE",
+  "name": "user_ships_update_own",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "user_ships",
+  "using": "(auth.uid() = user_id)"
+ },
+ {
+  "check": null,
+  "cmd": "SELECT",
+  "name": "auth read wiki sync runs",
+  "permissive": "PERMISSIVE",
+  "roles": [
+   "authenticated"
+  ],
+  "table": "wiki_sync_runs",
+  "using": "true"
+ }
+]

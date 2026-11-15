@@ -1,0 +1,9140 @@
+{
+ "app_settings": {
+  "cols": [
+   [
+    "key",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "value",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "app_settings_pkey",
+    "PRIMARY KEY (key)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "audit_log": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "actor_user_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "actor_label",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "action",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "entity_type",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "entity_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "summary",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "metadata",
+    "jsonb",
+    true,
+    "'{}'::jsonb",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "audit_log_actor_user_id_fkey",
+    "FOREIGN KEY (actor_user_id) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "audit_log_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE SET NULL"
+   ],
+   [
+    "p",
+    "audit_log_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX audit_log_org_idx ON public.audit_log USING btree (org_id)",
+   "CREATE INDEX audit_log_created_at_idx ON public.audit_log USING btree (created_at DESC)",
+   "CREATE INDEX audit_log_actor_idx ON public.audit_log USING btree (actor_user_id)",
+   "CREATE INDEX audit_log_action_idx ON public.audit_log USING btree (action)"
+  ],
+  "rls": true
+ },
+ "blueprint_components": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "blueprint_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "slot_label",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "item_ref",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "qty",
+    "numeric",
+    true,
+    "1",
+    ""
+   ],
+   [
+    "weight",
+    "numeric",
+    true,
+    "1",
+    ""
+   ],
+   [
+    "position",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "kind",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "external_uuid",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "quantity_scu",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "unit",
+    "text",
+    true,
+    "'pcs'::text",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "blueprint_components_blueprint_id_fkey",
+    "FOREIGN KEY (blueprint_id) REFERENCES blueprints(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "blueprint_components_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX bpc_bp_idx ON public.blueprint_components USING btree (blueprint_id)"
+  ],
+  "rls": true
+ },
+ "blueprint_missions": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "blueprint_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "mission_uuid",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "mission_title",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "mission_giver",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "faction",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "reward_min",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "reward_max",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "raw",
+    "jsonb",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "min_standing_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "min_reputation",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "max_standing_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "max_reputation",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "reward_scope",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "web_url",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "star_systems",
+    "text[]",
+    false,
+    null,
+    ""
+   ],
+   [
+    "legality_label",
+    "text",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "blueprint_missions_blueprint_id_fkey",
+    "FOREIGN KEY (blueprint_id) REFERENCES blueprints(id) ON DELETE CASCADE"
+   ],
+   [
+    "u",
+    "blueprint_missions_blueprint_id_mission_uuid_key",
+    "UNIQUE (blueprint_id, mission_uuid)"
+   ],
+   [
+    "p",
+    "blueprint_missions_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE UNIQUE INDEX blueprint_missions_bp_mission_uniq ON public.blueprint_missions USING btree (blueprint_id, mission_uuid)"
+  ],
+  "rls": true
+ },
+ "blueprints": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "owner_id",
+    "uuid",
+    false,
+    "auth.uid()",
+    ""
+   ],
+   [
+    "item_ref",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "output_qty",
+    "numeric",
+    true,
+    "1",
+    ""
+   ],
+   [
+    "source_mission_ref",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "source_url",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "visibility",
+    "text",
+    true,
+    "'private'::text",
+    ""
+   ],
+   [
+    "notes",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "source",
+    "text",
+    true,
+    "'manual'::text",
+    ""
+   ],
+   [
+    "external_uuid",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "output_uuid",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "craft_time_seconds",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "is_default",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "last_synced_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "output_modifiers",
+    "jsonb",
+    false,
+    null,
+    ""
+   ],
+   [
+    "modifiers_fetched_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "base_stats",
+    "jsonb",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "blueprints_owner_id_fkey",
+    "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "blueprints_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "blueprints_source_mission_ref_fkey",
+    "FOREIGN KEY (source_mission_ref) REFERENCES missions_catalog(mission_ref) ON DELETE SET NULL"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX blueprints_owner_idx ON public.blueprints USING btree (owner_id)",
+   "CREATE UNIQUE INDEX blueprints_external_uuid_uniq ON public.blueprints USING btree (external_uuid)",
+   "CREATE INDEX blueprints_source_idx ON public.blueprints USING btree (source)"
+  ],
+  "rls": true
+ },
+ "board_cargo": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "session_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "commodity",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "scu",
+    "numeric(10,2)",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "status",
+    "board_cargo_status",
+    true,
+    "'loaded'::board_cargo_status",
+    ""
+   ],
+   [
+    "note",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "item_ref",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_kind",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "quality",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "unit",
+    "text",
+    true,
+    "'scu'::text",
+    ""
+   ],
+   [
+    "qty",
+    "numeric(12,2)",
+    true,
+    "0",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "board_cargo_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "board_cargo_session_id_fkey",
+    "FOREIGN KEY (session_id) REFERENCES board_sessions(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_bc_session ON public.board_cargo USING btree (session_id)"
+  ],
+  "rls": true
+ },
+ "board_members": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "session_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "display_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "token",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "is_commander",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "joined_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "is_squad_lead",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "can_transfer_cargo",
+    "boolean",
+    true,
+    "false",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "board_members_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "board_members_session_id_fkey",
+    "FOREIGN KEY (session_id) REFERENCES board_sessions(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_bm_session ON public.board_members USING btree (session_id)"
+  ],
+  "rls": true
+ },
+ "board_sessions": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "code",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "commander_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "ship_slug",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "ship_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "custom_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "board_session_status",
+    true,
+    "'standby'::board_session_status",
+    ""
+   ],
+   [
+    "cargo_cap_scu",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "crew_cap",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "ship_meta",
+    "jsonb",
+    false,
+    null,
+    ""
+   ],
+   [
+    "mission_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "mission_ship_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "u",
+    "board_sessions_code_key",
+    "UNIQUE (code)"
+   ],
+   [
+    "p",
+    "board_sessions_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_board_sessions_mission_ship ON public.board_sessions USING btree (mission_ship_id)",
+   "CREATE INDEX idx_board_sessions_mission ON public.board_sessions USING btree (mission_id)"
+  ],
+  "rls": true
+ },
+ "board_stations": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "session_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "slot_key",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "label",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "hardpoint_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "category",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "sort_order",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "assigned_member_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "notes",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "is_manual",
+    "boolean",
+    true,
+    "false",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "board_stations_assigned_member_id_fkey",
+    "FOREIGN KEY (assigned_member_id) REFERENCES board_members(id) ON DELETE SET NULL"
+   ],
+   [
+    "p",
+    "board_stations_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "board_stations_session_id_fkey",
+    "FOREIGN KEY (session_id) REFERENCES board_sessions(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_bst_session ON public.board_stations USING btree (session_id)"
+  ],
+  "rls": true
+ },
+ "board_voice_channels": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "session_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "kind",
+    "text",
+    true,
+    "'group'::text",
+    ""
+   ],
+   [
+    "created_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "is_locked",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "parent_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "is_group_parent",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "allow_broadcast",
+    "boolean",
+    true,
+    "true",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "board_voice_channels_created_by_fkey",
+    "FOREIGN KEY (created_by) REFERENCES board_members(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "board_voice_channels_parent_id_fkey",
+    "FOREIGN KEY (parent_id) REFERENCES board_voice_channels(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "board_voice_channels_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "board_voice_channels_session_id_fkey",
+    "FOREIGN KEY (session_id) REFERENCES board_sessions(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX board_voice_channels_parent_idx ON public.board_voice_channels USING btree (parent_id)",
+   "CREATE INDEX board_voice_channels_session_idx ON public.board_voice_channels USING btree (session_id)"
+  ],
+  "rls": true
+ },
+ "board_voice_presence": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "session_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "channel_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "member_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "display_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "is_muted",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "is_deafened",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "joined_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "is_broadcasting",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "broadcast_scope",
+    "text",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "board_voice_presence_channel_id_fkey",
+    "FOREIGN KEY (channel_id) REFERENCES board_voice_channels(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "board_voice_presence_member_id_fkey",
+    "FOREIGN KEY (member_id) REFERENCES board_members(id) ON DELETE CASCADE"
+   ],
+   [
+    "u",
+    "board_voice_presence_member_id_key",
+    "UNIQUE (member_id)"
+   ],
+   [
+    "p",
+    "board_voice_presence_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "board_voice_presence_session_id_fkey",
+    "FOREIGN KEY (session_id) REFERENCES board_sessions(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX board_voice_presence_channel_idx ON public.board_voice_presence USING btree (channel_id)",
+   "CREATE INDEX board_voice_presence_session_idx ON public.board_voice_presence USING btree (session_id)"
+  ],
+  "rls": true
+ },
+ "craft_history": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    true,
+    "auth.uid()",
+    ""
+   ],
+   [
+    "blueprint_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "blueprint_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "output_qty",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "output_quality",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "components_snapshot",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "consumed_snapshot",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "craft_history_blueprint_id_fkey",
+    "FOREIGN KEY (blueprint_id) REFERENCES blueprints(id) ON DELETE SET NULL"
+   ],
+   [
+    "p",
+    "craft_history_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "craft_history_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX craft_history_user_idx ON public.craft_history USING btree (user_id)"
+  ],
+  "rls": true
+ },
+ "discord_activity_events": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "guild_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "event_type",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "discord_user_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "discord_username",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "channel_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "channel_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "meta",
+    "jsonb",
+    true,
+    "'{}'::jsonb",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "discord_activity_events_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_activity_events_type_time ON public.discord_activity_events USING btree (event_type, created_at)",
+   "CREATE UNIQUE INDEX uniq_reaction_event ON public.discord_activity_events USING btree (discord_user_id, ((meta ->> 'message_id'::text)), ((meta ->> 'emoji'::text))) WHERE (event_type = 'reaction'::text)",
+   "CREATE INDEX idx_activity_events_user_time ON public.discord_activity_events USING btree (discord_user_id, created_at)",
+   "CREATE INDEX idx_dae_created ON public.discord_activity_events USING btree (created_at DESC)",
+   "CREATE INDEX idx_dae_user ON public.discord_activity_events USING btree (discord_user_id, created_at DESC)"
+  ],
+  "rls": true
+ },
+ "discord_bot_commands": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "command",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "payload",
+    "jsonb",
+    true,
+    "'{}'::jsonb",
+    ""
+   ],
+   [
+    "status",
+    "text",
+    true,
+    "'pending'::text",
+    ""
+   ],
+   [
+    "result",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "picked_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "done_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "discord_bot_commands_created_by_fkey",
+    "FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "p",
+    "discord_bot_commands_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_dbc_pending ON public.discord_bot_commands USING btree (created_at) WHERE (status = 'pending'::text)"
+  ],
+  "rls": true
+ },
+ "discord_bot_status": {
+  "cols": [
+   [
+    "id",
+    "text",
+    true,
+    "'default'::text",
+    ""
+   ],
+   [
+    "online",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "bot_username",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "guild_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "guild_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "version",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "member_count",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "voice_active",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "last_heartbeat_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "discord_bot_status_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "discord_category_templates": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "description",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "source_category_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "source_category_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "channels",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "created_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "discord_category_templates_created_by_fkey",
+    "FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "p",
+    "discord_category_templates_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "discord_managed_channels": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "category_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "channel_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "channel_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "kind",
+    "text",
+    true,
+    "'text'::text",
+    ""
+   ],
+   [
+    "created_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "visibility",
+    "text",
+    true,
+    "'public'::text",
+    ""
+   ],
+   [
+    "visible_role_ids",
+    "text[]",
+    true,
+    "'{}'::text[]",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "u",
+    "discord_managed_channels_channel_id_key",
+    "UNIQUE (channel_id)"
+   ],
+   [
+    "f",
+    "discord_managed_channels_created_by_fkey",
+    "FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "discord_managed_channels_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "discord_managed_channels_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_discord_managed_channels_org ON public.discord_managed_channels USING btree (org_id)"
+  ],
+  "rls": true
+ },
+ "discord_managed_roles": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "discord_role_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "color",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "hoist",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "mentionable",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "created_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "u",
+    "discord_managed_roles_discord_role_id_key",
+    "UNIQUE (discord_role_id)"
+   ],
+   [
+    "f",
+    "discord_managed_roles_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "discord_managed_roles_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX discord_managed_roles_org_idx ON public.discord_managed_roles USING btree (org_id)"
+  ],
+  "rls": true
+ },
+ "discord_org_categories": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "category_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "category_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "can_create",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "can_rename",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "can_delete",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "max_channels",
+    "integer",
+    true,
+    "10",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "u",
+    "discord_org_categories_org_id_category_id_key",
+    "UNIQUE (org_id, category_id)"
+   ],
+   [
+    "f",
+    "discord_org_categories_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "discord_org_categories_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "discord_org_channels": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "channel_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "channel_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "allow_mentions",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "allow_here",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "allow_role_mentions",
+    "boolean",
+    true,
+    "false",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "u",
+    "discord_org_channels_org_id_channel_id_key",
+    "UNIQUE (org_id, channel_id)"
+   ],
+   [
+    "f",
+    "discord_org_channels_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "discord_org_channels_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "discord_posts": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "channel_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "channel_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "message_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "mission_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "kind",
+    "text",
+    true,
+    "'message'::text",
+    ""
+   ],
+   [
+    "title",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "posted_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "embed",
+    "jsonb",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "discord_posts_mission_id_fkey",
+    "FOREIGN KEY (mission_id) REFERENCES missions(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "discord_posts_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "discord_posts_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "discord_posts_posted_by_fkey",
+    "FOREIGN KEY (posted_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_discord_posts_org ON public.discord_posts USING btree (org_id, created_at DESC)"
+  ],
+  "rls": true
+ },
+ "discord_reaction_role_panels": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "channel_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "channel_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "message_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "title",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "body",
+    "text",
+    true,
+    "''::text",
+    ""
+   ],
+   [
+    "color",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "options",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "created_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "discord_reaction_role_panels_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_reaction_role_panels_message ON public.discord_reaction_role_panels USING btree (message_id)"
+  ],
+  "rls": true
+ },
+ "discord_role_mappings": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "discord_role_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "discord_role_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "discord_role_color",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "enabled",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "is_lead",
+    "boolean",
+    true,
+    "false",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "u",
+    "discord_role_mappings_discord_role_id_org_id_key",
+    "UNIQUE (discord_role_id, org_id)"
+   ],
+   [
+    "f",
+    "discord_role_mappings_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "discord_role_mappings_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE UNIQUE INDEX discord_role_mappings_one_lead_per_org ON public.discord_role_mappings USING btree (org_id) WHERE is_lead"
+  ],
+  "rls": true
+ },
+ "discord_settings": {
+  "cols": [
+   [
+    "id",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "remove_on_role_loss",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "last_full_sync_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "discord_settings_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "discord_voice_sessions": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "guild_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "channel_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "channel_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "discord_user_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "discord_username",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "joined_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "left_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "seconds",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "discord_voice_sessions_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "discord_voice_sessions_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_voice_sessions_user_time ON public.discord_voice_sessions USING btree (discord_user_id, joined_at)",
+   "CREATE INDEX idx_dvs_open ON public.discord_voice_sessions USING btree (discord_user_id) WHERE (left_at IS NULL)",
+   "CREATE INDEX idx_dvs_joined ON public.discord_voice_sessions USING btree (joined_at DESC)",
+   "CREATE INDEX idx_dvs_user ON public.discord_voice_sessions USING btree (discord_user_id, joined_at DESC)"
+  ],
+  "rls": true
+ },
+ "farm_list_blueprints": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "list_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "blueprint_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "quantity",
+    "numeric",
+    true,
+    "1",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "farm_list_blueprints_blueprint_id_fkey",
+    "FOREIGN KEY (blueprint_id) REFERENCES blueprints(id) ON DELETE CASCADE"
+   ],
+   [
+    "u",
+    "farm_list_blueprints_list_id_blueprint_id_key",
+    "UNIQUE (list_id, blueprint_id)"
+   ],
+   [
+    "f",
+    "farm_list_blueprints_list_id_fkey",
+    "FOREIGN KEY (list_id) REFERENCES farm_lists(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "farm_list_blueprints_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX farm_list_blueprints_list_idx ON public.farm_list_blueprints USING btree (list_id)"
+  ],
+  "rls": true
+ },
+ "farm_list_contributions": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "list_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "material_ref",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "material_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "qty",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "quality",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "note",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "source",
+    "text",
+    true,
+    "'manual'::text",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "farm_list_contributions_list_id_fkey",
+    "FOREIGN KEY (list_id) REFERENCES farm_lists(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "farm_list_contributions_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "farm_list_contributions_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX farm_list_contrib_ref_idx ON public.farm_list_contributions USING btree (list_id, material_ref)",
+   "CREATE INDEX farm_list_contrib_list_idx ON public.farm_list_contributions USING btree (list_id)",
+   "CREATE INDEX farm_list_contrib_user_idx ON public.farm_list_contributions USING btree (user_id)"
+  ],
+  "rls": true
+ },
+ "farm_list_members": {
+  "cols": [
+   [
+    "list_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "role",
+    "farm_list_role",
+    true,
+    "'editor'::farm_list_role",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "status",
+    "text",
+    true,
+    "'accepted'::text",
+    ""
+   ],
+   [
+    "invited_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "farm_list_members_invited_by_fkey",
+    "FOREIGN KEY (invited_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "farm_list_members_list_id_fkey",
+    "FOREIGN KEY (list_id) REFERENCES farm_lists(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "farm_list_members_pkey",
+    "PRIMARY KEY (list_id, user_id)"
+   ],
+   [
+    "f",
+    "farm_list_members_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX farm_list_members_user_idx ON public.farm_list_members USING btree (user_id)"
+  ],
+  "rls": true
+ },
+ "farm_lists": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "owner_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "description",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "farm_list_status",
+    true,
+    "'active'::farm_list_status",
+    ""
+   ],
+   [
+    "include_personal_inventory",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "include_org_warehouse",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "invite_token",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "invite_role",
+    "text",
+    true,
+    "'editor'::text",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "u",
+    "farm_lists_invite_token_key",
+    "UNIQUE (invite_token)"
+   ],
+   [
+    "f",
+    "farm_lists_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "farm_lists_owner_id_fkey",
+    "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "farm_lists_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX farm_lists_org_idx ON public.farm_lists USING btree (org_id)",
+   "CREATE INDEX farm_lists_owner_idx ON public.farm_lists USING btree (owner_id)"
+  ],
+  "rls": true
+ },
+ "fleet_ships": {
+  "cols": [
+   [
+    "slug",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "manufacturer",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "manufacturer_code",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "classification",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "focus",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "size",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "length",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "crew",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "cargo",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "image",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "store_url",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "raw",
+    "jsonb",
+    false,
+    null,
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "count",
+    "integer",
+    true,
+    "1",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "fleet_ships_pkey",
+    "PRIMARY KEY (slug)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "fleet_sync_runs": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "started_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "finished_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "text",
+    true,
+    "'running'::text",
+    ""
+   ],
+   [
+    "ship_count",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "error_message",
+    "text",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "fleet_sync_runs_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "giveaway_entries": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "giveaway_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "discord_user_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "voice_seconds",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "messages",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "reactions",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "points",
+    "numeric",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "tickets",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "giveaway_entries_giveaway_id_fkey",
+    "FOREIGN KEY (giveaway_id) REFERENCES giveaways(id) ON DELETE CASCADE"
+   ],
+   [
+    "u",
+    "giveaway_entries_giveaway_id_user_id_key",
+    "UNIQUE (giveaway_id, user_id)"
+   ],
+   [
+    "p",
+    "giveaway_entries_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "giveaway_entries_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "giveaway_optins": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "giveaway_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "discord_user_id",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "u",
+    "giveaway_optins_giveaway_id_discord_user_id_key",
+    "UNIQUE (giveaway_id, discord_user_id)"
+   ],
+   [
+    "f",
+    "giveaway_optins_giveaway_id_fkey",
+    "FOREIGN KEY (giveaway_id) REFERENCES giveaways(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "giveaway_optins_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_giveaway_optins_giveaway ON public.giveaway_optins USING btree (giveaway_id)"
+  ],
+  "rls": true
+ },
+ "giveaway_winners": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "giveaway_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "place",
+    "integer",
+    true,
+    "1",
+    ""
+   ],
+   [
+    "tickets",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "total_tickets",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "giveaway_winners_giveaway_id_fkey",
+    "FOREIGN KEY (giveaway_id) REFERENCES giveaways(id) ON DELETE CASCADE"
+   ],
+   [
+    "u",
+    "giveaway_winners_giveaway_id_user_id_key",
+    "UNIQUE (giveaway_id, user_id)"
+   ],
+   [
+    "p",
+    "giveaway_winners_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "giveaway_winners_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "giveaways": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "title",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "description",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "prize",
+    "text",
+    true,
+    "''::text",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "starts_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "ends_at",
+    "timestamp with time zone",
+    true,
+    null,
+    ""
+   ],
+   [
+    "points_per_voice_minute",
+    "numeric",
+    true,
+    "1",
+    ""
+   ],
+   [
+    "points_per_message",
+    "numeric",
+    true,
+    "2",
+    ""
+   ],
+   [
+    "points_per_reaction",
+    "numeric",
+    true,
+    "1",
+    ""
+   ],
+   [
+    "points_per_ticket",
+    "numeric",
+    true,
+    "60",
+    ""
+   ],
+   [
+    "max_tickets",
+    "integer",
+    true,
+    "50",
+    ""
+   ],
+   [
+    "min_points",
+    "numeric",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "min_voice_session_seconds",
+    "integer",
+    true,
+    "60",
+    ""
+   ],
+   [
+    "daily_message_cap",
+    "integer",
+    true,
+    "200",
+    ""
+   ],
+   [
+    "daily_reaction_cap",
+    "integer",
+    true,
+    "200",
+    ""
+   ],
+   [
+    "winner_count",
+    "integer",
+    true,
+    "1",
+    ""
+   ],
+   [
+    "announce_channel_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "announced_message_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "text",
+    true,
+    "'draft'::text",
+    ""
+   ],
+   [
+    "drawn_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "draw_seed",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "giveaways_created_by_fkey",
+    "FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "giveaways_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE SET NULL"
+   ],
+   [
+    "p",
+    "giveaways_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "inventory_item_catalog": {
+  "cols": [
+   [
+    "item_ref",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "kind",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "weight",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "image_url",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "source",
+    "text",
+    true,
+    "'uex'::text",
+    ""
+   ],
+   [
+    "raw",
+    "jsonb",
+    false,
+    null,
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "price_buy",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "price_sell",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "last_synced_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "wiki_uuid",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "unit",
+    "text",
+    true,
+    "'pcs'::text",
+    ""
+   ],
+   [
+    "description",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "acquisition",
+    "jsonb",
+    false,
+    null,
+    ""
+   ],
+   [
+    "shops",
+    "jsonb",
+    false,
+    null,
+    ""
+   ],
+   [
+    "sources_fetched_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "merged_into",
+    "text",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "inventory_item_catalog_pkey",
+    "PRIMARY KEY (item_ref)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX inventory_item_catalog_merged_into_idx ON public.inventory_item_catalog USING btree (merged_into) WHERE (merged_into IS NOT NULL)",
+   "CREATE INDEX inventory_item_catalog_name_trgm ON public.inventory_item_catalog USING gin (name gin_trgm_ops)",
+   "CREATE INDEX inventory_item_catalog_kind_idx ON public.inventory_item_catalog USING btree (kind)",
+   "CREATE INDEX inventory_item_catalog_wiki_uuid_idx ON public.inventory_item_catalog USING btree (wiki_uuid) WHERE (wiki_uuid IS NOT NULL)"
+  ],
+  "rls": true
+ },
+ "inventory_items": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "owner_id",
+    "uuid",
+    true,
+    "auth.uid()",
+    ""
+   ],
+   [
+    "item_ref",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "item_kind",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "qty",
+    "numeric",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "qty_reserved",
+    "numeric",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "quality",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "location_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "visibility",
+    "text",
+    true,
+    "'private'::text",
+    ""
+   ],
+   [
+    "notes",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "unit",
+    "text",
+    true,
+    "'pcs'::text",
+    ""
+   ],
+   [
+    "offered_to_org_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "offered_qty",
+    "numeric",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "inventory_items_location_id_fkey",
+    "FOREIGN KEY (location_id) REFERENCES inventory_locations(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "inventory_items_offered_to_org_id_fkey",
+    "FOREIGN KEY (offered_to_org_id) REFERENCES orgs(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "inventory_items_owner_id_fkey",
+    "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "inventory_items_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX inventory_items_owner_idx ON public.inventory_items USING btree (owner_id)",
+   "CREATE INDEX inventory_items_ref_idx ON public.inventory_items USING btree (item_ref)",
+   "CREATE INDEX inventory_items_offered_idx ON public.inventory_items USING btree (offered_to_org_id)",
+   "CREATE INDEX inventory_items_owner_ref_idx ON public.inventory_items USING btree (owner_id, item_ref) WHERE (item_ref IS NOT NULL)"
+  ],
+  "rls": true
+ },
+ "inventory_locations": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "owner_id",
+    "uuid",
+    false,
+    "auth.uid()",
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "notes",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "visibility",
+    "text",
+    true,
+    "'private'::text",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "source",
+    "text",
+    true,
+    "'user'::text",
+    ""
+   ],
+   [
+    "preset_key",
+    "text",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "inventory_locations_owner_id_fkey",
+    "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "inventory_locations_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE UNIQUE INDEX inventory_locations_owner_preset_uidx ON public.inventory_locations USING btree (owner_id, preset_key) WHERE (preset_key IS NOT NULL)"
+  ],
+  "rls": true
+ },
+ "inventory_transfers": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "from_user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "to_user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "source_item_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_ref",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "item_kind",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "qty",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "unit",
+    "text",
+    true,
+    "'pcs'::text",
+    ""
+   ],
+   [
+    "quality",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "note",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "text",
+    true,
+    "'pending'::text",
+    ""
+   ],
+   [
+    "responded_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "inventory_transfers_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_inventory_transfers_to ON public.inventory_transfers USING btree (to_user_id, status)",
+   "CREATE INDEX idx_inventory_transfers_from ON public.inventory_transfers USING btree (from_user_id, status)"
+  ],
+  "rls": true
+ },
+ "marketplace_claims": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "listing_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "claimed_by",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "marketplace_claim_status",
+    true,
+    "'angenommen'::marketplace_claim_status",
+    ""
+   ],
+   [
+    "note",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "cancel_reason",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "marketplace_claims_claimed_by_fkey",
+    "FOREIGN KEY (claimed_by) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "marketplace_claims_listing_id_fkey",
+    "FOREIGN KEY (listing_id) REFERENCES marketplace_listings(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "marketplace_claims_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE UNIQUE INDEX marketplace_claims_one_active ON public.marketplace_claims USING btree (listing_id) WHERE (status = ANY (ARRAY['angenommen'::marketplace_claim_status, 'in_lieferung'::marketplace_claim_status, 'geliefert'::marketplace_claim_status]))"
+  ],
+  "rls": true
+ },
+ "marketplace_listings": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "created_by",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "type",
+    "marketplace_listing_type",
+    true,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "marketplace_listing_status",
+    true,
+    "'offen'::marketplace_listing_status",
+    ""
+   ],
+   [
+    "title",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "description",
+    "text",
+    true,
+    "''::text",
+    ""
+   ],
+   [
+    "category",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "price_auec",
+    "bigint",
+    false,
+    null,
+    ""
+   ],
+   [
+    "quantity",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "unit",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "trade_offer",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "trade_want",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "location",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "inventory_item_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "org_warehouse_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "image_urls",
+    "text[]",
+    true,
+    "'{}'::text[]",
+    ""
+   ],
+   [
+    "expires_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "scope",
+    "marketplace_scope",
+    true,
+    "'allianz'::marketplace_scope",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "marketplace_listings_created_by_fkey",
+    "FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "marketplace_listings_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE SET NULL"
+   ],
+   [
+    "p",
+    "marketplace_listings_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX marketplace_listings_scope_org_idx ON public.marketplace_listings USING btree (scope, org_id)",
+   "CREATE INDEX marketplace_listings_created_by_idx ON public.marketplace_listings USING btree (created_by)",
+   "CREATE INDEX marketplace_listings_type_idx ON public.marketplace_listings USING btree (type)",
+   "CREATE INDEX marketplace_listings_status_idx ON public.marketplace_listings USING btree (status)"
+  ],
+  "rls": true
+ },
+ "marketplace_messages": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "listing_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "author_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "body",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "marketplace_messages_author_id_fkey",
+    "FOREIGN KEY (author_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "marketplace_messages_listing_id_fkey",
+    "FOREIGN KEY (listing_id) REFERENCES marketplace_listings(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "marketplace_messages_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX marketplace_messages_listing_idx ON public.marketplace_messages USING btree (listing_id, created_at)"
+  ],
+  "rls": true
+ },
+ "membership_application_fields": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "field_key",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "label",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "help",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "placeholder",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "field_type",
+    "text",
+    true,
+    "'text'::text",
+    ""
+   ],
+   [
+    "required",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "options",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "sort_order",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "active",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "u",
+    "membership_application_fields_field_key_key",
+    "UNIQUE (field_key)"
+   ],
+   [
+    "p",
+    "membership_application_fields_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "membership_application_settings": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "singleton",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "enabled",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "channel_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "channel_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "embed_title",
+    "text",
+    true,
+    "'Neue Bewerbung'::text",
+    ""
+   ],
+   [
+    "embed_color",
+    "integer",
+    true,
+    "3447003",
+    ""
+   ],
+   [
+    "ping_role_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "intro_text",
+    "text",
+    true,
+    "''::text",
+    ""
+   ],
+   [
+    "success_text",
+    "text",
+    true,
+    "'Danke! Deine Bewerbung wurde \u00fcbermittelt.'::text",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "membership_application_settings_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "u",
+    "membership_application_settings_singleton_key",
+    "UNIQUE (singleton)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "membership_applications": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "discord_user_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "answers",
+    "jsonb",
+    true,
+    "'{}'::jsonb",
+    ""
+   ],
+   [
+    "status",
+    "membership_application_status",
+    true,
+    "'open'::membership_application_status",
+    ""
+   ],
+   [
+    "channel_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "message_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "reviewed_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "reviewed_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "review_note",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "membership_applications_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "membership_applications_reviewed_by_fkey",
+    "FOREIGN KEY (reviewed_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "membership_applications_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX membership_applications_user_idx ON public.membership_applications USING btree (user_id)",
+   "CREATE INDEX membership_applications_status_idx ON public.membership_applications USING btree (status)"
+  ],
+  "rls": true
+ },
+ "mission_categories": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "color",
+    "text",
+    true,
+    "'#888888'::text",
+    ""
+   ],
+   [
+    "sort_order",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "mission_categories_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "u",
+    "mission_categories_org_id_name_key",
+    "UNIQUE (org_id, name)"
+   ],
+   [
+    "p",
+    "mission_categories_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "mission_participants": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "mission_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "display_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "token",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "joined_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "is_squad_lead",
+    "boolean",
+    true,
+    "false",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "mission_participants_mission_id_fkey",
+    "FOREIGN KEY (mission_id) REFERENCES missions(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "mission_participants_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "u",
+    "mission_participants_token_key",
+    "UNIQUE (token)"
+   ],
+   [
+    "f",
+    "mission_participants_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE SET NULL"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX mission_participants_mission_idx ON public.mission_participants USING btree (mission_id)",
+   "CREATE UNIQUE INDEX mission_participants_user_unique ON public.mission_participants USING btree (mission_id, user_id) WHERE (user_id IS NOT NULL)"
+  ],
+  "rls": true
+ },
+ "mission_ship_crew": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "mission_ship_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "participant_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "seat_role",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "joined_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "mission_ship_crew_mission_ship_id_fkey",
+    "FOREIGN KEY (mission_ship_id) REFERENCES mission_ships(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "mission_ship_crew_participant_id_fkey",
+    "FOREIGN KEY (participant_id) REFERENCES mission_participants(id) ON DELETE CASCADE"
+   ],
+   [
+    "u",
+    "mission_ship_crew_participant_id_key",
+    "UNIQUE (participant_id)"
+   ],
+   [
+    "p",
+    "mission_ship_crew_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX mission_ship_crew_ship_idx ON public.mission_ship_crew USING btree (mission_ship_id)"
+  ],
+  "rls": true
+ },
+ "mission_ship_stations": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "mission_ship_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "slot_key",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "label",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "hardpoint_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "category",
+    "text",
+    true,
+    "'seat'::text",
+    ""
+   ],
+   [
+    "sort_order",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "is_manual",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "assigned_participant_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "mission_ship_stations_assigned_participant_id_fkey",
+    "FOREIGN KEY (assigned_participant_id) REFERENCES mission_participants(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "mission_ship_stations_mission_ship_id_fkey",
+    "FOREIGN KEY (mission_ship_id) REFERENCES mission_ships(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "mission_ship_stations_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE UNIQUE INDEX mission_ship_stations_assign_uniq ON public.mission_ship_stations USING btree (assigned_participant_id) WHERE (assigned_participant_id IS NOT NULL)",
+   "CREATE INDEX mission_ship_stations_ship_idx ON public.mission_ship_stations USING btree (mission_ship_id)"
+  ],
+  "rls": true
+ },
+ "mission_ships": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "mission_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "ship_slug",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "ship_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "manufacturer",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "role_tag",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "ship_op_status",
+    true,
+    "'waiting_crew'::ship_op_status",
+    ""
+   ],
+   [
+    "added_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "board_session_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "mission_ships_added_by_fkey",
+    "FOREIGN KEY (added_by) REFERENCES mission_participants(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "mission_ships_board_session_id_fkey",
+    "FOREIGN KEY (board_session_id) REFERENCES board_sessions(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "mission_ships_mission_id_fkey",
+    "FOREIGN KEY (mission_id) REFERENCES missions(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "mission_ships_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_mission_ships_board_session ON public.mission_ships USING btree (board_session_id)",
+   "CREATE INDEX mission_ships_mission_idx ON public.mission_ships USING btree (mission_id)"
+  ],
+  "rls": true
+ },
+ "mission_voice_channels": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "mission_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "kind",
+    "text",
+    true,
+    "'group'::text",
+    ""
+   ],
+   [
+    "ship_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "is_locked",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "parent_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "is_group_parent",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "allow_broadcast",
+    "boolean",
+    true,
+    "true",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "mission_voice_channels_mission_id_fkey",
+    "FOREIGN KEY (mission_id) REFERENCES missions(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "mission_voice_channels_parent_id_fkey",
+    "FOREIGN KEY (parent_id) REFERENCES mission_voice_channels(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "mission_voice_channels_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "mission_voice_channels_ship_id_fkey",
+    "FOREIGN KEY (ship_id) REFERENCES mission_ships(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX mission_voice_channels_mission_idx ON public.mission_voice_channels USING btree (mission_id)",
+   "CREATE INDEX mission_voice_channels_parent_idx ON public.mission_voice_channels USING btree (parent_id)"
+  ],
+  "rls": true
+ },
+ "mission_voice_presence": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "channel_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "mission_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "participant_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "display_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "is_muted",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "is_deafened",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "joined_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "is_broadcasting",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "broadcast_scope",
+    "text",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "mission_voice_presence_channel_id_fkey",
+    "FOREIGN KEY (channel_id) REFERENCES mission_voice_channels(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "mission_voice_presence_mission_id_fkey",
+    "FOREIGN KEY (mission_id) REFERENCES missions(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "mission_voice_presence_participant_id_fkey",
+    "FOREIGN KEY (participant_id) REFERENCES mission_participants(id) ON DELETE CASCADE"
+   ],
+   [
+    "u",
+    "mission_voice_presence_participant_id_key",
+    "UNIQUE (participant_id)"
+   ],
+   [
+    "p",
+    "mission_voice_presence_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX mission_voice_presence_channel_idx ON public.mission_voice_presence USING btree (channel_id)",
+   "CREATE INDEX mission_voice_presence_mission_idx ON public.mission_voice_presence USING btree (mission_id)"
+  ],
+  "rls": true
+ },
+ "missions": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "slug",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "title",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "description",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "password_hash",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "mission_status",
+    true,
+    "'active'::mission_status",
+    ""
+   ],
+   [
+    "starts_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "leader_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "category_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "show_in_calendar",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "show_participant_count",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "allow_mission_broadcast",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "allow_squadlead_broadcast",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "is_internal",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "is_hidden",
+    "boolean",
+    true,
+    "false",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "missions_category_id_fkey",
+    "FOREIGN KEY (category_id) REFERENCES mission_categories(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "missions_leader_id_fkey",
+    "FOREIGN KEY (leader_id) REFERENCES profiles(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "missions_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE SET NULL"
+   ],
+   [
+    "p",
+    "missions_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "u",
+    "missions_slug_key",
+    "UNIQUE (slug)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX missions_category_id_idx ON public.missions USING btree (category_id)",
+   "CREATE INDEX missions_starts_at_idx ON public.missions USING btree (starts_at)",
+   "CREATE INDEX missions_org_id_idx ON public.missions USING btree (org_id)"
+  ],
+  "rls": true
+ },
+ "missions_catalog": {
+  "cols": [
+   [
+    "mission_ref",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "faction",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "rank",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "payout",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "reputation",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "location",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "url",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "source",
+    "text",
+    true,
+    "'scmdb'::text",
+    ""
+   ],
+   [
+    "raw",
+    "jsonb",
+    false,
+    null,
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "missions_catalog_pkey",
+    "PRIMARY KEY (mission_ref)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "notification_preferences": {
+  "cols": [
+   [
+    "user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "kind",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "enabled",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "notification_preferences_pkey",
+    "PRIMARY KEY (user_id, kind)"
+   ],
+   [
+    "f",
+    "notification_preferences_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "notification_role_settings": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "role_key",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "kind",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "enabled",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "notification_role_settings_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "u",
+    "notification_role_settings_org_id_role_key_kind_key",
+    "UNIQUE (org_id, role_key, kind)"
+   ],
+   [
+    "p",
+    "notification_role_settings_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "notifications": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "kind",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "title",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "body",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "link",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "ref_table",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "ref_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "read_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "notifications_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "notifications_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "notifications_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX notifications_user_unread_idx ON public.notifications USING btree (user_id, read_at, created_at DESC)"
+  ],
+  "rls": true
+ },
+ "org_blueprint_settings": {
+  "cols": [
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "source_mode",
+    "text",
+    true,
+    "'all'::text",
+    ""
+   ],
+   [
+    "allowed_roles",
+    "text[]",
+    true,
+    "'{}'::text[]",
+    ""
+   ],
+   [
+    "allowed_custom_role_ids",
+    "uuid[]",
+    true,
+    "'{}'::uuid[]",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "org_blueprint_settings_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "org_blueprint_settings_pkey",
+    "PRIMARY KEY (org_id)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "org_custom_roles": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "color",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "permissions",
+    "text[]",
+    true,
+    "'{}'::text[]",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "org_custom_roles_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "u",
+    "org_custom_roles_org_id_name_key",
+    "UNIQUE (org_id, name)"
+   ],
+   [
+    "p",
+    "org_custom_roles_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "org_fleet_ships": {
+  "cols": [
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "slug",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "manufacturer",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "manufacturer_code",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "classification",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "focus",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "size",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "length",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "crew",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "cargo",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "image",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "store_url",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "count",
+    "integer",
+    true,
+    "1",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "org_fleet_ships_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "org_fleet_ships_pkey",
+    "PRIMARY KEY (org_id, slug)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "org_members": {
+  "cols": [
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "role",
+    "org_role",
+    true,
+    "'member'::org_role",
+    ""
+   ],
+   [
+    "joined_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "permissions",
+    "text[]",
+    true,
+    "'{}'::text[]",
+    ""
+   ],
+   [
+    "custom_role_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "org_members_custom_role_id_fkey",
+    "FOREIGN KEY (custom_role_id) REFERENCES org_custom_roles(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "org_members_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "org_members_pkey",
+    "PRIMARY KEY (org_id, user_id)"
+   ],
+   [
+    "f",
+    "org_members_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX org_members_custom_role_idx ON public.org_members USING btree (custom_role_id)"
+  ],
+  "rls": true
+ },
+ "org_treasury_categories": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "kind",
+    "text",
+    true,
+    "'both'::text",
+    ""
+   ],
+   [
+    "color",
+    "text",
+    true,
+    "'#22d3ee'::text",
+    ""
+   ],
+   [
+    "sort_order",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "org_treasury_categories_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "org_treasury_categories_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX org_treasury_categories_org_idx ON public.org_treasury_categories USING btree (org_id, sort_order)",
+   "CREATE UNIQUE INDEX org_treasury_categories_uniq ON public.org_treasury_categories USING btree (org_id, lower(name))"
+  ],
+  "rls": true
+ },
+ "org_treasury_discord_settings": {
+  "cols": [
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "channel_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "channel_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "post_deposits",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "deposits_show_name",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "post_withdrawals",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "withdrawals_show_name",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "post_monthly",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "monthly_day",
+    "smallint",
+    true,
+    "1",
+    ""
+   ],
+   [
+    "monthly_hour",
+    "smallint",
+    true,
+    "10",
+    ""
+   ],
+   [
+    "last_monthly_posted_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "org_treasury_discord_settings_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "org_treasury_discord_settings_pkey",
+    "PRIMARY KEY (org_id)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "org_treasury_entries": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "kind",
+    "org_treasury_kind",
+    true,
+    null,
+    ""
+   ],
+   [
+    "amount_auec",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "player_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "description",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "category",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "booked_by",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "booked_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "org_treasury_entries_booked_by_fkey",
+    "FOREIGN KEY (booked_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "org_treasury_entries_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "org_treasury_entries_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "org_treasury_entries_player_id_fkey",
+    "FOREIGN KEY (player_id) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX treasury_org_date_idx ON public.org_treasury_entries USING btree (org_id, booked_at DESC)"
+  ],
+  "rls": true
+ },
+ "org_treasury_requests": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "kind",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "amount_auec",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "player_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "reason",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "category",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "text",
+    true,
+    "'pending'::text",
+    ""
+   ],
+   [
+    "reviewed_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "reviewed_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "review_note",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "resulting_entry_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "org_treasury_requests_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "org_treasury_requests_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "org_treasury_requests_resulting_entry_id_fkey",
+    "FOREIGN KEY (resulting_entry_id) REFERENCES org_treasury_entries(id) ON DELETE SET NULL"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_org_treasury_requests_player ON public.org_treasury_requests USING btree (player_id, created_at DESC)",
+   "CREATE INDEX idx_org_treasury_requests_org_status ON public.org_treasury_requests USING btree (org_id, status, created_at DESC)"
+  ],
+  "rls": true
+ },
+ "org_warehouse": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "item_ref",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "item_kind",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "qty",
+    "numeric",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "unit",
+    "text",
+    true,
+    "'pcs'::text",
+    ""
+   ],
+   [
+    "quality",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "notes",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "deposited_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "deposited_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "locked",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "locked_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "locked_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "lock_reason",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "category",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "held_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "held_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "location_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "location_label",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "location_since",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "for_sale",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "sale_price",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "sale_note",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "reserved_qty",
+    "numeric",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "reserved_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "sale_qty",
+    "numeric",
+    true,
+    "0",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "org_warehouse_deposited_by_fkey",
+    "FOREIGN KEY (deposited_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "org_warehouse_held_by_fkey",
+    "FOREIGN KEY (held_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "org_warehouse_location_id_fkey",
+    "FOREIGN KEY (location_id) REFERENCES inventory_locations(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "org_warehouse_locked_by_fkey",
+    "FOREIGN KEY (locked_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "org_warehouse_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "org_warehouse_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX org_warehouse_org_idx ON public.org_warehouse USING btree (org_id)",
+   "CREATE INDEX org_warehouse_org_ref_idx ON public.org_warehouse USING btree (org_id, item_ref) WHERE (item_ref IS NOT NULL)",
+   "CREATE INDEX org_warehouse_held_by_idx ON public.org_warehouse USING btree (held_by) WHERE (held_by IS NOT NULL)",
+   "CREATE INDEX org_warehouse_ref_idx ON public.org_warehouse USING btree (org_id, item_ref)"
+  ],
+  "rls": true
+ },
+ "org_warehouse_claims": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "inventory_item_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_ref",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "item_kind",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "qty",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "unit",
+    "text",
+    true,
+    "'pcs'::text",
+    ""
+   ],
+   [
+    "quality",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "notes",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "org_claim_status",
+    true,
+    "'pending'::org_claim_status",
+    ""
+   ],
+   [
+    "offered_by",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "offered_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "claimed_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "claimed_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "cancelled_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "org_warehouse_claims_claimed_by_fkey",
+    "FOREIGN KEY (claimed_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "org_warehouse_claims_inventory_item_id_fkey",
+    "FOREIGN KEY (inventory_item_id) REFERENCES inventory_items(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "org_warehouse_claims_offered_by_fkey",
+    "FOREIGN KEY (offered_by) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "org_warehouse_claims_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "org_warehouse_claims_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX claims_org_status_idx ON public.org_warehouse_claims USING btree (org_id, status)",
+   "CREATE INDEX claims_user_idx ON public.org_warehouse_claims USING btree (offered_by)"
+  ],
+  "rls": true
+ },
+ "org_warehouse_release_requests": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "release_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "requested_by",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "qty",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "notes",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "text",
+    true,
+    "'pending'::text",
+    ""
+   ],
+   [
+    "decided_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "decided_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "warehouse_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "org_warehouse_release_requests_decided_by_fkey",
+    "FOREIGN KEY (decided_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "org_warehouse_release_requests_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "org_warehouse_release_requests_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "org_warehouse_release_requests_release_id_fkey",
+    "FOREIGN KEY (release_id) REFERENCES org_warehouse_releases(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "org_warehouse_release_requests_requested_by_fkey",
+    "FOREIGN KEY (requested_by) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "org_warehouse_release_requests_warehouse_id_fkey",
+    "FOREIGN KEY (warehouse_id) REFERENCES org_warehouse(id) ON DELETE SET NULL"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_release_requests_org ON public.org_warehouse_release_requests USING btree (org_id, status)",
+   "CREATE INDEX idx_release_requests_release ON public.org_warehouse_release_requests USING btree (release_id, status)"
+  ],
+  "rls": true
+ },
+ "org_warehouse_releases": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "item_ref",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "item_kind",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "qty_initial",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "qty_remaining",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "unit",
+    "text",
+    true,
+    "'pcs'::text",
+    ""
+   ],
+   [
+    "quality",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "notes",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "released_by",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "released_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "status",
+    "text",
+    true,
+    "'open'::text",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "org_warehouse_releases_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "org_warehouse_releases_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "org_warehouse_releases_released_by_fkey",
+    "FOREIGN KEY (released_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_releases_org ON public.org_warehouse_releases USING btree (org_id, status)"
+  ],
+  "rls": true
+ },
+ "orga_order_reservations": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "order_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "warehouse_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_ref",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "item_kind",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "qty",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "orga_order_reservations_order_id_fkey",
+    "FOREIGN KEY (order_id) REFERENCES orga_orders(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "orga_order_reservations_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "orga_order_reservations_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "orga_order_reservations_warehouse_id_fkey",
+    "FOREIGN KEY (warehouse_id) REFERENCES org_warehouse(id) ON DELETE SET NULL"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX orga_order_reservations_org_ref_idx ON public.orga_order_reservations USING btree (org_id, item_ref)",
+   "CREATE INDEX orga_order_reservations_org_name_idx ON public.orga_order_reservations USING btree (org_id, lower(item_name))",
+   "CREATE INDEX orga_order_reservations_order_idx ON public.orga_order_reservations USING btree (order_id)"
+  ],
+  "rls": true
+ },
+ "orga_orders": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "requested_by",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "item_ref",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "item_kind",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "qty",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "notes",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "blueprint_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "resolve_deep",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "analysis_snapshot",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "computed_min_quality",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "text",
+    true,
+    "'pending'::text",
+    ""
+   ],
+   [
+    "decided_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "decided_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "decision_note",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "orga_orders_blueprint_id_fkey",
+    "FOREIGN KEY (blueprint_id) REFERENCES blueprints(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "orga_orders_decided_by_fkey",
+    "FOREIGN KEY (decided_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "orga_orders_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "orga_orders_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "orga_orders_requested_by_fkey",
+    "FOREIGN KEY (requested_by) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX orga_orders_org_status_idx ON public.orga_orders USING btree (org_id, status)",
+   "CREATE INDEX orga_orders_requested_by_idx ON public.orga_orders USING btree (requested_by)"
+  ],
+  "rls": true
+ },
+ "orgs": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "tag",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "owner_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "slug",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "branding",
+    "jsonb",
+    true,
+    "'{}'::jsonb",
+    ""
+   ],
+   [
+    "is_active",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "fleet_source",
+    "text",
+    true,
+    "'members'::text",
+    ""
+   ],
+   [
+    "fleetyards_slug",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "rsi_sid",
+    "text",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "orgs_owner_id_fkey",
+    "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE RESTRICT"
+   ],
+   [
+    "p",
+    "orgs_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE UNIQUE INDEX orgs_rsi_sid_unique ON public.orgs USING btree (upper(rsi_sid)) WHERE (rsi_sid IS NOT NULL)",
+   "CREATE UNIQUE INDEX orgs_slug_key ON public.orgs USING btree (slug)"
+  ],
+  "rls": true
+ },
+ "profiles": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "callsign",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "display_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "fleetyards_username",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "fleetyards_last_sync",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "fleetyards_last_error",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "avatar_url",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status_text",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "discord_user_id",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "discord_username",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "discord_synced_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "rsi_handle",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "rsi_verified_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "rsi_verify_attempts",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "rsi_verify_attempt_window",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "rsi_org_sids",
+    "text[]",
+    true,
+    "'{}'::text[]",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "profiles_id_fkey",
+    "FOREIGN KEY (id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "profiles_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE UNIQUE INDEX profiles_rsi_handle_verified_key ON public.profiles USING btree (lower(rsi_handle)) WHERE ((rsi_verified_at IS NOT NULL) AND (rsi_handle IS NOT NULL))",
+   "CREATE UNIQUE INDEX profiles_discord_user_id_key ON public.profiles USING btree (discord_user_id) WHERE (discord_user_id IS NOT NULL)"
+  ],
+  "rls": true
+ },
+ "rsi_verification_codes": {
+  "cols": [
+   [
+    "user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "code",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "expires_at",
+    "timestamp with time zone",
+    true,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "rsi_verification_codes_pkey",
+    "PRIMARY KEY (user_id)"
+   ],
+   [
+    "f",
+    "rsi_verification_codes_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "ship_bespoke_components": {
+  "cols": [
+   [
+    "ship_slug",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "class_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "item_ref",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "port_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "source",
+    "text",
+    true,
+    "'scunpacked_non_editable'::text",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "ship_bespoke_components_pkey",
+    "PRIMARY KEY (ship_slug, item_ref)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX ship_bespoke_components_ship_slug_idx ON public.ship_bespoke_components USING btree (ship_slug)",
+   "CREATE INDEX ship_bespoke_components_item_ref_idx ON public.ship_bespoke_components USING btree (item_ref)"
+  ],
+  "rls": true
+ },
+ "ship_catalog": {
+  "cols": [
+   [
+    "slug",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "manufacturer",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "manufacturer_code",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "classification",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "classification_label",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "focus",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "size",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "size_label",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "production_status",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "description",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "length_m",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "beam_m",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "height_m",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "mass_kg",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "cargo_scu",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "crew_min",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "crew_max",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "scm_speed",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "max_speed",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "pitch_rate",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "yaw_rate",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "roll_rate",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "hydrogen_fuel",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "quantum_fuel",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "price_uec",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "pledge_price_usd",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "store_url",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "fleetyards_url",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "hero_image",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "store_image",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "front_view",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "side_view",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "top_view",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "angled_view",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "images",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "hardpoints",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "raw",
+    "jsonb",
+    false,
+    null,
+    ""
+   ],
+   [
+    "synced_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "description_de",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "default_loadout",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "holo_url",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "paints",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "price_uec_terminal",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "price_uec_terminals",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "price_rent_uec",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "price_source",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "price_synced_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "ship_catalog_pkey",
+    "PRIMARY KEY (slug)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX idx_ship_catalog_manufacturer ON public.ship_catalog USING btree (manufacturer_code)",
+   "CREATE INDEX idx_ship_catalog_classification ON public.ship_catalog USING btree (classification)"
+  ],
+  "rls": true
+ },
+ "ship_components_catalog": {
+  "cols": [
+   [
+    "item_ref",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "wiki_uuid",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "slug",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "manufacturer_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "manufacturer_code",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "classification",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "classification_label",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "category",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "size",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "grade",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_class",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "type",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "type_label",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "sub_type",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "sub_type_label",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "description",
+    "jsonb",
+    false,
+    null,
+    ""
+   ],
+   [
+    "image_url",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "web_url",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "shops",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "min_price_buy",
+    "numeric",
+    false,
+    null,
+    ""
+   ],
+   [
+    "is_craftable",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "raw",
+    "jsonb",
+    false,
+    null,
+    ""
+   ],
+   [
+    "last_synced_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "is_bespoke",
+    "boolean",
+    true,
+    "false",
+    ""
+   ],
+   [
+    "bespoke_reason",
+    "text",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "ship_components_catalog_pkey",
+    "PRIMARY KEY (item_ref)"
+   ],
+   [
+    "u",
+    "ship_components_catalog_wiki_uuid_key",
+    "UNIQUE (wiki_uuid)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX ship_components_category_idx ON public.ship_components_catalog USING btree (category)",
+   "CREATE INDEX ship_components_catalog_item_ref_idx ON public.ship_components_catalog USING btree (item_ref) WHERE (item_ref IS NOT NULL)",
+   "CREATE INDEX ship_components_size_idx ON public.ship_components_catalog USING btree (size)",
+   "CREATE INDEX ship_components_classification_idx ON public.ship_components_catalog USING btree (classification)",
+   "CREATE INDEX ship_components_name_trgm ON public.ship_components_catalog USING gin (name gin_trgm_ops)",
+   "CREATE INDEX ship_components_catalog_is_bespoke_idx ON public.ship_components_catalog USING btree (is_bespoke) WHERE (is_bespoke = true)"
+  ],
+  "rls": true
+ },
+ "ship_loadout_builds": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "ship_slug",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "description",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "fleet_ship_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "slots",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "share_token",
+    "text",
+    true,
+    "encode(gen_random_bytes(12), 'hex'::text)",
+    ""
+   ],
+   [
+    "is_public",
+    "boolean",
+    true,
+    "true",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "ship_loadout_builds_fleet_ship_id_fkey",
+    "FOREIGN KEY (fleet_ship_id) REFERENCES user_ships(id) ON DELETE SET NULL"
+   ],
+   [
+    "p",
+    "ship_loadout_builds_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "u",
+    "ship_loadout_builds_share_token_key",
+    "UNIQUE (share_token)"
+   ],
+   [
+    "f",
+    "ship_loadout_builds_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX ship_loadout_builds_ship_idx ON public.ship_loadout_builds USING btree (ship_slug)",
+   "CREATE INDEX ship_loadout_builds_user_idx ON public.ship_loadout_builds USING btree (user_id)",
+   "CREATE INDEX ship_loadout_builds_token_idx ON public.ship_loadout_builds USING btree (share_token)"
+  ],
+  "rls": true
+ },
+ "ship_loadout_stations": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "template_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "slot_key",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "label",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "hardpoint_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "category",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "notes",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "sort_order",
+    "integer",
+    true,
+    "0",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "ship_loadout_stations_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "ship_loadout_stations_template_id_fkey",
+    "FOREIGN KEY (template_id) REFERENCES ship_loadout_templates(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX sls_template_idx ON public.ship_loadout_stations USING btree (template_id, sort_order)"
+  ],
+  "rls": true
+ },
+ "ship_loadout_templates": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "scope",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "ship_slug",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "ship_loadout_templates_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "ship_loadout_templates_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE UNIQUE INDEX slt_admin_unique ON public.ship_loadout_templates USING btree (ship_slug) WHERE (scope = 'admin'::text)",
+   "CREATE UNIQUE INDEX slt_user_unique ON public.ship_loadout_templates USING btree (user_id, ship_slug) WHERE (scope = 'user'::text)"
+  ],
+  "rls": true
+ },
+ "ship_stock_loadouts": {
+  "cols": [
+   [
+    "ship_slug",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "class_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "loadout",
+    "jsonb",
+    true,
+    "'[]'::jsonb",
+    ""
+   ],
+   [
+    "source",
+    "text",
+    true,
+    "'scunpacked'::text",
+    ""
+   ],
+   [
+    "fetched_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "ship_stock_loadouts_pkey",
+    "PRIMARY KEY (ship_slug)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "shop_reservation_allocations": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "reservation_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "warehouse_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "qty",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "shop_reservation_allocations_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "shop_reservation_allocations_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "shop_reservation_allocations_reservation_id_fkey",
+    "FOREIGN KEY (reservation_id) REFERENCES shop_reservations(id) ON DELETE CASCADE"
+   ],
+   [
+    "f",
+    "shop_reservation_allocations_warehouse_id_fkey",
+    "FOREIGN KEY (warehouse_id) REFERENCES org_warehouse(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX shop_reservation_allocations_res_idx ON public.shop_reservation_allocations USING btree (reservation_id)",
+   "CREATE INDEX shop_reservation_allocations_wh_idx ON public.shop_reservation_allocations USING btree (warehouse_id)"
+  ],
+  "rls": true
+ },
+ "shop_reservation_history": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "reservation_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "from_status",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "to_status",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "note",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "actor_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "shop_reservation_history_actor_id_fkey",
+    "FOREIGN KEY (actor_id) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "shop_reservation_history_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "shop_reservation_history_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "shop_reservation_history_reservation_id_fkey",
+    "FOREIGN KEY (reservation_id) REFERENCES shop_reservations(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX shop_reservation_history_res_idx ON public.shop_reservation_history USING btree (reservation_id, created_at DESC)"
+  ],
+  "rls": true
+ },
+ "shop_reservations": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "warehouse_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "item_ref",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "item_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "qty",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "unit",
+    "text",
+    true,
+    "'pcs'::text",
+    ""
+   ],
+   [
+    "unit_price",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "total_price",
+    "numeric",
+    true,
+    null,
+    ""
+   ],
+   [
+    "buyer_ingame_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "buyer_discord_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "buyer_note",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "text",
+    true,
+    "'pending'::text",
+    ""
+   ],
+   [
+    "decided_by",
+    "uuid",
+    false,
+    null,
+    ""
+   ],
+   [
+    "decided_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "updated_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "internal_notes",
+    "text",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "shop_reservations_decided_by_fkey",
+    "FOREIGN KEY (decided_by) REFERENCES auth.users(id) ON DELETE SET NULL"
+   ],
+   [
+    "f",
+    "shop_reservations_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "shop_reservations_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "shop_reservations_warehouse_id_fkey",
+    "FOREIGN KEY (warehouse_id) REFERENCES org_warehouse(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX shop_reservations_org_status_idx ON public.shop_reservations USING btree (org_id, status, created_at DESC)"
+  ],
+  "rls": true
+ },
+ "user_blueprint_collection": {
+  "cols": [
+   [
+    "user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "blueprint_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "acquired_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "user_blueprint_collection_blueprint_id_fkey",
+    "FOREIGN KEY (blueprint_id) REFERENCES blueprints(id) ON DELETE CASCADE"
+   ],
+   [
+    "p",
+    "user_blueprint_collection_pkey",
+    "PRIMARY KEY (user_id, blueprint_id)"
+   ],
+   [
+    "f",
+    "user_blueprint_collection_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "user_roles": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "role",
+    "app_role",
+    true,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "user_roles_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "user_roles_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+   ],
+   [
+    "u",
+    "user_roles_user_id_role_key",
+    "UNIQUE (user_id, role)"
+   ]
+  ],
+  "idx": null,
+  "rls": true
+ },
+ "user_ships": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "user_id",
+    "uuid",
+    true,
+    null,
+    ""
+   ],
+   [
+    "ship_slug",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "ship_name",
+    "text",
+    true,
+    null,
+    ""
+   ],
+   [
+    "manufacturer",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "custom_name",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "source",
+    "text",
+    true,
+    "'manual'::text",
+    ""
+   ],
+   [
+    "location",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "notes",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "org_id",
+    "uuid",
+    false,
+    null,
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "f",
+    "user_ships_org_id_fkey",
+    "FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE SET NULL"
+   ],
+   [
+    "p",
+    "user_ships_pkey",
+    "PRIMARY KEY (id)"
+   ],
+   [
+    "f",
+    "user_ships_user_id_fkey",
+    "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX user_ships_org_id_idx ON public.user_ships USING btree (org_id)",
+   "CREATE INDEX user_ships_user_source_idx ON public.user_ships USING btree (user_id, source)"
+  ],
+  "rls": true
+ },
+ "wiki_sync_runs": {
+  "cols": [
+   [
+    "id",
+    "uuid",
+    true,
+    "gen_random_uuid()",
+    ""
+   ],
+   [
+    "started_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ],
+   [
+    "finished_at",
+    "timestamp with time zone",
+    false,
+    null,
+    ""
+   ],
+   [
+    "status",
+    "text",
+    true,
+    "'running'::text",
+    ""
+   ],
+   [
+    "pages",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "scanned",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "inserted",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "skipped",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "backfilled_uex",
+    "integer",
+    false,
+    null,
+    ""
+   ],
+   [
+    "duration_ms",
+    "bigint",
+    false,
+    null,
+    ""
+   ],
+   [
+    "error_message",
+    "text",
+    false,
+    null,
+    ""
+   ],
+   [
+    "created_at",
+    "timestamp with time zone",
+    true,
+    "now()",
+    ""
+   ]
+  ],
+  "cons": [
+   [
+    "p",
+    "wiki_sync_runs_pkey",
+    "PRIMARY KEY (id)"
+   ]
+  ],
+  "idx": [
+   "CREATE INDEX wiki_sync_runs_started_idx ON public.wiki_sync_runs USING btree (started_at DESC)"
+  ],
+  "rls": true
+ }
+}

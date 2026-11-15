@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { createClient } from "@supabase/supabase-js";
+import { createDbClient } from "@/lib/db/client.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Database } from "@/integrations/supabase/types";
 import { hasPerm, mergePerms, type OrgPerm } from "@/lib/org-perms";
@@ -114,14 +114,7 @@ export type ShopReservationHistoryEntry = {
 };
 
 function makeServerPublicClient() {
-  const key = process.env.SUPABASE_PUBLISHABLE_KEY!;
-  return createClient<Database>(process.env.SUPABASE_URL!, key, {
-    auth: {
-      storage: undefined,
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-  });
+  return createDbClient({ kind: "anon" });
 }
 
 async function assertWarehouseManager(userId: string, orgId: string) {

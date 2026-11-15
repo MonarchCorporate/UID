@@ -1,12 +1,7 @@
-import { createClient } from "@supabase/supabase-js";
-import type { Database } from "@/integrations/supabase/types";
+import { getServiceClient } from "@/lib/db/client.server";
 
 export function getAdmin() {
-  return createClient<Database>(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false, autoRefreshToken: false } },
-  );
+  return getServiceClient();
 }
 
 export function randomSlug(len = 10): string {
