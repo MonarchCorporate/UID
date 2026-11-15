@@ -1,0 +1,1 @@
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS rsi_org_sids text[] NOT NULL DEFAULT '{}'::text[];

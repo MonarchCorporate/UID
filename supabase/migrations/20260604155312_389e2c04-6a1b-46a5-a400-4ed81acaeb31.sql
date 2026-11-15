@@ -1,0 +1,1 @@
+ALTER TABLE public.ship_catalog ADD COLUMN IF NOT EXISTS weapon_snapshot jsonb NOT NULL DEFAULT '{}'::jsonb;

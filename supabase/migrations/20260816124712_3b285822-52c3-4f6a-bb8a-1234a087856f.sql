@@ -1,0 +1,1 @@
+update public.profiles set discord_user_id = '514510842470072360', discord_username = 'ricci19701' where id = '414034e8-2912-4e39-80c7-226b1e6b4041' and discord_user_id is null;

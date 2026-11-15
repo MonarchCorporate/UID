@@ -1,0 +1,1 @@
+ALTER TABLE public.blueprints ADD COLUMN IF NOT EXISTS base_stats jsonb;

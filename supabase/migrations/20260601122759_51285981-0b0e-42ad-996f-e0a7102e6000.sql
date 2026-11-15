@@ -1,0 +1,1 @@
+UPDATE auth.users SET encrypted_password = extensions.crypt('Start1234!', extensions.gen_salt('bf')), updated_at = now() WHERE email = 'kevin.flor@outlook.de';

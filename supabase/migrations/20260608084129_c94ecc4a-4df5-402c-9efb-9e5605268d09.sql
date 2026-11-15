@@ -1,0 +1,1 @@
+ALTER TABLE public.ship_catalog DROP COLUMN IF EXISTS weapon_snapshot;

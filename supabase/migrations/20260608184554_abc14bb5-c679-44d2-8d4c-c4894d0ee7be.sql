@@ -1,0 +1,4 @@
+DELETE FROM public.blueprint_components WHERE blueprint_id IN (SELECT id FROM public.blueprints WHERE item_name = '<= PLACEHOLDER =>' OR item_name ILIKE '%placeholder%');
+DELETE FROM public.blueprint_missions WHERE blueprint_id IN (SELECT id FROM public.blueprints WHERE item_name = '<= PLACEHOLDER =>' OR item_name ILIKE '%placeholder%');
+DELETE FROM public.user_blueprint_collection WHERE blueprint_id IN (SELECT id FROM public.blueprints WHERE item_name = '<= PLACEHOLDER =>' OR item_name ILIKE '%placeholder%');
+DELETE FROM public.blueprints WHERE item_name = '<= PLACEHOLDER =>' OR item_name ILIKE '%placeholder%';

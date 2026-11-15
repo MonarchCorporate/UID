@@ -1,0 +1,1 @@
+ALTER TABLE public.fleet_ships ADD COLUMN count integer NOT NULL DEFAULT 1;

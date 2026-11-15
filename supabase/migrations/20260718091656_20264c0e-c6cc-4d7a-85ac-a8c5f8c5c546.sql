@@ -1,0 +1,1 @@
+DROP INDEX IF EXISTS public.ship_components_dedupe_uidx;

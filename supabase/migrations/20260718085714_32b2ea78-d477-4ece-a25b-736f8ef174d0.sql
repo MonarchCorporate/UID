@@ -1,0 +1,2 @@
+ALTER TABLE public.inventory_item_catalog ADD COLUMN IF NOT EXISTS merged_into text;
+CREATE INDEX IF NOT EXISTS inventory_item_catalog_merged_into_idx ON public.inventory_item_catalog(merged_into) WHERE merged_into IS NOT NULL;

@@ -1,0 +1,10 @@
+ALTER PUBLICATION supabase_realtime ADD TABLE public.shop_reservations;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.shop_reservation_history;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.org_warehouse;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.org_warehouse_release_requests;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.org_warehouse_claims;
+ALTER TABLE public.shop_reservations REPLICA IDENTITY FULL;
+ALTER TABLE public.shop_reservation_history REPLICA IDENTITY FULL;
+ALTER TABLE public.org_warehouse REPLICA IDENTITY FULL;
+ALTER TABLE public.org_warehouse_release_requests REPLICA IDENTITY FULL;
+ALTER TABLE public.org_warehouse_claims REPLICA IDENTITY FULL;

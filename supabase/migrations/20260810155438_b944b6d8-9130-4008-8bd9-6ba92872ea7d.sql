@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "members: officer read" ON public.org_members;

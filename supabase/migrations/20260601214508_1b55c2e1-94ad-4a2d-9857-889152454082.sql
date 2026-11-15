@@ -1,0 +1,4 @@
+ALTER TABLE public.board_stations REPLICA IDENTITY FULL;
+ALTER TABLE public.board_members REPLICA IDENTITY FULL;
+ALTER TABLE public.board_cargo REPLICA IDENTITY FULL;
+ALTER TABLE public.board_sessions REPLICA IDENTITY FULL;

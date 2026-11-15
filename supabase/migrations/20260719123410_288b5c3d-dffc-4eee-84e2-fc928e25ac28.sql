@@ -1,0 +1,1 @@
+ALTER TABLE public.org_warehouse ADD COLUMN IF NOT EXISTS category text;

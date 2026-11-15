@@ -1,0 +1,1885 @@
+{
+  "Avenger Stalker": {
+    "basePrice": 1587600,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Avenger Titan": {
+    "basePrice": 1358280,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Avenger Titan Renegade": {
+    "basePrice": 1852200,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Avenger Warlock": {
+    "basePrice": 2249100,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Eclipse": {
+    "basePrice": 7938000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Gladius": {
+    "basePrice": 2381400,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Gladius Valiant": {
+    "basePrice": 2910600,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Hammerhead": {
+    "basePrice": 47958752,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Reclaimer": {
+    "basePrice": 31752000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Redeemer": {
+    "basePrice": 17199000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Retaliator": {
+    "basePrice": 7938000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Sabre": {
+    "basePrice": 4498200,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Sabre Comet": {
+    "basePrice": 4650345,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Sabre Firebird": {
+    "basePrice": 5580414,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Sabre Peregrine": {
+    "basePrice": 3845961,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Vanguard Harbinger": {
+    "basePrice": 11510100,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Vanguard Hoplite": {
+    "basePrice": 9327150,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Vanguard Sentinel": {
+    "basePrice": 10914750,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Vanguard Warden": {
+    "basePrice": 10319400,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Arrow": {
+    "basePrice": 1984500,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Asgard": {
+    "basePrice": 17860500,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Ballista": {
+    "basePrice": 1481760,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Centurion": {
+    "basePrice": 1164240,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "C8 Pisces": {
+    "basePrice": 745290,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "C8R Pisces Rescue": {
+    "basePrice": 555660,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "C8X Pisces Expedition": {
+    "basePrice": 515970,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Carrack": {
+    "basePrice": 34398000,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "F7C Hornet Mk II": {
+    "basePrice": 4895100,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "F7C-S Hornet Ghost Mk II": {
+    "basePrice": 5384600,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "F7C-R Hornet Tracker Mk II": {
+    "basePrice": 5139850,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "F7C Hornet Mk I": {
+    "basePrice": 2910600,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "F7C Hornet Wildfire Mk I": {
+    "basePrice": 4630500,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "F7C-M Super Hornet Mk I": {
+    "basePrice": 4762800,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "F7C-S Hornet Ghost Mk I": {
+    "basePrice": 3307500,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "F7C-R Hornet Tracker Mk I": {
+    "basePrice": 3210480,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Gladiator": {
+    "basePrice": 4365900,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Hawk": {
+    "basePrice": 2646000,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Hurricane": {
+    "basePrice": 5556600,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Paladin": {
+    "basePrice": 15876000,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Spartan": {
+    "basePrice": 846720,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Terrapin": {
+    "basePrice": 5433120,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Terrapin Medic": {
+    "basePrice": 5704770,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Valkyrie": {
+    "basePrice": 19845000,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Khartu-al": {
+    "basePrice": 7229250,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Nox": {
+    "basePrice": 722925,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "San’tok.yāi": {
+    "basePrice": 9355500,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "ATLS": {
+    "basePrice": 75600,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "Crusader Showroom",
+        "location": "Orison"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      },
+      {
+        "name": "Buy & Fly",
+        "location": "Ruin Station"
+      }
+    ]
+  },
+  "ATLS GEO": {
+    "basePrice": 90720,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "Crusader Showroom",
+        "location": "Orison"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "CSV-SM": {
+    "basePrice": 378000,
+    "shops": [
+      {
+        "name": "Crusader Showroom",
+        "location": "Orison"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "MOLE": {
+    "basePrice": 8930250,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "MPUV Cargo": {
+    "basePrice": 330750,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "MPUV Personnel": {
+    "basePrice": 378000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "MPUV Tractor": {
+    "basePrice": 415800,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "RAFT": {
+    "basePrice": 3543750,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "SRV": {
+    "basePrice": 3969000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Defender": {
+    "basePrice": 6237000,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "HoverQuad": {
+    "basePrice": 56700,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Mustang Alpha": {
+    "basePrice": 642600,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Mustang Beta": {
+    "basePrice": 655200,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Mustang Delta": {
+    "basePrice": 1228500,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Mustang Gamma": {
+    "basePrice": 1178100,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Nomad": {
+    "basePrice": 1512000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Ares Inferno": {
+    "basePrice": 4725000,
+    "shops": [
+      {
+        "name": "Crusader Showroom",
+        "location": "Orison"
+      }
+    ]
+  },
+  "Ares Ion": {
+    "basePrice": 4725000,
+    "shops": [
+      {
+        "name": "Crusader Showroom",
+        "location": "Orison"
+      }
+    ]
+  },
+  "A1 Spirit": {
+    "basePrice": 4961250,
+    "shops": [
+      {
+        "name": "Crusader Showroom",
+        "location": "Orison"
+      }
+    ]
+  },
+  "A2 Hercules Starlifter": {
+    "basePrice": 44296876,
+    "shops": [
+      {
+        "name": "Crusader Showroom",
+        "location": "Orison"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "C1 Spirit": {
+    "basePrice": 3118500,
+    "shops": [
+      {
+        "name": "Crusader Showroom",
+        "location": "Orison"
+      }
+    ]
+  },
+  "C2 Hercules Starlifter": {
+    "basePrice": 18900000,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "Crusader Showroom",
+        "location": "Orison"
+      }
+    ]
+  },
+  "Intrepid": {
+    "basePrice": 705600,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "Crusader Showroom",
+        "location": "Orison"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "M2 Hercules Starlifter": {
+    "basePrice": 29484000,
+    "shops": [
+      {
+        "name": "Crusader Showroom",
+        "location": "Orison"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Mercury Star Runner": {
+    "basePrice": 12285000,
+    "shops": [
+      {
+        "name": "Crusader Showroom",
+        "location": "Orison"
+      }
+    ]
+  },
+  "Buccaneer": {
+    "basePrice": 1663200,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Buy & Fly",
+        "location": "Ruin Station"
+      }
+    ]
+  },
+  "Caterpillar": {
+    "basePrice": 12474000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Clipper": {
+    "basePrice": 3619728,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Corsair": {
+    "basePrice": 6552000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Cutlass Black": {
+    "basePrice": 2116800,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Cutlass Blue": {
+    "basePrice": 3704400,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Cutlass Red": {
+    "basePrice": 2857680,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Buy & Fly",
+        "location": "Ruin Station"
+      }
+    ]
+  },
+  "Cutlass Steel": {
+    "basePrice": 3997350,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Cutter": {
+    "basePrice": 635040,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Cutter Rambler": {
+    "basePrice": 740880,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Cutter Scout": {
+    "basePrice": 705600,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Dragonfly": {
+    "basePrice": 342720,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Buy & Fly",
+        "location": "Ruin Station"
+      }
+    ]
+  },
+  "Dragonfly Yellowjacket": {
+    "basePrice": 342720,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Golem": {
+    "basePrice": 1058400,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Herald": {
+    "basePrice": 1285200,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Mule": {
+    "basePrice": 68040,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Vulture": {
+    "basePrice": 2646000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      },
+      {
+        "name": "Buy & Fly",
+        "location": "Ruin Station"
+      }
+    ]
+  },
+  "Blade": {
+    "basePrice": 7796250,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Prowler": {
+    "basePrice": 18711000,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Prowler Utility": {
+    "basePrice": 18711000,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Stinger": {
+    "basePrice": 8930250,
+    "shops": [
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Talon": {
+    "basePrice": 3260250,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Talon Shrike": {
+    "basePrice": 3260250,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Syulen": {
+    "basePrice": 2778300,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Shiv": {
+    "basePrice": 5556600,
+    "shops": [
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "MDC": {
+    "basePrice": 127500,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "MTC": {
+    "basePrice": 75600,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "PTV": {
+    "basePrice": 28350,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "ROC": {
+    "basePrice": 103950,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "ROC-DS": {
+    "basePrice": 141750,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "STV": {
+    "basePrice": 75600,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "Buy & Fly",
+        "location": "Ruin Station"
+      }
+    ]
+  },
+  "P-52 Merlin": {
+    "basePrice": 283500,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "P-72 Archimedes": {
+    "basePrice": 449820,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Fury": {
+    "basePrice": 727650,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Fury LX": {
+    "basePrice": 824670,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Fury MX": {
+    "basePrice": 727650,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Guardian": {
+    "basePrice": 6615000,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Guardian MX": {
+    "basePrice": 7408800,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Pulse": {
+    "basePrice": 185220,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Pulse LX": {
+    "basePrice": 211680,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Razor": {
+    "basePrice": 1863540,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Razor EX": {
+    "basePrice": 1757700,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Razor LX": {
+    "basePrice": 1927800,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Fortune": {
+    "basePrice": 1890000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Freelancer": {
+    "basePrice": 2962575,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Freelancer DUR": {
+    "basePrice": 3151103,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Freelancer MAX": {
+    "basePrice": 4039875,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Freelancer MIS": {
+    "basePrice": 4713188,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Hull A": {
+    "basePrice": 1615950,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Hull C": {
+    "basePrice": 15710625,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Prospector": {
+    "basePrice": 2929500,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Buy & Fly",
+        "location": "Ruin Station"
+      }
+    ]
+  },
+  "Reliant Kore": {
+    "basePrice": 1719900,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Reliant Mako": {
+    "basePrice": 2513700,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Reliant Sen": {
+    "basePrice": 2249100,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Reliant Tana": {
+    "basePrice": 1984500,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Starfarer": {
+    "basePrice": 12568500,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Starfarer Gemini": {
+    "basePrice": 14244300,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Starlancer MAX": {
+    "basePrice": 8820000,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Starlancer TAC": {
+    "basePrice": 13381200,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "85X": {
+    "basePrice": 573300,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "100i": {
+    "basePrice": 1146600,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "125a": {
+    "basePrice": 1587600,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "135c": {
+    "basePrice": 1490580,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "300i": {
+    "basePrice": 1375920,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "315p": {
+    "basePrice": 1490580,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "325a": {
+    "basePrice": 1852200,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "350r": {
+    "basePrice": 3748500,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "400i": {
+    "basePrice": 11466000,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "600i": {
+    "basePrice": 27231750,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "600i Touring": {
+    "basePrice": 24938550,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "890 Jump": {
+    "basePrice": 62088390,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "M50": {
+    "basePrice": 1499400,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "X1": {
+    "basePrice": 105840,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "X1 Force": {
+    "basePrice": 132300,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "X1 Velocity": {
+    "basePrice": 119070,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      },
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Apollo Medivac": {
+    "basePrice": 8295210,
+    "shops": [
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Apollo Triage": {
+    "basePrice": 7541100,
+    "shops": [
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Aurora CL": {
+    "basePrice": 1020600,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Aurora ES": {
+    "basePrice": 423360,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Aurora LN": {
+    "basePrice": 907200,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Aurora LX": {
+    "basePrice": 687960,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Aurora MR": {
+    "basePrice": 680400,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Constellation Andromeda": {
+    "basePrice": 10160640,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Constellation Aquila": {
+    "basePrice": 12186720,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Constellation Phoenix": {
+    "basePrice": 14817600,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Constellation Taurus": {
+    "basePrice": 8043840,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Hermes": {
+    "basePrice": 7110180,
+    "shops": [
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Lynx": {
+    "basePrice": 136080,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Mantis": {
+    "basePrice": 3402000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Meteor": {
+    "basePrice": 4536000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Perseus": {
+    "basePrice": 39690000,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  },
+  "Salvation": {
+    "basePrice": 1850030,
+    "shops": [
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Scorpius": {
+    "basePrice": 5443200,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Scorpius Antares": {
+    "basePrice": 5525517,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Ursa": {
+    "basePrice": 120186,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Ursa Medivac": {
+    "basePrice": 137200,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Teach's",
+        "location": "Levski"
+      }
+    ]
+  },
+  "Zeus Mk II ES": {
+    "basePrice": 4422600,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Zeus Mk II CL": {
+    "basePrice": 6804000,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Cyclone": {
+    "basePrice": 110170,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Buy & Fly",
+        "location": "Ruin Station"
+      }
+    ]
+  },
+  "Cyclone AA": {
+    "basePrice": 160247,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Cyclone MT": {
+    "basePrice": 150232,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Cyclone RC": {
+    "basePrice": 130201,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Cyclone RN": {
+    "basePrice": 130201,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Cyclone TR": {
+    "basePrice": 130201,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Nova": {
+    "basePrice": 961482,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      },
+      {
+        "name": "Buy & Fly",
+        "location": "Ruin Station"
+      }
+    ]
+  },
+  "Storm": {
+    "basePrice": 453600,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "Storm AA": {
+    "basePrice": 476280,
+    "shops": [
+      {
+        "name": "New Deal",
+        "location": "Lorville"
+      }
+    ]
+  },
+  "L-21 Wolf": {
+    "basePrice": 2381400,
+    "shops": [
+      {
+        "name": "Astro Armada",
+        "location": "Area18"
+      }
+    ]
+  }
+}

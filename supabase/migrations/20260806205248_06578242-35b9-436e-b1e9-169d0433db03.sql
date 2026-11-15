@@ -1,0 +1,1 @@
+ALTER TABLE public.discord_posts ALTER COLUMN org_id DROP NOT NULL;

@@ -1,0 +1,2 @@
+ALTER TABLE public.inventory_items DROP CONSTRAINT IF EXISTS inventory_items_quality_check;
+ALTER TABLE public.inventory_items ADD CONSTRAINT inventory_items_quality_check CHECK (quality IS NULL OR (quality >= 0 AND quality <= 1000));

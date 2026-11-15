@@ -1,0 +1,1 @@
+ALTER TABLE public.discord_posts ADD COLUMN IF NOT EXISTS embed jsonb;

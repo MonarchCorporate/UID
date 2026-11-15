@@ -1,0 +1,1 @@
+ALTER TABLE public.farm_lists ADD COLUMN IF NOT EXISTS invite_token text UNIQUE; ALTER TABLE public.farm_lists ADD COLUMN IF NOT EXISTS invite_role text NOT NULL DEFAULT 'editor' CHECK (invite_role IN ('viewer','editor'));
