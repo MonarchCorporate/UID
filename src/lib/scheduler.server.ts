@@ -2,7 +2,6 @@
 // Each job calls one of the /api/public/hooks/* endpoints with the hook secret.
 // A row in `app_jobs` makes sure a time slot runs only once, even if several
 // app instances are running.
-import process from "node:process";
 import type { ResultSetHeader } from "mysql2/promise";
 import { getPool } from "@/lib/db/pool.server";
 import { toDbTimestamp } from "@/lib/db/values";

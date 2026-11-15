@@ -1,4 +1,3 @@
-import process from "node:process";
 import mysql from "mysql2/promise";
 import type { Pool, PoolConnection } from "mysql2/promise";
 

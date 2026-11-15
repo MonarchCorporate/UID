@@ -4,7 +4,6 @@
 // refresh tokens and one-time login tokens are random strings stored as
 // SHA-256 hashes in `auth_tokens`.
 import { createHash, createHmac, randomBytes, randomUUID, timingSafeEqual } from "node:crypto";
-import process from "node:process";
 import bcrypt from "bcryptjs";
 import type { RowDataPacket } from "mysql2/promise";
 import { getPool } from "./pool.server";

@@ -1,6 +1,5 @@
 // Applies db/mysql/schema.sql (idempotent CREATE TABLE IF NOT EXISTS) on
 // server start, so a fresh Hostinger database is set up automatically.
-import process from "node:process";
 import { createHash } from "node:crypto";
 import type { RowDataPacket } from "mysql2/promise";
 import schemaSql from "../../../db/mysql/schema.sql?raw";

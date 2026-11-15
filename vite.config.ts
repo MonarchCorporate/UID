@@ -38,6 +38,28 @@ export default __stub;`,
   };
 }
 
+// Hostinger runs Node.js behind LiteSpeed without a usable stdin. An ESM
+// import of "node:process" builds a facade that reads process.stdin and
+// crashes there ("open EEXIST"), so server builds use the global instead.
+function processGlobalShim(): Plugin {
+  const ID = "\0process-global";
+  return {
+    name: "uid:process-global",
+    enforce: "pre",
+    applyToEnvironment: (env) => env.name !== "client",
+    resolveId(id) {
+      return id === "process" || id === "node:process" || id === "process/" ? ID : null;
+    },
+    load(id) {
+      if (id !== ID) return null;
+      return `const p = globalThis.process;
+export default p;
+export const env = p.env, argv = p.argv, platform = p.platform, versions = p.versions, version = p.version, pid = p.pid, arch = p.arch, execArgv = p.execArgv;
+export const nextTick = (...a) => p.nextTick(...a), cwd = () => p.cwd(), hrtime = Object.assign((...a) => p.hrtime(...a), { bigint: () => p.hrtime.bigint() }), emitWarning = (...a) => p.emitWarning(...a), memoryUsage = () => p.memoryUsage(), uptime = () => p.uptime(), exit = (c) => p.exit(c), on = (...a) => p.on(...a), once = (...a) => p.once(...a), off = (...a) => p.off(...a);`;
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_");
   const envDefine = Object.fromEntries(
@@ -60,6 +82,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       serverOnlyStub(),
+      processGlobalShim(),
       tailwindcss(),
       tsConfigPaths({ projects: ["./tsconfig.json"] }),
       // Redirect TanStack Start's server entry to src/server.ts (SSR error wrapper).

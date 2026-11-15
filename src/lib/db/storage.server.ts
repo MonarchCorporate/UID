@@ -1,7 +1,6 @@
 // File storage (replaces Supabase Storage). Objects live in the MySQL table
 // `storage_objects`; access rules mirror the former storage policies.
 import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
-import process from "node:process";
 import type { RowDataPacket } from "mysql2/promise";
 import { getPool } from "./pool.server";
 import type { DbRole } from "./types";

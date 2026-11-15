@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { timingSafeEqual } from "node:crypto";
 import { gunzipSync } from "node:zlib";
-import process from "node:process";
 import { importTables } from "@/lib/db/import.server";
 
 // One-time migration endpoint. Only active while IMPORT_TOKEN is set in the
