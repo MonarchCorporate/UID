@@ -3,6 +3,7 @@ import "./lib/error-capture";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 import { startScheduler } from "./lib/scheduler.server";
+import { maintenanceGate } from "./lib/maintenance.server";
 import { runMigrations } from "./lib/db/migrate.server";
 
 // Node.js runtime (Hostinger): create/upgrade the MySQL schema, then start
@@ -47,6 +48,8 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    const gate = maintenanceGate(request);
+    if (gate) return gate;
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);

@@ -48,3 +48,13 @@ DB_HOST=127.0.0.1 DB_NAME=uid DB_USER=uid DB_PASSWORD=… AUTH_JWT_SECRET=… np
 
 Schema ändern: `db/pg/*.json` bzw. die Generatoren in `db/tools/` anpassen und
 `python3 db/tools/gen_schema.py && python3 db/tools/gen_policies.py` ausführen.
+
+## Wartungsmodus / Coming soon
+
+Standardmäßig **aktiv**: Alle Seiten zeigen die Coming-Soon-Seite (HTTP 503),
+Bot-Hooks und Bilder laufen weiter (`src/lib/maintenance.server.ts`).
+
+- Abschalten: Umgebungsvariable `MAINTENANCE_MODE=off` im hPanel setzen.
+- Vorschau für das Team trotz Wartung: einmal `https://uid.sc/?preview=<KEY>`
+  öffnen (setzt ein Cookie für 30 Tage), `?preview=off` beendet die Vorschau.
+  `<KEY>` = Umgebungsvariable `MAINTENANCE_KEY` (falls gesetzt).
