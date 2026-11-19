@@ -5,6 +5,7 @@ import aresIdris from "@/assets/hero-ares-idris.jpg.asset.json";
 import { UID_CLAIM, UID_MOTTO } from "./content";
 import { UidCountUp } from "./UidCountUp";
 import { UidWarp } from "./UidWarp";
+import { QT_BOOT_SCRIPT, UidQuantumIntro } from "./UidQuantumIntro";
 
 const stats = [
   { v: "7", l: "Einsatzbereiche" },
@@ -166,19 +167,24 @@ export function UidHero() {
       ref={rootRef}
       className="uid-hero relative -mt-18 flex min-h-screen flex-col justify-end overflow-hidden"
     >
+      {/* Läuft vor dem ersten Paint: entscheidet, ob das Quantensprung-Intro spielt */}
+      <script dangerouslySetInnerHTML={{ __html: QT_BOOT_SCRIPT }} />
+      <UidQuantumIntro />
       {/* Bildebene mit langsamem Ken-Burns-Zoom + Parallax */}
       <div
         className="uid-par uid-par-back absolute inset-0"
         style={{ ["--scrollY" as string]: `${offset * 0.28}px` }}
         aria-hidden
       >
-        <img
-          src={aresIdris.url}
-          alt="Verbündete Flottenverbände der United Imperial Dominion im Orbit"
-          width={3840}
-          height={2160}
-          className="uid-kenburns h-full w-full object-cover"
-        />
+        <div className="uid-arrive-ship">
+          <img
+            src={aresIdris.url}
+            alt="Verbündete Flottenverbände der United Imperial Dominion im Orbit"
+            width={3840}
+            height={2160}
+            className="uid-kenburns h-full w-full object-cover"
+          />
+        </div>
       </div>
 
       {/* Vignette / Verlauf */}
@@ -197,6 +203,16 @@ export function UidHero() {
         <div className="uid-scanline h-px w-full bg-gradient-to-r from-transparent via-brand/40 to-transparent" />
       </div>
 
+      {/* Dezenter HUD-Rahmen */}
+      <div className="uid-hud-frame" aria-hidden>
+        <i />
+        <i />
+        <i />
+        <i />
+        <div className="uid-hud-compass" />
+        <UidHudReadouts />
+      </div>
+
       {/* Inhalt */}
       <div
         className="uid-par uid-par-front relative mx-auto w-full max-w-6xl px-6 pb-16 pt-36 md:pb-20 md:pt-44"
@@ -209,7 +225,15 @@ export function UidHero() {
           </span>
         </div>
 
-        <h1 className="mt-6 font-display leading-[0.92] tracking-tight text-foreground">
+        <div className="uid-lock mt-6">
+          <span className="uid-lock-corner" data-c="tl" aria-hidden />
+          <span className="uid-lock-corner" data-c="tr" aria-hidden />
+          <span className="uid-lock-corner" data-c="bl" aria-hidden />
+          <span className="uid-lock-corner" data-c="br" aria-hidden />
+          <span className="uid-lock-tag" aria-hidden>
+            Ziel erfasst
+          </span>
+        <h1 className="font-display leading-[0.92] tracking-tight text-foreground">
           <span
             className="uid-rise block text-4xl md:text-7xl lg:text-8xl"
             style={{ animationDelay: "180ms" }}
@@ -223,6 +247,7 @@ export function UidHero() {
             DOMINION
           </span>
         </h1>
+        </div>
 
         <p
           className="uid-rise mt-6 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-lg"
@@ -287,5 +312,32 @@ export function UidHero() {
         <ChevronDown className="uid-cue size-6" />
       </a>
     </section>
+  );
+}
+/** Rechte HUD-Spalte: Systemzeit und Kurs, folgt dezent dem Cursor. */
+function UidHudReadouts() {
+  const [now, setNow] = useState<string>("");
+  useEffect(() => {
+    const tick = () =>
+      setNow(new Date().toLocaleTimeString("de-DE", { timeZone: "UTC", hour12: false }));
+    tick();
+    const id = window.setInterval(tick, 1000);
+    return () => window.clearInterval(id);
+  }, []);
+  return (
+    <div className="uid-hud-side">
+      <div>
+        System
+        <b>Stanton</b>
+      </div>
+      <div>
+        Standardzeit
+        <b>{now || "--:--:--"}</b>
+      </div>
+      <div>
+        Verband
+        <b>UID · aktiv</b>
+      </div>
+    </div>
   );
 }
