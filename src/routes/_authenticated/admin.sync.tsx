@@ -389,8 +389,8 @@ function SyncPage() {
               icon={ShipIcon}
               title="Schiffspreise (aUEC)"
               desc="Gleicht In-Game-Kaufpreise, Kaufterminals und Mietpreise mit der Star-Citizen-Wiki-API (UEX) ab."
-              count={data?.ships.count}
-              last={null}
+              count={data?.shipPrices?.count ?? data?.ships.count}
+              last={data?.shipPrices?.last_synced_at ?? null}
               busy={
                 busy === "shipPrices" ||
                 (runAll.isPending && runAllStep === "shipPrices")

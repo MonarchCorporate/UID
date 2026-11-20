@@ -70,6 +70,7 @@ export const getSyncOverview = createServerFn({ method: "GET" })
       missionsAgg,
       components,
       ships,
+      shipPrices,
       fleet,
       lastFleetRun,
       wikiItems,
@@ -95,6 +96,7 @@ export const getSyncOverview = createServerFn({ method: "GET" })
       })(),
       countAndLatest("ship_components_catalog", "last_synced_at"),
       countAndLatest("ship_catalog", "synced_at"),
+      countAndLatest("ship_catalog", "price_synced_at"),
       countAndLatest("fleet_ships", "updated_at"),
       supabaseAdmin
         .from("fleet_sync_runs")
@@ -111,6 +113,7 @@ export const getSyncOverview = createServerFn({ method: "GET" })
       missions: missionsAgg,
       components,
       ships,
+      shipPrices,
       fleet,
       wikiItems,
       lastFleetRun: lastFleetRun.data
