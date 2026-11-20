@@ -17,6 +17,9 @@ const JOBS: Job[] = [
   { name: "sync-wiki-items-daily", path: "sync-wiki-items", minute: 0, hour: 4 },
   { name: "sync-wiki-blueprints-daily", path: "sync-wiki-blueprints", minute: 0, hour: 4 },
   { name: "sync-sccrafter-daily", path: "sync-sccrafter", minute: 30, hour: 4 },
+  // Liefen bei Lovable nie automatisch – jetzt täglich nach den Katalog-Syncs
+  { name: "sync-ship-prices-daily", path: "sync-ship-prices", minute: 0, hour: 5 },
+  { name: "sync-stock-loadouts-wiki-daily", path: "sync-stock-loadouts-wiki", minute: 15, hour: 5 },
   { name: "giveaways-tick", path: "giveaways-tick", minute: 5, hour: "*", body: { source: "cron" } },
   { name: "treasury-monthly-tick", path: "treasury-monthly", minute: 5, hour: "*" },
 ];
