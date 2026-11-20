@@ -6,6 +6,8 @@ import { UID_CLAIM, UID_MOTTO } from "./content";
 import { UidCountUp } from "./UidCountUp";
 import { UidWarp } from "./UidWarp";
 import { QT_BOOT_SCRIPT, UidQuantumIntro } from "./UidQuantumIntro";
+import { UidDecodeText } from "./UidDecodeText";
+import { UidRadar } from "./UidRadar";
 
 const stats = [
   { v: "7", l: "Einsatzbereiche" },
@@ -210,14 +212,14 @@ export function UidHero() {
         <i />
         <i />
         <div className="uid-hud-compass" />
-        <UidHudReadouts />
       </div>
 
       {/* Inhalt */}
       <div
-        className="uid-par uid-par-front relative mx-auto w-full max-w-6xl px-6 pb-16 pt-36 md:pb-20 md:pt-44"
-        style={{ opacity: Math.max(0, 1 - offset / 620) }}
+        className="uid-par uid-par-front relative mx-auto grid w-full max-w-7xl items-end gap-10 px-6 pb-16 pt-36 md:pb-20 md:pt-44 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] uid-hero-content"
+        style={{ ["--fade" as string]: Math.max(0, 1 - offset / 620).toFixed(3) }}
       >
+        <div>
         <div className="uid-rise flex items-center gap-3" style={{ animationDelay: "80ms" }}>
           <span className="uid-pulse-dot size-1.5 rounded-full bg-brand" />
           <span className="font-mono text-[10px] uppercase tracking-[0.45em] text-brand">
@@ -235,16 +237,16 @@ export function UidHero() {
           </span>
         <h1 className="font-display leading-[0.92] tracking-tight text-foreground">
           <span
-            className="uid-rise block text-4xl md:text-7xl lg:text-8xl"
+            className="uid-rise block whitespace-nowrap text-4xl md:text-6xl xl:text-7xl"
             style={{ animationDelay: "180ms" }}
           >
-            UNITED IMPERIAL
+            <UidDecodeText text="UNITED IMPERIAL" trigger="arrival" delay={260} step={42} />
           </span>
           <span
-            className="uid-rise uid-sweep relative mt-1 block overflow-hidden text-4xl text-brand md:text-7xl lg:text-8xl"
+            className="uid-rise uid-sweep relative mt-1 block overflow-hidden text-4xl text-brand md:text-6xl xl:text-7xl"
             style={{ animationDelay: "320ms" }}
           >
-            DOMINION
+            <UidDecodeText text="DOMINION" trigger="arrival" delay={760} step={55} />
           </span>
         </h1>
         </div>
@@ -282,6 +284,12 @@ export function UidHero() {
         >
           {UID_MOTTO}
         </p>
+        </div>
+
+        {/* Verbund-Scanner */}
+        <div className="uid-rise" style={{ animationDelay: "520ms" }}>
+          <UidRadar />
+        </div>
       </div>
 
       {/* Statuszeile unten */}
@@ -299,6 +307,9 @@ export function UidHero() {
               <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
                 {s.l}
               </div>
+              <div className="uid-telemetry" aria-hidden>
+                <i style={{ animationDelay: `${1100 + i * 140}ms`, ["--fill" as string]: ["70%", "100%", "100%", "86%"][i] }} />
+              </div>
             </div>
           ))}
         </div>
@@ -312,32 +323,5 @@ export function UidHero() {
         <ChevronDown className="uid-cue size-6" />
       </a>
     </section>
-  );
-}
-/** Rechte HUD-Spalte: Systemzeit und Kurs, folgt dezent dem Cursor. */
-function UidHudReadouts() {
-  const [now, setNow] = useState<string>("");
-  useEffect(() => {
-    const tick = () =>
-      setNow(new Date().toLocaleTimeString("de-DE", { timeZone: "UTC", hour12: false }));
-    tick();
-    const id = window.setInterval(tick, 1000);
-    return () => window.clearInterval(id);
-  }, []);
-  return (
-    <div className="uid-hud-side">
-      <div>
-        System
-        <b>Stanton</b>
-      </div>
-      <div>
-        Standardzeit
-        <b>{now || "--:--:--"}</b>
-      </div>
-      <div>
-        Verband
-        <b>UID · aktiv</b>
-      </div>
-    </div>
   );
 }

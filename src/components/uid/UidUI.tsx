@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { useReveal } from "@/hooks/use-reveal";
 import { UidBackdrop, type BackdropVariant } from "./UidBackdrop";
 import { stagger } from "./UidBento";
+import { UidDecodeText } from "./UidDecodeText";
 
 export function SectionLabel({ children }: { children: ReactNode }) {
   return (
@@ -35,7 +36,7 @@ export function SectionHeader({
         className="uid-item mt-4 font-display text-2xl leading-tight tracking-tight text-foreground md:text-4xl"
         style={{ ["--d" as string]: "90ms" }}
       >
-        {title}
+        <UidDecodeText text={title} trigger="visible" delay={220} step={22} />
       </h2>
       {intro?.map((p, i) => (
         <p
