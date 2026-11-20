@@ -384,6 +384,8 @@ export type ShipCatalogSummary = {
   priceUec: number | null;
   pledgePriceUsd: number | null;
   storeUrl: string | null;
+  /** Live-Kaufterminals (günstigste zuerst), aus dem täglichen Preis-Abgleich. */
+  buyAt: { name: string; location: string; price: number }[];
 };
 
 /** Public: list all known ships for the catalog overview. */
@@ -392,7 +394,7 @@ export const listShipCatalog = createServerFn({ method: "GET" }).handler(
     const { data, error } = await supabaseAdmin
       .from("ship_catalog")
       .select(
-        "slug,name,manufacturer,manufacturer_code,classification,classification_label,focus,size,size_label,length_m,crew_max,cargo_scu,production_status,hero_image,store_image,angled_view,front_view,price_uec,pledge_price_usd,store_url",
+        "slug,name,manufacturer,manufacturer_code,classification,classification_label,focus,size,size_label,length_m,crew_max,cargo_scu,production_status,hero_image,store_image,angled_view,front_view,price_uec,pledge_price_usd,store_url,price_uec_terminals",
       )
       .not("fleetyards_url", "is", null);
     if (error) {
@@ -423,6 +425,15 @@ export const listShipCatalog = createServerFn({ method: "GET" }).handler(
       priceUec: num(r.price_uec),
       pledgePriceUsd: num(r.pledge_price_usd),
       storeUrl: (r.store_url as string) ?? null,
+      buyAt: ((r.price_uec_terminals as ShipPriceTerminalEntry[] | null) ?? [])
+        .slice()
+        .sort((a, b) => a.price - b.price)
+        .slice(0, 4)
+        .map((t) => ({
+          name: t.terminal,
+          location: [t.location, t.system].filter(Boolean).join(", "),
+          price: t.price,
+        })),
     }));
     return fromDb.filter((s) => s.image !== null);
   },

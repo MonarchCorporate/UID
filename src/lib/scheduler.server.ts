@@ -6,7 +6,14 @@ import type { ResultSetHeader } from "mysql2/promise";
 import { getPool } from "@/lib/db/pool.server";
 import { toDbTimestamp } from "@/lib/db/values";
 
-type Job = { name: string; path: string; minute: number; hour: number | "*"; body?: unknown };
+type Job = {
+  name: string;
+  path?: string;
+  fn?: () => Promise<unknown>;
+  minute: number;
+  hour: number | "*";
+  body?: unknown;
+};
 
 // Times are UTC, same as the former pg_cron schedules.
 const JOBS: Job[] = [
@@ -22,6 +29,20 @@ const JOBS: Job[] = [
   { name: "sync-stock-loadouts-wiki-daily", path: "sync-stock-loadouts-wiki", minute: 15, hour: 5 },
   { name: "giveaways-tick", path: "giveaways-tick", minute: 5, hour: "*", body: { source: "cron" } },
   { name: "treasury-monthly-tick", path: "treasury-monthly", minute: 5, hour: "*" },
+  // Patch-Wächter: neue Spielversion → sofortiger Abgleich aller Kataloge
+  {
+    name: "patch-watch-hourly",
+    minute: 20,
+    hour: "*",
+    fn: async () => (await import("@/lib/game-data.server")).checkForNewPatch(),
+  },
+  // Daten-Gesundheit: veraltete Quellen per Discord melden
+  {
+    name: "data-health-hourly",
+    minute: 40,
+    hour: "*",
+    fn: async () => (await import("@/lib/game-data.server")).checkDataHealth(),
+  },
 ];
 
 /** Start of the most recent slot (UTC) at or before `now` for this job. */
@@ -43,6 +64,10 @@ function baseUrl(): string {
 }
 
 async function runJob(job: Job) {
+  if (job.fn) {
+    const r = await job.fn();
+    return `ok ${JSON.stringify(r ?? {}).slice(0, 180)}`;
+  }
   const secret = process.env.HOOK_SECRET;
   if (!secret) return "skipped: HOOK_SECRET not set";
   const res = await fetch(`${baseUrl()}/api/public/hooks/${job.path}`, {

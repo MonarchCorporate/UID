@@ -499,6 +499,8 @@ export function ShipDetailBody({
           )}
 
           {(() => {
+            // Nur als Rückfall, wenn der Preis-Abgleich keine Live-Terminals kennt
+            if (s.priceUecTerminals.length > 0) return null;
             const info = lookupShops(s.name);
             if (!info || info.shops.length === 0) return null;
             return (

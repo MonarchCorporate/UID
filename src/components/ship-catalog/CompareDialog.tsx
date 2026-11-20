@@ -177,7 +177,8 @@ export function CompareDialog({ open, onOpenChange, ships }: Props) {
                   In-Game-Shops
                 </td>
                 {ships.map((s) => {
-                  const info = lookupShops(s.name);
+                  const live = s.buyAt?.length ? s.buyAt.map((t) => ({ name: t.name, location: t.location })) : null;
+                  const info = live ? { shops: live } : lookupShops(s.name);
                   return (
                     <td
                       key={s.slug}

@@ -242,8 +242,12 @@ function CatalogCard({
   const fmtUec = (n: number) => `${new Intl.NumberFormat("de-DE").format(n)} aUEC`;
   const fmtUsd = (n: number) =>
     `$${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n)}`;
-  const shopInfo = lookupShops(s.name);
-  const priceUec = s.priceUec ?? shopInfo?.basePrice ?? null;
+  const staticShops = lookupShops(s.name);
+  // Live-Terminals aus dem täglichen Preis-Abgleich; die alte Liste nur als Rückfall
+  const shops = s.buyAt?.length
+    ? s.buyAt.map((t) => ({ name: t.name, location: t.location }))
+    : (staticShops?.shops ?? []);
+  const priceUec = s.priceUec ?? staticShops?.basePrice ?? null;
   return (
     <Link
       to="/flotte/$slug"
@@ -309,13 +313,13 @@ function CatalogCard({
           <Stat label="Im Spiel" value={priceUec !== null ? fmtUec(priceUec) : null} />
           <Stat label="Pledge" value={s.pledgePriceUsd !== null ? fmtUsd(s.pledgePriceUsd) : null} />
         </div>
-        {shopInfo && shopInfo.shops.length > 0 && (
+        {shops.length > 0 && (
           <div className="border-t border-brand/10 pt-3">
             <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-brand/50">
               Erhältlich bei
             </div>
             <ul className="mt-1 space-y-0.5 text-[11px] text-foreground/85">
-              {shopInfo.shops.map((sh) => (
+              {shops.map((sh) => (
                 <li key={sh.name}>
                   <span className="text-foreground">{sh.name}</span>
                   <span className="text-muted-foreground/70"> · {sh.location}</span>

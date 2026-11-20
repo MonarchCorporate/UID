@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
+import { DataStatusBadge } from "@/components/dashboard/DataStatusBadge";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -114,6 +115,7 @@ function AuthLayout() {
             <div className="hidden sm:block h-5 w-px bg-brand/25" />
             <BrandingHeaderName />
             <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2">
+              <DataStatusBadge isAdmin={isAdmin} />
               <NotificationBell userId={user.id} />
               <button
                 type="button"

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { UidPage } from "@/components/uid/UidPage";
 import { COMMODITIES } from "@/data/commodities";
+import { listCommodityNames } from "@/lib/game-locations.functions";
 import {
   addCargo,
   addStation,
@@ -781,6 +782,12 @@ function CargoEditor({
   const [qty, setQty] = useState("");
   const [quality, setQuality] = useState("");
   const [transferFor, setTransferFor] = useState<BoardState["cargo"][number] | null>(null);
+  const commodityFn = useServerFn(listCommodityNames);
+  const { data: commodityNames } = useQuery({
+    queryKey: ["uex-commodity-names"],
+    queryFn: () => commodityFn(),
+    staleTime: 6 * 60 * 60 * 1000,
+  });
 
   const addFn = useServerFn(addCargo);
   const addM = useMutation({
@@ -898,7 +905,7 @@ function CargoEditor({
           className="border border-white/10 bg-background px-2 py-1.5 text-sm focus:border-brand focus:outline-none"
         />
         <datalist id="commodity-list">
-          {COMMODITIES.map((c) => <option key={c} value={c} />)}
+          {(commodityNames ?? COMMODITIES).map((c) => <option key={c} value={c} />)}
         </datalist>
         <div className="grid grid-cols-[1fr_auto] gap-2">
           <input

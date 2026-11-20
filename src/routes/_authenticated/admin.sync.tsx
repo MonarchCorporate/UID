@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { PatchWatchPanel } from "@/components/admin/PatchWatchPanel";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -297,6 +298,8 @@ function SyncPage() {
                 : "Alles aktualisieren"}
             </button>
           </div>
+
+          <PatchWatchPanel />
 
           {runAllLog.length > 0 && (
             <div className="mt-6 border border-brand/20 bg-brand/5 p-4">

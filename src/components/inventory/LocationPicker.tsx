@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -24,6 +24,7 @@ import {
   type InventoryLocation,
 } from "@/lib/inventory.functions";
 import { SC_LOCATIONS, type SCLocationPreset } from "@/data/sc-locations";
+import { listGameLocations } from "@/lib/game-locations.functions";
 import { toast } from "sonner";
 
 export type PickedLocation = {
@@ -81,14 +82,23 @@ export function LocationPicker({
     [locations],
   );
 
+  // Live-Orte aus UEX (Städte, Stationen, Außenposten), Presets als Rückfall
+  const liveLocFn = useServerFn(listGameLocations);
+  const { data: liveLocations } = useQuery({
+    queryKey: ["game-locations"],
+    queryFn: () => liveLocFn(),
+    staleTime: 6 * 60 * 60 * 1000,
+  });
+  const allPresets = liveLocations ?? SC_LOCATIONS;
+
   const presetsBySystem = useMemo(() => {
     const m = new Map<string, SCLocationPreset[]>();
-    for (const p of SC_LOCATIONS) {
+    for (const p of allPresets) {
       if (!m.has(p.system)) m.set(p.system, []);
       m.get(p.system)!.push(p);
     }
     return Array.from(m.entries());
-  }, []);
+  }, [allPresets]);
 
   const pickPreset = useMutation({
     mutationFn: async (p: SCLocationPreset) => {

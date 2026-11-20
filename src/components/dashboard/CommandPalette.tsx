@@ -1,4 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { globalSearch, type SearchHit } from "@/lib/global-search.functions";
+import { proxyImage } from "@/lib/proxy-image";
 import { useNavigate } from "@tanstack/react-router";
 import {
   CommandDialog,
@@ -34,7 +38,20 @@ import {
   ExternalLink,
   LogOut,
   RefreshCw,
+  Cpu,
+  Gem,
+  Crosshair,
+  Loader2,
 } from "lucide-react";
+
+const HIT_ICONS: Record<SearchHit["group"], React.ComponentType<{ className?: string }>> = {
+  Schiffe: Ship,
+  Komponenten: Cpu,
+  Items: Package,
+  Materialien: Gem,
+  Blueprints: FileText,
+  Missionen: Crosshair,
+};
 
 type Entry = {
   label: string;
@@ -97,6 +114,34 @@ export function CommandPalette({
   onSignOut: () => void;
 }) {
   const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+  const [debounced, setDebounced] = useState("");
+  useEffect(() => {
+    const t = window.setTimeout(() => setDebounced(query.trim()), 180);
+    return () => window.clearTimeout(t);
+  }, [query]);
+  useEffect(() => {
+    if (!open) setQuery("");
+  }, [open]);
+
+  const searchFn = useServerFn(globalSearch);
+  const search = useQuery({
+    queryKey: ["global-search", debounced],
+    queryFn: () => searchFn({ data: { q: debounced, limit: 5 } }),
+    enabled: open && debounced.length >= 2,
+    staleTime: 60_000,
+    placeholderData: (prev) => prev,
+  });
+  const hits = (debounced.length >= 2 ? (search.data ?? []) : []).filter(
+    (h, i, all) => all.findIndex((o) => o.group === h.group && o.label === h.label && o.detail === h.detail) === i,
+  );
+  const hitGroups = Array.from(new Set(hits.map((h) => h.group)));
+
+  const goHit = (h: SearchHit) => {
+    onOpenChange(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    navigate({ to: h.to as any, params: h.params as any });
+  };
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -120,9 +165,62 @@ export function CommandPalette({
 
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange}>
-      <CommandInput placeholder="Zu Bereich springen oder Aktion ausführen…" />
-      <CommandList>
-        <CommandEmpty>Keine Treffer.</CommandEmpty>
+      <CommandInput
+        value={query}
+        onValueChange={setQuery}
+        placeholder="Schiff, Item, Blueprint, Material suchen – oder zu Bereich springen…"
+      />
+      <CommandList className="max-h-[min(70vh,520px)]">
+        <CommandEmpty>
+          {search.isFetching ? (
+            <span className="inline-flex items-center gap-2 text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" /> Suche …
+            </span>
+          ) : debounced.length >= 2 ? (
+            "Nichts gefunden. Probiere einen kürzeren Begriff."
+          ) : (
+            "Keine Treffer."
+          )}
+        </CommandEmpty>
+        {hitGroups.map((g) => {
+          const Icon = HIT_ICONS[g];
+          return (
+            <CommandGroup key={`hit-${g}`} heading={g}>
+              {hits
+                .filter((h) => h.group === g)
+                .map((h) => (
+                  <CommandItem
+                    key={`${g}-${h.label}-${Object.values(h.params).join("-")}`}
+                    // Treffer kommen vom Server – immer zum Suchbegriff passend halten
+                    value={`${query} ${h.label} ${g} ${Object.values(h.params).join(" ")}`}
+                    onSelect={() => goHit(h)}
+                    className="gap-3"
+                  >
+                    {h.image ? (
+                      <img
+                        src={proxyImage(h.image) ?? h.image}
+                        alt=""
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.style.visibility = "hidden";
+                        }}
+                        className="h-8 w-8 shrink-0 rounded-md border border-brand/15 bg-brand/5 object-contain"
+                      />
+                    ) : (
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-brand/15 bg-brand/5">
+                        <Icon className="h-4 w-4 text-brand" />
+                      </span>
+                    )}
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-foreground">{h.label}</span>
+                      {h.detail && <span className="block truncate text-xs text-muted-foreground">{h.detail}</span>}
+                    </span>
+                  </CommandItem>
+                ))}
+            </CommandGroup>
+          );
+        })}
+        {hitGroups.length > 0 && <CommandSeparator />}
         {groups.map((g, idx) => (
           <div key={g}>
             {idx > 0 && <CommandSeparator />}
