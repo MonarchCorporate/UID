@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { AcquisitionCard } from "@/components/catalog/AcquisitionCard";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { getMaterialDetail } from "@/lib/materials.functions";
@@ -128,6 +129,9 @@ function MaterialDetailPage() {
               )}
             </div>
           </header>
+
+          {/* BESCHAFFUNG */}
+          <AcquisitionCard itemRef={decoded} name={data.name} />
 
           {/* ACQUISITION */}
           <section className="space-y-3">

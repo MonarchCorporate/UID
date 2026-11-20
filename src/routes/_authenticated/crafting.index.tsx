@@ -22,6 +22,8 @@ import {
 import { cn } from "@/lib/utils";
 import { Hammer, FileText } from "lucide-react";
 import { CraftingPanel } from "@/components/crafting/CraftingPanel";
+import { CraftableOverview } from "@/components/crafting/CraftableOverview";
+import { Sparkles } from "lucide-react";
 import { PageShell, SectionHeader } from "@/components/layout/PageShell";
 
 export const Route = createFileRoute("/_authenticated/crafting/")({
@@ -78,6 +80,11 @@ function CraftingPage() {
         </>
       }
     >
+      <section className="space-y-3">
+        <SectionHeader icon={Sparkles} title="Was kann ich bauen?" subtitle="// aus deinen blueprints & deinem inventar" />
+        <CraftableOverview blueprints={blueprints} loading={bpQ.isLoading} onPick={setBlueprintId} />
+      </section>
+
       <section className="space-y-3">
         <SectionHeader
           icon={FileText}
@@ -152,7 +159,7 @@ function CraftingPage() {
         </div>
       </section>
 
-      <section className="space-y-3">
+      <section id="crafting-recipe" className="scroll-mt-20 space-y-3">
         <SectionHeader
           icon={Hammer}
           title="Rezept & Materialien"

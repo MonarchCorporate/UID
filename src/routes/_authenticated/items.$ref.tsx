@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { AcquisitionCard } from "@/components/catalog/AcquisitionCard";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -72,8 +73,8 @@ function ItemDetailPage() {
           {/* HEADER */}
           <Header data={data} wiki={wiki ?? null} />
 
-          {/* MAPPING STATUS */}
-          <MappingSection data={data} decoded={decoded} />
+          {/* BESCHAFFUNG: kaufen, craften, Orga, Schwarzes Brett */}
+          <AcquisitionCard itemRef={decoded} name={data.catalog?.name ?? data.component?.name ?? null} />
 
           {/* WIKI DETAILS */}
           <WikiSection wiki={wiki ?? null} loading={wikiLoading} />
@@ -294,6 +295,8 @@ function ItemDetailPage() {
               </div>
             )}
           </Section>
+          {/* MAPPING STATUS (technische Details, bewusst am Ende) */}
+          <MappingSection data={data} decoded={decoded} />
         </>
       )}
     </div>

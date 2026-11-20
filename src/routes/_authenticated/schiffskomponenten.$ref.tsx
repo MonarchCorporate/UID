@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { AcquisitionCard } from "@/components/catalog/AcquisitionCard";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -200,6 +201,9 @@ function ComponentDetailPage() {
               </div>
             </div>
           </header>
+
+          {/* BESCHAFFUNG */}
+          <AcquisitionCard itemRef={decoded} name={data.name ?? null} />
 
           {/* BLUEPRINT */}
           {data.blueprint && (
