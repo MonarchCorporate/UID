@@ -12,7 +12,7 @@ const MAX_EVENTS = 1000;
 const TYPES = new Set([
   "session_start", "session_end", "game_version", "login", "join_pu", "location", "vehicle_control",
   "vehicle_destruction", "actor_death", "mission", "mission_ended", "zone", "notification",
-  "inventory_move", "shop_buy", "blueprint", "cargo_buy", "cargo_sell",
+  "inventory_move", "item_drop", "shop_buy", "blueprint", "cargo_buy", "cargo_sell",
 ]);
 
 type Ev = {
@@ -65,6 +65,7 @@ export function summarize(e: { type: string; data: Record<string, string> }): st
       const to = d.to_type === "dropped" ? "" : ` → ${containerName(d.to_type, d.to_name)}`;
       return `${Number(d.amount) > 1 ? d.amount + "× " : ""}${itemName(d.item)} ${MOVE_VERB[d.action] || "bewegt"}: ${containerName(d.from_type, d.from_name)}${to}`;
     }
+    case "item_drop": return `${itemName(d.item)} abgelegt${d.location ? " in " + placeName(d.location) : ""}`;
     case "shop_buy": return `${Number(d.quantity) > 1 ? d.quantity + "× " : ""}${itemName(d.item)} gekauft${d.location ? " in " + placeName(d.location) : ""}`;
     default: return e.type;
   }
@@ -321,6 +322,12 @@ async function applyEffects(e: Ev, device: Device, at: string, flags: Flags) {
       if (d.to_type === "location" && d.to_name) await setLive(uid, { location: d.to_name });
       flags.inventory = true;
       if (d.action === "take" && d.from_type !== "location" && (await planGot(uid, d.item, qty))) flags.plan = true;
+      break;
+    }
+    case "item_drop": {
+      // taken from an inventory into the hands and put down in the world (4.10: [ActorState] Place)
+      await takeItem(uid, d.item, Math.max(1, Number(d.amount) || 1), d.from_type || "body", d.from_name || "Am Körper");
+      flags.inventory = true;
       break;
     }
     case "session_end":
