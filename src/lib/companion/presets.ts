@@ -20,6 +20,19 @@ const DIRECT: Record<string, string> = {
   RR_JP_StantonPyro: "stanton:pyro-gateway",
   RR_JP_StantonMagnus: "stanton:magnus-gateway",
   RR_JP_StantonTerra: "stanton:terra-gateway",
+  // presets whose label differs from the game's name (checked against global.ini 4.10)
+  Stanton1_DistributionCenter_Greycat_01: "stanton:dc-greycat",
+  Stanton3a_Shubin_001: "stanton:shubin-sal2",
+  Stanton3a_Shubin_002: "stanton:shubin-sal5",
+  Stanton4a_Shubin_001: "stanton:shubin-sm-c6",
+  Stanton4a_Shubin_002: "stanton:shubin-sm-c8",
+  Stanton2c_Rayari_001: "stanton:deakins-research",
+  Stanton2a_Rayari_001: "stanton:hickes-research",
+  Stanton4a_Rayari_001: "stanton:rayari-kaltag",
+  Stanton4a_Rayari_002: "stanton:rayari-anvik",
+  Stanton4b_Rayari_001: "stanton:rayari-mcgrath",
+  Stanton4b_Rayari_002: "stanton:rayari-cantwell",
+  Stanton4_Rayari_001: "stanton:rayari-deltana",
 };
 
 const norm = (s: string) => s.toLowerCase().replace(/\([^)]*\)/g, "").replace(/[^a-z0-9]+/g, "");

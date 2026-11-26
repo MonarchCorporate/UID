@@ -80,23 +80,42 @@ export function shipName(cls: unknown): string {
   return ((maker ? maker + ' ' : '') + titleWords(parts)).trim();
 }
 
-const PSS: Record<number, string> = { 1: "People's Service Station Alpha" };
+import { PLACE_TABLE } from "./place-table";
+
+let PLACE_LOWER: Record<string, string> | null = null;
+
+// Game.log ids that differ from the game's text keys (after sc-inventory-tracker, MIT)
+const PLACE_RULES: Array<[RegExp, string]> = [
+  [/^AsteroidClusterBase_Nyx_Social_[A-Za-z]+_(\d+)$/, 'Nyx_SocialStation_$1'],
+  [/^RR_HUR_LEO$/, 'Stanton1_Transfer'], [/^RR_CRU_LEO$/, 'Stanton2_Transfer_Seraphim'],
+  [/^RR_ARC_LEO$/, 'Stanton3_Transfer'], [/^RR_MIC_LEO$/, 'Stanton4_Transfer'],
+  [/^RR_(P\d)_LEO$/, 'RR_$1'], [/^Nyx_Levski$/, 'Delamar_Levski'],
+  [/^PrisonMine_Stanton1b$/, 'Stanton1b_Aberdeen_Prison'],
+];
+
+function tablePlace(key: string): string {
+  if (PLACE_TABLE[key]) return PLACE_TABLE[key];
+  if (!PLACE_LOWER) { PLACE_LOWER = {}; for (const k in PLACE_TABLE) PLACE_LOWER[k.toLowerCase()] = PLACE_TABLE[k]; }
+  return PLACE_LOWER[key.toLowerCase()] || '';
+}
 
 export function placeName(code: unknown): string {
   let s = String(code || '').trim();
   if (!s) return '';
-  if (PLACES[s]) return PLACES[s];
+  let t = tablePlace(s); // official name from the game's text
+  if (t) return t;
+  for (const [re, rep] of PLACE_RULES) {
+    if (re.test(s) && (t = tablePlace(s.replace(re, rep)))) return t;
+  }
   let jp = /^RR_JP_([A-Z][a-z]+)([A-Z][a-z]+)$/.exec(s); // jump point stations, e.g. RR_JP_StantonPyro
-  if (jp) return jp[2] + ' Gateway (' + jp[1] + ')';
+  if (jp) return (tablePlace(jp[1] + '_' + jp[2] + '_JPStation') || jp[2] + ' Gateway') + ' (' + jp[1] + ')';
+  if (PLACES[s]) return PLACES[s];
   let rr = /^RR_([A-Z]{3})_L(\d)$/.exec(s);
   if (rr) return rr[1] + '-L' + rr[2];
   let pyro = /^RR_P(\d)_LEO$/.exec(s);
   if (pyro) return 'Pyro ' + pyro[1] + ' Station';
   let op = /^Outpost_(PAF|OLP)_[A-Za-z0-9]+_([A-Za-z]+)(?:_(\d))?$/.exec(s);
   if (op) return op[2] + ' ' + op[1] + (op[3] && op[1] === 'PAF' ? '-' + (['', 'I', 'II', 'III', 'IV', 'V'][Number(op[3])] || op[3]) : '');
-  // People's Service Stations in Nyx; the code names the asteroid belt (Keeger), not the station
-  const pss = /^AsteroidClusterBase_Nyx_Social_[A-Za-z]+_(\d+)$/.exec(s);
-  if (pss) return PSS[Number(pss[1])] || "People's Service Station " + Number(pss[1]) + ' (Nyx)';
   let m = /^(Stanton\d[a-d]?)_(.+)$/.exec(s);
   if (m) {
     let parent = PLACES[m[1]];
