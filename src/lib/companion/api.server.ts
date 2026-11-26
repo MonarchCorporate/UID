@@ -12,7 +12,8 @@ import { randomBytes, randomUUID } from "node:crypto";
 import companionInfo from "../../../public/downloads/companion.json?raw";
 import type { RowDataPacket } from "mysql2/promise";
 import { deviceFromRequest, newDeviceToken, q, q1, run, sha256, sqlDate, type Device } from "./db.server";
-import { addItem, ingest } from "./ingest.server";
+import { addItemAt, ingest, locationFor } from "./ingest.server";
+import { locationKey } from "./presets";
 import { containerName, itemName, placeName, categoryLabel, itemCategory } from "./names";
 import { planApply, planList } from "./plan.server";
 import { mining, routes, tradeAt } from "./trade.server";
@@ -112,7 +113,7 @@ export async function getPairing(code: string) {
 const SC_KEY = /^sc:(location|ship|body|other):(.*)$/;
 
 /** Inventory of a user in the shape the overlay renders. */
-export async function overview(userId: string) {
+export async function overview(userId: string, codes: { location?: string | null; ship?: string | null } = {}) {
   const [locs, items, ships, prof] = await Promise.all([
     q<RowDataPacket>("SELECT id, name, preset_key FROM inventory_locations WHERE owner_id = ?", [userId]),
     q<RowDataPacket>("SELECT id, item_ref, item_name, item_kind, qty, location_id, notes, updated_at FROM inventory_items WHERE owner_id = ? ORDER BY item_name", [userId]),
@@ -121,8 +122,11 @@ export async function overview(userId: string) {
   ]);
   const locInfo = new Map<string, { type: string; name: string; display: string }>();
   for (const l of locs) {
-    const m = SC_KEY.exec(String(l.preset_key ?? ""));
-    locInfo.set(String(l.id), m ? { type: m[1], name: m[2], display: containerName(m[1], m[2]) } : { type: "other", name: String(l.id), display: String(l.name) });
+    const pk = String(l.preset_key ?? "");
+    const m = SC_KEY.exec(pk);
+    if (m) locInfo.set(String(l.id), { type: m[1], name: m[2], display: containerName(m[1], m[2]) });
+    else if (pk) locInfo.set(String(l.id), { type: pk === "sonstige:im-rucksack" ? "body" : "location", name: `preset:${pk}`, display: String(l.name) });
+    else locInfo.set(String(l.id), { type: "other", name: String(l.id), display: String(l.name) });
   }
   const containers = new Map<string, { type: string; name: string; display: string; stacks: number; quantity: number }>();
   const outItems = items.map((it) => {
@@ -143,7 +147,18 @@ export async function overview(userId: string) {
     };
   });
   for (const l of locInfo.values()) if (!containers.has(`${l.type}:${l.name}`)) containers.set(`${l.type}:${l.name}`, { ...l, stacks: 0, quantity: 0 });
+  // the overlay knows game codes (Stanton2_Orison); tell it which container they map to
+  const aliases: Record<string, { type: string; name: string; display: string }> = {};
+  const alias = (type: string, code: string | null | undefined) => {
+    if (!code) return;
+    const k = locationKey(type, code);
+    const name = k.source === "preset" ? `preset:${k.key}` : code;
+    aliases[`${type}:${code}`] = { type: k.source === "preset" && k.key === "sonstige:im-rucksack" ? "body" : type, name, display: k.label };
+  };
+  alias("location", codes.location);
+  alias("body", "Am Körper");
   return {
+    aliases,
     user: { display_name: prof?.display_name || prof?.callsign || "", handle: prof?.rsi_handle ?? null },
     containers: [...containers.values()].sort((a, b) => a.type.localeCompare(b.type) || a.display.localeCompare(b.display)),
     items: outItems,
@@ -159,15 +174,11 @@ export async function overview(userId: string) {
 
 async function locId(userId: string, type: string, name: string): Promise<string | null> {
   if (type === "other") return name && name !== "none" ? name : null;
-  const key = `sc:${type}:${name}`.slice(0, 255);
-  const hit = await q1<RowDataPacket>("SELECT id FROM inventory_locations WHERE owner_id = ? AND preset_key = ?", [userId, key]);
-  if (hit) return String(hit.id);
-  const id = randomUUID();
-  await run(
-    "INSERT IGNORE INTO inventory_locations (id, owner_id, name, visibility, source, preset_key, created_at, updated_at) VALUES (?, ?, ?, 'private', 'companion', ?, UTC_TIMESTAMP(6), UTC_TIMESTAMP(6))",
-    [id, userId, containerName(type, name), key],
-  );
-  return String((await q1<RowDataPacket>("SELECT id FROM inventory_locations WHERE owner_id = ? AND preset_key = ?", [userId, key]))?.id ?? id);
+  if (name.startsWith("preset:")) {
+    const hit = await q1<RowDataPacket>("SELECT id FROM inventory_locations WHERE owner_id = ? AND preset_key = ?", [userId, name.slice(7)]);
+    if (hit) return String(hit.id);
+  }
+  return locationFor(userId, type, name);
 }
 
 async function changeQty(userId: string, loc: string | null, name: string, delta: number, set?: number) {
@@ -196,14 +207,7 @@ export async function inventoryAction(userId: string, b: Record<string, unknown>
   switch (action) {
     case "add": {
       const existing = await changeQty(userId, loc, name, qty);
-      if (!existing) {
-        if (type === "other") {
-          await run(
-            "INSERT INTO inventory_items (id, owner_id, item_name, item_kind, qty, location_id, visibility, unit, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 'private', 'pcs', UTC_TIMESTAMP(6), UTC_TIMESTAMP(6))",
-            [randomUUID(), userId, itemName(name) || name, itemCategory(name), qty, loc],
-          );
-        } else await addItem(userId, name, qty, type, cname);
-      }
+      if (!existing) await addItemAt(userId, name, qty, loc);
       break;
     }
     case "remove": await changeQty(userId, loc, name, -qty); break;
@@ -272,10 +276,10 @@ export async function handleCompanion(request: Request, sub: string): Promise<Re
         const r = await ingest(device, await request.json().catch(() => ({})), clientIp(request));
         return json({ ok: true, accepted: r.accepted, duplicates: r.duplicates, rejected: r.rejected });
       }
-      case "GET overview": return json(await overview(uid));
+      case "GET overview": return json(await overview(uid, { location: url.searchParams.get("location") }));
       case "POST inventory":
         await inventoryAction(uid, (await request.json().catch(() => ({}))) as Record<string, unknown>);
-        return json({ ok: true, ...(await overview(uid)) });
+        return json({ ok: true, ...(await overview(uid, { location: url.searchParams.get("location") })) });
       case "GET suggest": return json(await suggest(uid, clip(url.searchParams.get("q"), 60)));
       case "GET plan": return json({ items: await planList(uid) });
       case "POST plan":

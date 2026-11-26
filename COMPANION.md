@@ -21,6 +21,14 @@ liest die `Game.log` von Star Citizen, zeigt ein Overlay im Spiel und schreibt s
 | Login, Shard, Ort, Schiff | `companion_live`, `companion_sessions` |
 | alle Events | `companion_events` (Verlauf) |
 
+Stationen aus der Game.log werden den festen Lagerorten der Website zugeordnet (`src/data/sc-locations.ts`,
+z. B. `RR_CRU_L1` → `stanton:cru-l1`, siehe `src/lib/companion/presets.ts`); das eigene Inventar landet bei
+„Beim Spieler (Rucksack)“. So fallen erkannte und manuell gewählte Orte zusammen.
+
+Die Log-Muster sind gegen die echten Star-Citizen-4.10-Beispielzeilen des MIT-lizenzierten Projekts
+[SC-Game-log-Parser](https://github.com/CasualAlacrity/SC-Game-log-Parser) getestet; Ortsnamen-Regeln stammen
+zusätzlich aus [sc-inventory-tracker](https://github.com/Aurelius-Draco/sc-inventory-tracker) (MIT).
+
 Items werden über den Klassennamen aus dem Wiki-Sync (`raw.class_name` im Item-Katalog) zugeordnet, Schiffe über
 Herstellerkürzel + Namen im `ship_catalog`. Was nicht zugeordnet werden kann, wird mit lesbarem Namen angelegt.
 

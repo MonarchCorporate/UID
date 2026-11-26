@@ -1,5 +1,5 @@
 // Readable names for Star Citizen internal identifiers (ship/item classes,
-// location codes). Port of the companion's names.js.
+// location codes). Port of the companion's names.js – keep in sync.
 /* eslint-disable */
 
 
@@ -30,7 +30,16 @@ const PLACES: Record<string, string> = {
   Stanton1a: 'Arial', Stanton1b: 'Aberdeen', Stanton1c: 'Magda', Stanton1d: 'Ita',
   Stanton2a: 'Cellin', Stanton2b: 'Daymar', Stanton2c: 'Yela',
   Stanton3a: 'Lyria', Stanton3b: 'Wala', Stanton4a: 'Calliope', Stanton4b: 'Clio', Stanton4c: 'Euterpe',
-  GrimHex: 'GrimHEX', Pyro: 'Pyro', Nyx: 'Nyx', Levski: 'Levski',
+  GrimHex: 'GrimHEX', GrimHEX: 'GrimHEX', Pyro: 'Pyro', Nyx: 'Nyx', Levski: 'Levski', Nyx_Levski: 'Levski',
+  RR_ARC_L1: 'ARC-L1 Wide Forest Station', RR_ARC_L2: 'ARC-L2 Livewire Station', RR_ARC_L3: 'ARC-L3 Modern Express Station',
+  RR_ARC_L4: 'ARC-L4 Faithful Dream Station', RR_ARC_L5: 'ARC-L5 Yellow Core Station',
+  RR_CRU_L1: 'CRU-L1 Ambitious Dream Station', RR_CRU_L4: 'CRU-L4 Shallow Fields Station', RR_CRU_L5: 'CRU-L5 Beautiful Glen Station',
+  RR_HUR_L1: 'HUR-L1 Green Glade Station', RR_HUR_L2: 'HUR-L2 Faithful Glen Station', RR_HUR_L3: 'HUR-L3 Thundering Express Station',
+  RR_HUR_L4: 'HUR-L4 Melodic Fields Station', RR_HUR_L5: 'HUR-L5 High Course Station',
+  RR_MIC_L1: 'MIC-L1 Shallow Frontier Station', RR_MIC_L2: 'MIC-L2 Long Forest Station', RR_MIC_L3: 'MIC-L3 Endless Odyssey Station',
+  RR_MIC_L4: 'MIC-L4 Red Crossroads Station', RR_MIC_L5: 'MIC-L5 Modern Icarus Station',
+  TheCollectorAsteroid_Stanton2: 'Wikelo Emporium (Crusader)', PrisonMine_Stanton1b: 'Klescher Rehabilitation (Aberdeen)',
+  Nyx_Kaboos: 'Kaboos', INVALID_LOCATION_ID: 'Unbekannter Ort',
 };
 
 const CATEGORIES: [string, string, RegExp][] = [
@@ -75,6 +84,16 @@ export function placeName(code: unknown): string {
   let s = String(code || '').trim();
   if (!s) return '';
   if (PLACES[s]) return PLACES[s];
+  let jp = /^RR_JP_([A-Z][a-z]+)([A-Z][a-z]+)$/.exec(s); // jump point stations, e.g. RR_JP_StantonPyro
+  if (jp) return jp[2] + ' Gateway (' + jp[1] + ')';
+  let rr = /^RR_([A-Z]{3})_L(\d)$/.exec(s);
+  if (rr) return rr[1] + '-L' + rr[2];
+  let pyro = /^RR_P(\d)_LEO$/.exec(s);
+  if (pyro) return 'Pyro ' + pyro[1] + ' Station';
+  let op = /^Outpost_(PAF|OLP)_[A-Za-z0-9]+_([A-Za-z]+)(?:_(\d))?$/.exec(s);
+  if (op) return op[2] + ' ' + op[1] + (op[3] && op[1] === 'PAF' ? '-' + (['', 'I', 'II', 'III', 'IV', 'V'][Number(op[3])] || op[3]) : '');
+  let keeger = /^AsteroidClusterBase_Nyx_Social_([A-Za-z]+)_\d+$/.exec(s);
+  if (keeger) return keeger[1] + ' (Nyx)';
   let m = /^(Stanton\d[a-d]?)_(.+)$/.exec(s);
   if (m) {
     let parent = PLACES[m[1]];

@@ -6,12 +6,13 @@ import { randomUUID } from "node:crypto";
 import type { RowDataPacket } from "mysql2/promise";
 import { q, q1, run, sqlDate, type Device } from "./db.server";
 import { containerName, itemCategory, itemName, placeName, shipName, stripId } from "./names";
+import { locationKey } from "./presets";
 
 const MAX_EVENTS = 1000;
 const TYPES = new Set([
   "session_start", "session_end", "game_version", "login", "join_pu", "location", "vehicle_control",
   "vehicle_destruction", "actor_death", "mission", "mission_ended", "zone", "notification",
-  "inventory_move", "shop_buy", "blueprint",
+  "inventory_move", "shop_buy", "blueprint", "cargo_buy", "cargo_sell",
 ]);
 
 type Ev = {
@@ -58,6 +59,8 @@ export function summarize(e: { type: string; data: Record<string, string> }): st
     case "mission": case "zone": case "notification": return d.text;
     case "mission_ended": return `Mission beendet: ${d.state}`;
     case "blueprint": return `Blueprint erhalten: ${d.name}`;
+    case "cargo_buy": return `Fracht gekauft: ${d.scu} SCU für ${Number(d.total).toLocaleString("de-DE")} aUEC${d.location ? " in " + placeName(d.location) : ""}`;
+    case "cargo_sell": return `Fracht verkauft: ${d.scu} SCU für ${Number(d.total).toLocaleString("de-DE")} aUEC${d.location ? " in " + placeName(d.location) : ""}`;
     case "inventory_move": {
       const to = d.to_type === "dropped" ? "" : ` → ${containerName(d.to_type, d.to_name)}`;
       return `${Number(d.amount) > 1 ? d.amount + "× " : ""}${itemName(d.item)} ${MOVE_VERB[d.action] || "bewegt"}: ${containerName(d.from_type, d.from_name)}${to}`;
@@ -101,27 +104,31 @@ async function matchItem(cls: string): Promise<{ item_ref: string; name: string;
 // ---------------------------------------------------------- inventory ---
 
 /** inventory_locations row for a game container (station, ship, body). */
-async function locationFor(userId: string, type: string, name: string): Promise<string> {
-  const key = `sc:${type}:${name}`.slice(0, 255);
+export async function locationFor(userId: string, type: string, name: string): Promise<string> {
+  const { key, label, source } = locationKey(type, name);
   const hit = await q1<RowDataPacket>("SELECT id FROM inventory_locations WHERE owner_id = ? AND preset_key = ?", [userId, key]);
   if (hit) return String(hit.id);
   const id = randomUUID();
   await run(
-    "INSERT IGNORE INTO inventory_locations (id, owner_id, name, notes, visibility, source, preset_key, created_at, updated_at) VALUES (?, ?, ?, ?, 'private', 'companion', ?, UTC_TIMESTAMP(6), UTC_TIMESTAMP(6))",
-    [id, userId, containerName(type, name), type === "ship" ? "Schiff (aus dem Spiel)" : type === "location" ? "Lager (aus dem Spiel)" : null, key],
+    "INSERT IGNORE INTO inventory_locations (id, owner_id, name, notes, visibility, source, preset_key, created_at, updated_at) VALUES (?, ?, ?, ?, 'private', ?, ?, UTC_TIMESTAMP(6), UTC_TIMESTAMP(6))",
+    [id, userId, type === "ship" ? containerName("ship", name) : label, type === "ship" ? "Schiff (vom Companion erkannt)" : null, source, key],
   );
   const again = await q1<RowDataPacket>("SELECT id FROM inventory_locations WHERE owner_id = ? AND preset_key = ?", [userId, key]);
   return String(again?.id ?? id);
 }
 
 export async function addItem(userId: string, cls: string, qty: number, type: string, container: string): Promise<void> {
-  const locId = await locationFor(userId, type, container);
+  return addItemAt(userId, cls, qty, await locationFor(userId, type, container));
+}
+
+/** Adds qty of an item (game class or readable name) to an inventory location id (null = none). */
+export async function addItemAt(userId: string, cls: string, qty: number, locId: string | null): Promise<void> {
   const cat = await matchItem(cls);
   const name = cat?.name ?? itemName(cls);
   const ref = cat?.item_ref ?? null;
   const existing = await q1<RowDataPacket>(
-    `SELECT id FROM inventory_items WHERE owner_id = ? AND location_id = ? AND ${ref ? "item_ref = ?" : "item_ref IS NULL AND item_name = ?"} LIMIT 1`,
-    [userId, locId, ref ?? name],
+    `SELECT id FROM inventory_items WHERE owner_id = ? AND ${locId ? "location_id = ?" : "location_id IS NULL"} AND ${ref ? "item_ref = ?" : "item_ref IS NULL AND item_name = ?"} LIMIT 1`,
+    locId ? [userId, locId, ref ?? name] : [userId, ref ?? name],
   );
   if (existing) {
     await run("UPDATE inventory_items SET qty = qty + ?, updated_at = UTC_TIMESTAMP(6) WHERE id = ?", [qty, existing.id]);
@@ -135,7 +142,7 @@ export async function addItem(userId: string, cls: string, qty: number, type: st
 }
 
 export async function takeItem(userId: string, cls: string, qty: number, type: string, container: string): Promise<number> {
-  const key = `sc:${type}:${container}`.slice(0, 255);
+  const { key } = locationKey(type, container);
   const loc = await q1<RowDataPacket>("SELECT id FROM inventory_locations WHERE owner_id = ? AND preset_key = ?", [userId, key]);
   if (!loc) return 0;
   const cat = await matchItem(cls);
