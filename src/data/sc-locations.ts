@@ -161,6 +161,7 @@ export const SC_LOCATIONS: SCLocationPreset[] = [
   // ── Sonderorte ─────────────────────────────────────────────
   // ── Nyx ────────────────────────────────────────────────────
   ...make("Nyx", "Stadt", [["levski", "Levski (Delamar)"]]),
+  ...make("Nyx", "Raumstation", [["pss-alpha", "People's Service Station Alpha"]]),
   ...make("Nyx", "Outpost", [
     ["delamar-nt-999-xxii", "NT-999-XXII (Delamar)"],
   ]),

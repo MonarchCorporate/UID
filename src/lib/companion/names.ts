@@ -80,6 +80,8 @@ export function shipName(cls: unknown): string {
   return ((maker ? maker + ' ' : '') + titleWords(parts)).trim();
 }
 
+const PSS: Record<number, string> = { 1: "People's Service Station Alpha" };
+
 export function placeName(code: unknown): string {
   let s = String(code || '').trim();
   if (!s) return '';
@@ -92,8 +94,9 @@ export function placeName(code: unknown): string {
   if (pyro) return 'Pyro ' + pyro[1] + ' Station';
   let op = /^Outpost_(PAF|OLP)_[A-Za-z0-9]+_([A-Za-z]+)(?:_(\d))?$/.exec(s);
   if (op) return op[2] + ' ' + op[1] + (op[3] && op[1] === 'PAF' ? '-' + (['', 'I', 'II', 'III', 'IV', 'V'][Number(op[3])] || op[3]) : '');
-  let keeger = /^AsteroidClusterBase_Nyx_Social_([A-Za-z]+)_\d+$/.exec(s);
-  if (keeger) return keeger[1] + ' (Nyx)';
+  // People's Service Stations in Nyx; the code names the asteroid belt (Keeger), not the station
+  const pss = /^AsteroidClusterBase_Nyx_Social_[A-Za-z]+_(\d+)$/.exec(s);
+  if (pss) return PSS[Number(pss[1])] || "People's Service Station " + Number(pss[1]) + ' (Nyx)';
   let m = /^(Stanton\d[a-d]?)_(.+)$/.exec(s);
   if (m) {
     let parent = PLACES[m[1]];

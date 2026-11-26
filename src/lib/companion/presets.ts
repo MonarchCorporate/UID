@@ -16,6 +16,7 @@ const DIRECT: Record<string, string> = {
   GrimHEX: "stanton:grim-hex",
   GrimHex: "stanton:grim-hex",
   Nyx_Levski: "nyx:levski",
+  AsteroidClusterBase_Nyx_Social_Keeger_001: "nyx:pss-alpha",
   RR_JP_StantonPyro: "stanton:pyro-gateway",
   RR_JP_StantonMagnus: "stanton:magnus-gateway",
   RR_JP_StantonTerra: "stanton:terra-gateway",
