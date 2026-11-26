@@ -22,9 +22,15 @@ function OnboardingPage() {
     queryKey: ["onboarding-status"],
     queryFn: () => fetchStatus(),
     // Solange der Discord-Beitritt fehlt, automatisch weiter prüfen.
-    refetchInterval: (q) => (q.state.data?.discordOnServer ? false : 8000),
+    refetchInterval: (q) =>
+      q.state.data?.discordOnServer || q.state.data?.verificationDisabled ? false : 8000,
   });
   const s = statusQ.data;
+
+  // Beta: Discord-/RSI-Verifizierung abgeschaltet -> direkt ins Dashboard.
+  useEffect(() => {
+    if (s?.verificationDisabled) navigate({ to: "/dashboard", replace: true });
+  }, [s?.verificationDisabled, navigate]);
 
   const recheck = useMutation({
     mutationFn: () => recheckFn(),

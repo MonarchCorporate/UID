@@ -12,6 +12,7 @@ export type OnboardingStatus = {
   sids: string[];
   orgs: OnboardingOrg[];
   isAdmin: boolean;
+  verificationDisabled: boolean;
   complete: boolean;
 };
 
@@ -23,9 +24,11 @@ export async function loadOnboardingStatus(userId: string): Promise<OnboardingSt
     .maybeSingle();
 
   const discordUserId = (profile?.discord_user_id as string | null) ?? null;
+  const { discordVerificationEnabled } = await import("./verification.server");
+  const verificationDisabled = !discordVerificationEnabled();
   let onServer = false;
   let discordError: string | null = null;
-  if (discordUserId) {
+  if (discordUserId && !verificationDisabled) {
     try {
       const { fetchMemberRoles } = await import("./discord.server");
       const roles = await fetchMemberRoles(discordUserId);
@@ -66,7 +69,9 @@ export async function loadOnboardingStatus(userId: string): Promise<OnboardingSt
     sids: ((profile?.rsi_org_sids as string[] | null) ?? []).map((s) => s.toUpperCase()),
     orgs,
     isAdmin,
+    verificationDisabled,
     complete:
+      verificationDisabled ||
       isAdmin ||
       (discordLinked && onServer && rsiVerified && orgs.length > 0),
   };

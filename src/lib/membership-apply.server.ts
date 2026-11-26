@@ -178,6 +178,8 @@ export async function applicantInfo(userId: string) {
 
 /** True when the linked Discord account is a member of the guild. */
 export async function isOnDiscord(discordUserId: string | null): Promise<{ onServer: boolean; error: string | null }> {
+  const { discordVerificationEnabled } = await import("@/lib/verification.server");
+  if (!discordVerificationEnabled()) return { onServer: true, error: null };
   if (!discordUserId) return { onServer: false, error: null };
   try {
     const { fetchMemberRoles } = await import("@/lib/discord.server");
