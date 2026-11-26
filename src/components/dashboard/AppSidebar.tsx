@@ -5,6 +5,7 @@ import { useState, useMemo } from "react";
 import { effectiveOrgPerms } from "@/lib/org-perms";
 import { getMyProfile } from "@/lib/profile.functions";
 import {
+  MonitorSmartphone,
   LayoutDashboard,
   Radio,
   Ship,
@@ -91,6 +92,7 @@ const personal: Item[] = [
   { title: "Loadout-Editor", url: "/loadout-editor", icon: Wrench, group: "Persönlich", keywords: "ausrüstung bewaffnung" },
   { title: "Crafting", url: "/crafting", icon: Hammer, group: "Persönlich", keywords: "crafting produktion herstellen" },
   { title: "Inventar", url: "/inventar", icon: Package, group: "Persönlich", keywords: "lager items bestand" },
+  { title: "Companion", url: "/companion", icon: MonitorSmartphone, group: "Persönlich", keywords: "overlay game.log companion desktop plan aufträge mining" },
   { title: "Farm-Listen", url: "/farm-lists", icon: Sprout, group: "Persönlich", keywords: "sammeln listen" },
   { title: "Profil", url: "/profil", icon: UserCircle, group: "Persönlich", keywords: "account einstellungen avatar status" },
 ];

@@ -156,6 +156,8 @@ function mapRow(item: WikiItem, now: string) {
     raw: {
       classification: item.classification,
       classification_label: item.classification_label,
+      // game class name (e.g. "behr_rifle_ballistic_01") – lets the companion map Game.log items to the catalog
+      class_name: (item as { class_name?: string | null }).class_name ?? null,
       manufacturer: item.manufacturer ?? null,
       web_url: item.web_url ?? null,
       slug: item.slug ?? null,

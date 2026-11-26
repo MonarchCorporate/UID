@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { UidPage } from "@/components/uid/UidPage";
 
@@ -41,10 +41,55 @@ function LoginPage() {
           Mit Discord anmelden
         </a>
 
+        <BetaLogin />
+
         <Link to="/" className="mt-8 text-center font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground hover:text-brand">
           ← Zurück
         </Link>
       </div>
     </UidPage>
+  );
+}
+/** Email/password login for beta testers (only shown when the server enables it). */
+function BetaLogin() {
+  const [info, setInfo] = useState<{ enabled: boolean; invite: boolean } | null>(null);
+  const [mode, setMode] = useState<"login" | "register">("login");
+  const [form, setForm] = useState({ email: "", password: "", name: "", invite: "" });
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    fetch("/api/public/auth/beta-login").then((r) => r.json()).then(setInfo).catch(() => setInfo(null));
+  }, []);
+  if (!info?.enabled) return null;
+  const submit = async (e: { preventDefault(): void }) => {
+    e.preventDefault();
+    setBusy(true);
+    setError(null);
+    try {
+      const r = await fetch("/api/public/auth/beta-login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...form, mode }) });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error || "Anmeldung fehlgeschlagen");
+      window.location.href = `/auth/discord?token_hash=${encodeURIComponent(d.token_hash)}`;
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  };
+  const field = "w-full border border-white/15 bg-black/30 px-3 py-2 text-sm outline-none focus:border-brand";
+  return (
+    <form onSubmit={submit} className="mt-8 space-y-3 border border-amber-500/30 bg-amber-500/5 p-4">
+      <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-300">Beta-Zugang</div>
+      <p className="text-xs text-muted-foreground">Nur auf der Beta: Anmeldung mit E-Mail und Passwort, bis Discord hier eingerichtet ist.</p>
+      {mode === "register" && <input className={field} placeholder="Name / Callsign" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />}
+      <input className={field} type="email" required placeholder="E-Mail" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+      <input className={field} type="password" required minLength={10} placeholder="Passwort (mind. 10 Zeichen)" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+      {mode === "register" && info.invite && <input className={field} required placeholder="Einladungscode" value={form.invite} onChange={(e) => setForm({ ...form, invite: e.target.value })} />}
+      {error && <p className="text-xs text-red-300">{error}</p>}
+      <button disabled={busy} className="w-full border border-brand/60 bg-brand/10 py-2.5 text-[10px] uppercase tracking-[0.3em] hover:bg-brand/25">{mode === "login" ? "Anmelden" : "Konto anlegen"}</button>
+      <button type="button" className="w-full text-center text-xs text-muted-foreground hover:text-brand" onClick={() => setMode(mode === "login" ? "register" : "login")}>
+        {mode === "login" ? "Noch kein Beta-Konto? Registrieren" : "Schon registriert? Anmelden"}
+      </button>
+    </form>
   );
 }

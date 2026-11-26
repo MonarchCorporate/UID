@@ -44,6 +44,7 @@ import { Route as AuthenticatedInventarRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedGewinnspieleRouteImport } from './routes/_authenticated/gewinnspiele'
 import { Route as AuthenticatedEinkaufRouteImport } from './routes/_authenticated/einkauf'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedCompanionRouteImport } from './routes/_authenticated/companion'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as OSlugIndexRouteImport } from './routes/o/$slug.index'
 import { Route as AuthenticatedSchiffskomponentenIndexRouteImport } from './routes/_authenticated/schiffskomponenten.index'
@@ -63,6 +64,7 @@ import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authentic
 import { Route as OSlugShopRouteImport } from './routes/o/$slug.shop'
 import { Route as OSlugKalenderRouteImport } from './routes/o/$slug.kalender'
 import { Route as OSlugFlotteRouteImport } from './routes/o/$slug.flotte'
+import { Route as CompanionPairCodeRouteImport } from './routes/companion.pair.$code'
 import { Route as ApiPublicTreasuryChartRouteImport } from './routes/api/public/treasury-chart'
 import { Route as ApiPublicStorageUploadRouteImport } from './routes/api/public/storage-upload'
 import { Route as ApiPublicRsiDiagRouteImport } from './routes/api/public/rsi-diag'
@@ -125,10 +127,12 @@ import { Route as ApiPublicHooksSyncSccrafterRouteImport } from './routes/api/pu
 import { Route as ApiPublicHooksSyncFleetRouteImport } from './routes/api/public/hooks/sync-fleet'
 import { Route as ApiPublicHooksGiveawaysTickRouteImport } from './routes/api/public/hooks/giveaways-tick'
 import { Route as ApiPublicHooksDiscordBotRouteImport } from './routes/api/public/hooks/discord-bot'
+import { Route as ApiPublicCompanionSplatRouteImport } from './routes/api/public/companion/$'
 import { Route as ApiPublicAuthVerifyRouteImport } from './routes/api/public/auth/verify'
 import { Route as ApiPublicAuthUserRouteImport } from './routes/api/public/auth/user'
 import { Route as ApiPublicAuthRefreshRouteImport } from './routes/api/public/auth/refresh'
 import { Route as ApiPublicAuthLogoutRouteImport } from './routes/api/public/auth/logout'
+import { Route as ApiPublicAuthBetaLoginRouteImport } from './routes/api/public/auth/beta-login'
 import { Route as ApiPublicAdminImportRouteImport } from './routes/api/public/admin/import'
 import { Route as AuthenticatedOpsSlugEditRouteImport } from './routes/_authenticated/ops.$slug.edit'
 import { Route as AuthenticatedMarketplaceIdEditRouteImport } from './routes/_authenticated/marketplace.$id.edit'
@@ -316,6 +320,11 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedCompanionRoute = AuthenticatedCompanionRouteImport.update({
+  id: '/companion',
+  path: '/companion',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -419,6 +428,11 @@ const OSlugFlotteRoute = OSlugFlotteRouteImport.update({
   id: '/flotte',
   path: '/flotte',
   getParentRoute: () => OSlugRoute,
+} as any)
+const CompanionPairCodeRoute = CompanionPairCodeRouteImport.update({
+  id: '/companion/pair/$code',
+  path: '/companion/pair/$code',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicTreasuryChartRoute = ApiPublicTreasuryChartRouteImport.update({
   id: '/api/public/treasury-chart',
@@ -769,6 +783,11 @@ const ApiPublicHooksDiscordBotRoute =
     path: '/api/public/hooks/discord-bot',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicCompanionSplatRoute = ApiPublicCompanionSplatRouteImport.update({
+  id: '/api/public/companion/$',
+  path: '/api/public/companion/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicAuthVerifyRoute = ApiPublicAuthVerifyRouteImport.update({
   id: '/api/public/auth/verify',
   path: '/api/public/auth/verify',
@@ -787,6 +806,11 @@ const ApiPublicAuthRefreshRoute = ApiPublicAuthRefreshRouteImport.update({
 const ApiPublicAuthLogoutRoute = ApiPublicAuthLogoutRouteImport.update({
   id: '/api/public/auth/logout',
   path: '/api/public/auth/logout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAuthBetaLoginRoute = ApiPublicAuthBetaLoginRouteImport.update({
+  id: '/api/public/auth/beta-login',
+  path: '/api/public/auth/beta-login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicAdminImportRoute = ApiPublicAdminImportRouteImport.update({
@@ -859,6 +883,7 @@ export interface FileRoutesByFullPath {
   '/schiffskatalog': typeof SchiffskatalogRoute
   '/shop': typeof ShopRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/companion': typeof AuthenticatedCompanionRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/einkauf': typeof AuthenticatedEinkaufRoute
   '/gewinnspiele': typeof AuthenticatedGewinnspieleRoute
@@ -934,6 +959,7 @@ export interface FileRoutesByFullPath {
   '/api/public/rsi-diag': typeof ApiPublicRsiDiagRoute
   '/api/public/storage-upload': typeof ApiPublicStorageUploadRoute
   '/api/public/treasury-chart': typeof ApiPublicTreasuryChartRoute
+  '/companion/pair/$code': typeof CompanionPairCodeRoute
   '/o/$slug/flotte': typeof OSlugFlotteRoute
   '/o/$slug/kalender': typeof OSlugKalenderRoute
   '/o/$slug/shop': typeof OSlugShopRoute
@@ -957,10 +983,12 @@ export interface FileRoutesByFullPath {
   '/marketplace/$id/edit': typeof AuthenticatedMarketplaceIdEditRoute
   '/ops/$slug/edit': typeof AuthenticatedOpsSlugEditRoute
   '/api/public/admin/import': typeof ApiPublicAdminImportRoute
+  '/api/public/auth/beta-login': typeof ApiPublicAuthBetaLoginRoute
   '/api/public/auth/logout': typeof ApiPublicAuthLogoutRoute
   '/api/public/auth/refresh': typeof ApiPublicAuthRefreshRoute
   '/api/public/auth/user': typeof ApiPublicAuthUserRoute
   '/api/public/auth/verify': typeof ApiPublicAuthVerifyRoute
+  '/api/public/companion/$': typeof ApiPublicCompanionSplatRoute
   '/api/public/hooks/discord-bot': typeof ApiPublicHooksDiscordBotRoute
   '/api/public/hooks/giveaways-tick': typeof ApiPublicHooksGiveawaysTickRoute
   '/api/public/hooks/sync-fleet': typeof ApiPublicHooksSyncFleetRoute
@@ -988,6 +1016,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/schiffskatalog': typeof SchiffskatalogRoute
   '/shop': typeof ShopRoute
+  '/companion': typeof AuthenticatedCompanionRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/einkauf': typeof AuthenticatedEinkaufRoute
   '/gewinnspiele': typeof AuthenticatedGewinnspieleRoute
@@ -1060,6 +1089,7 @@ export interface FileRoutesByTo {
   '/api/public/rsi-diag': typeof ApiPublicRsiDiagRoute
   '/api/public/storage-upload': typeof ApiPublicStorageUploadRoute
   '/api/public/treasury-chart': typeof ApiPublicTreasuryChartRoute
+  '/companion/pair/$code': typeof CompanionPairCodeRoute
   '/o/$slug/flotte': typeof OSlugFlotteRoute
   '/o/$slug/kalender': typeof OSlugKalenderRoute
   '/o/$slug/shop': typeof OSlugShopRoute
@@ -1083,10 +1113,12 @@ export interface FileRoutesByTo {
   '/marketplace/$id/edit': typeof AuthenticatedMarketplaceIdEditRoute
   '/ops/$slug/edit': typeof AuthenticatedOpsSlugEditRoute
   '/api/public/admin/import': typeof ApiPublicAdminImportRoute
+  '/api/public/auth/beta-login': typeof ApiPublicAuthBetaLoginRoute
   '/api/public/auth/logout': typeof ApiPublicAuthLogoutRoute
   '/api/public/auth/refresh': typeof ApiPublicAuthRefreshRoute
   '/api/public/auth/user': typeof ApiPublicAuthUserRoute
   '/api/public/auth/verify': typeof ApiPublicAuthVerifyRoute
+  '/api/public/companion/$': typeof ApiPublicCompanionSplatRoute
   '/api/public/hooks/discord-bot': typeof ApiPublicHooksDiscordBotRoute
   '/api/public/hooks/giveaways-tick': typeof ApiPublicHooksGiveawaysTickRoute
   '/api/public/hooks/sync-fleet': typeof ApiPublicHooksSyncFleetRoute
@@ -1118,6 +1150,7 @@ export interface FileRoutesById {
   '/schiffskatalog': typeof SchiffskatalogRoute
   '/shop': typeof ShopRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/companion': typeof AuthenticatedCompanionRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/einkauf': typeof AuthenticatedEinkaufRoute
   '/_authenticated/gewinnspiele': typeof AuthenticatedGewinnspieleRoute
@@ -1193,6 +1226,7 @@ export interface FileRoutesById {
   '/api/public/rsi-diag': typeof ApiPublicRsiDiagRoute
   '/api/public/storage-upload': typeof ApiPublicStorageUploadRoute
   '/api/public/treasury-chart': typeof ApiPublicTreasuryChartRoute
+  '/companion/pair/$code': typeof CompanionPairCodeRoute
   '/o/$slug/flotte': typeof OSlugFlotteRoute
   '/o/$slug/kalender': typeof OSlugKalenderRoute
   '/o/$slug/shop': typeof OSlugShopRoute
@@ -1216,10 +1250,12 @@ export interface FileRoutesById {
   '/_authenticated/marketplace/$id/edit': typeof AuthenticatedMarketplaceIdEditRoute
   '/_authenticated/ops/$slug/edit': typeof AuthenticatedOpsSlugEditRoute
   '/api/public/admin/import': typeof ApiPublicAdminImportRoute
+  '/api/public/auth/beta-login': typeof ApiPublicAuthBetaLoginRoute
   '/api/public/auth/logout': typeof ApiPublicAuthLogoutRoute
   '/api/public/auth/refresh': typeof ApiPublicAuthRefreshRoute
   '/api/public/auth/user': typeof ApiPublicAuthUserRoute
   '/api/public/auth/verify': typeof ApiPublicAuthVerifyRoute
+  '/api/public/companion/$': typeof ApiPublicCompanionSplatRoute
   '/api/public/hooks/discord-bot': typeof ApiPublicHooksDiscordBotRoute
   '/api/public/hooks/giveaways-tick': typeof ApiPublicHooksGiveawaysTickRoute
   '/api/public/hooks/sync-fleet': typeof ApiPublicHooksSyncFleetRoute
@@ -1251,6 +1287,7 @@ export interface FileRouteTypes {
     | '/schiffskatalog'
     | '/shop'
     | '/admin'
+    | '/companion'
     | '/dashboard'
     | '/einkauf'
     | '/gewinnspiele'
@@ -1326,6 +1363,7 @@ export interface FileRouteTypes {
     | '/api/public/rsi-diag'
     | '/api/public/storage-upload'
     | '/api/public/treasury-chart'
+    | '/companion/pair/$code'
     | '/o/$slug/flotte'
     | '/o/$slug/kalender'
     | '/o/$slug/shop'
@@ -1349,10 +1387,12 @@ export interface FileRouteTypes {
     | '/marketplace/$id/edit'
     | '/ops/$slug/edit'
     | '/api/public/admin/import'
+    | '/api/public/auth/beta-login'
     | '/api/public/auth/logout'
     | '/api/public/auth/refresh'
     | '/api/public/auth/user'
     | '/api/public/auth/verify'
+    | '/api/public/companion/$'
     | '/api/public/hooks/discord-bot'
     | '/api/public/hooks/giveaways-tick'
     | '/api/public/hooks/sync-fleet'
@@ -1380,6 +1420,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/schiffskatalog'
     | '/shop'
+    | '/companion'
     | '/dashboard'
     | '/einkauf'
     | '/gewinnspiele'
@@ -1452,6 +1493,7 @@ export interface FileRouteTypes {
     | '/api/public/rsi-diag'
     | '/api/public/storage-upload'
     | '/api/public/treasury-chart'
+    | '/companion/pair/$code'
     | '/o/$slug/flotte'
     | '/o/$slug/kalender'
     | '/o/$slug/shop'
@@ -1475,10 +1517,12 @@ export interface FileRouteTypes {
     | '/marketplace/$id/edit'
     | '/ops/$slug/edit'
     | '/api/public/admin/import'
+    | '/api/public/auth/beta-login'
     | '/api/public/auth/logout'
     | '/api/public/auth/refresh'
     | '/api/public/auth/user'
     | '/api/public/auth/verify'
+    | '/api/public/companion/$'
     | '/api/public/hooks/discord-bot'
     | '/api/public/hooks/giveaways-tick'
     | '/api/public/hooks/sync-fleet'
@@ -1509,6 +1553,7 @@ export interface FileRouteTypes {
     | '/schiffskatalog'
     | '/shop'
     | '/_authenticated/admin'
+    | '/_authenticated/companion'
     | '/_authenticated/dashboard'
     | '/_authenticated/einkauf'
     | '/_authenticated/gewinnspiele'
@@ -1584,6 +1629,7 @@ export interface FileRouteTypes {
     | '/api/public/rsi-diag'
     | '/api/public/storage-upload'
     | '/api/public/treasury-chart'
+    | '/companion/pair/$code'
     | '/o/$slug/flotte'
     | '/o/$slug/kalender'
     | '/o/$slug/shop'
@@ -1607,10 +1653,12 @@ export interface FileRouteTypes {
     | '/_authenticated/marketplace/$id/edit'
     | '/_authenticated/ops/$slug/edit'
     | '/api/public/admin/import'
+    | '/api/public/auth/beta-login'
     | '/api/public/auth/logout'
     | '/api/public/auth/refresh'
     | '/api/public/auth/user'
     | '/api/public/auth/verify'
+    | '/api/public/companion/$'
     | '/api/public/hooks/discord-bot'
     | '/api/public/hooks/giveaways-tick'
     | '/api/public/hooks/sync-fleet'
@@ -1655,11 +1703,14 @@ export interface RootRouteChildren {
   ApiPublicRsiDiagRoute: typeof ApiPublicRsiDiagRoute
   ApiPublicStorageUploadRoute: typeof ApiPublicStorageUploadRoute
   ApiPublicTreasuryChartRoute: typeof ApiPublicTreasuryChartRoute
+  CompanionPairCodeRoute: typeof CompanionPairCodeRoute
   ApiPublicAdminImportRoute: typeof ApiPublicAdminImportRoute
+  ApiPublicAuthBetaLoginRoute: typeof ApiPublicAuthBetaLoginRoute
   ApiPublicAuthLogoutRoute: typeof ApiPublicAuthLogoutRoute
   ApiPublicAuthRefreshRoute: typeof ApiPublicAuthRefreshRoute
   ApiPublicAuthUserRoute: typeof ApiPublicAuthUserRoute
   ApiPublicAuthVerifyRoute: typeof ApiPublicAuthVerifyRoute
+  ApiPublicCompanionSplatRoute: typeof ApiPublicCompanionSplatRoute
   ApiPublicHooksDiscordBotRoute: typeof ApiPublicHooksDiscordBotRoute
   ApiPublicHooksGiveawaysTickRoute: typeof ApiPublicHooksGiveawaysTickRoute
   ApiPublicHooksSyncFleetRoute: typeof ApiPublicHooksSyncFleetRoute
@@ -1926,6 +1977,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/companion': {
+      id: '/_authenticated/companion'
+      path: '/companion'
+      fullPath: '/companion'
+      preLoaderRoute: typeof AuthenticatedCompanionRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -2058,6 +2116,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/o/$slug/flotte'
       preLoaderRoute: typeof OSlugFlotteRouteImport
       parentRoute: typeof OSlugRoute
+    }
+    '/companion/pair/$code': {
+      id: '/companion/pair/$code'
+      path: '/companion/pair/$code'
+      fullPath: '/companion/pair/$code'
+      preLoaderRoute: typeof CompanionPairCodeRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/treasury-chart': {
       id: '/api/public/treasury-chart'
@@ -2493,6 +2558,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksDiscordBotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/companion/$': {
+      id: '/api/public/companion/$'
+      path: '/api/public/companion/$'
+      fullPath: '/api/public/companion/$'
+      preLoaderRoute: typeof ApiPublicCompanionSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/auth/verify': {
       id: '/api/public/auth/verify'
       path: '/api/public/auth/verify'
@@ -2519,6 +2591,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/auth/logout'
       fullPath: '/api/public/auth/logout'
       preLoaderRoute: typeof ApiPublicAuthLogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/auth/beta-login': {
+      id: '/api/public/auth/beta-login'
+      path: '/api/public/auth/beta-login'
+      fullPath: '/api/public/auth/beta-login'
+      preLoaderRoute: typeof ApiPublicAuthBetaLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/admin/import': {
@@ -2679,6 +2758,7 @@ const AuthenticatedMarketplaceIdRouteWithChildren =
 
 interface AuthenticatedRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+  AuthenticatedCompanionRoute: typeof AuthenticatedCompanionRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedEinkaufRoute: typeof AuthenticatedEinkaufRoute
   AuthenticatedGewinnspieleRoute: typeof AuthenticatedGewinnspieleRoute
@@ -2729,6 +2809,7 @@ interface AuthenticatedRouteChildren {
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+  AuthenticatedCompanionRoute: AuthenticatedCompanionRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedEinkaufRoute: AuthenticatedEinkaufRoute,
   AuthenticatedGewinnspieleRoute: AuthenticatedGewinnspieleRoute,
@@ -2848,11 +2929,14 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicRsiDiagRoute: ApiPublicRsiDiagRoute,
   ApiPublicStorageUploadRoute: ApiPublicStorageUploadRoute,
   ApiPublicTreasuryChartRoute: ApiPublicTreasuryChartRoute,
+  CompanionPairCodeRoute: CompanionPairCodeRoute,
   ApiPublicAdminImportRoute: ApiPublicAdminImportRoute,
+  ApiPublicAuthBetaLoginRoute: ApiPublicAuthBetaLoginRoute,
   ApiPublicAuthLogoutRoute: ApiPublicAuthLogoutRoute,
   ApiPublicAuthRefreshRoute: ApiPublicAuthRefreshRoute,
   ApiPublicAuthUserRoute: ApiPublicAuthUserRoute,
   ApiPublicAuthVerifyRoute: ApiPublicAuthVerifyRoute,
+  ApiPublicCompanionSplatRoute: ApiPublicCompanionSplatRoute,
   ApiPublicHooksDiscordBotRoute: ApiPublicHooksDiscordBotRoute,
   ApiPublicHooksGiveawaysTickRoute: ApiPublicHooksGiveawaysTickRoute,
   ApiPublicHooksSyncFleetRoute: ApiPublicHooksSyncFleetRoute,
