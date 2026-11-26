@@ -6,7 +6,7 @@
 //   GET  overview | POST inventory      – inventory, locations, ships (device token)
 //   GET  suggest?q=                     – item names                  (device token)
 //   GET|POST plan, GET contracts        – session plan, contracts     (device token)
-//   GET  trade?location=, routes?scu=&budget=&from=, mining           (device token)
+//   GET  trade?location=, routes?scu=&budget=&from=&… (filters as on the Routenplaner), route-options, mining (device token)
 import { randomBytes, randomUUID } from "node:crypto";
 // build info of the exe in public/downloads (written by scripts/build-companion.sh)
 import companionInfo from "../../../public/downloads/companion.json?raw";
@@ -16,7 +16,7 @@ import { addItemAt, ingest, locationFor } from "./ingest.server";
 import { locationKey } from "./presets";
 import { containerName, itemName, placeName, categoryLabel, itemCategory } from "./names";
 import { planApply, planList } from "./plan.server";
-import { mining, routes, tradeAt } from "./trade.server";
+import { mining, routeOptions, routes, tradeAt } from "./trade.server";
 
 const PAIR_TTL_MS = 15 * 60 * 1000;
 const json = (data: unknown, status = 200) => Response.json(data, { status, headers: { "cache-control": "no-store" } });
@@ -290,19 +290,27 @@ export async function handleCompanion(request: Request, sub: string): Promise<Re
         const live = await q1<RowDataPacket>("SELECT location FROM companion_live WHERE user_id = ?", [uid]);
         return json(await tradeAt(clip(url.searchParams.get("location"), 150) || (live?.location ? String(live.location) : null)));
       }
-      case "GET routes":
+      case "GET routes": {
+        const sp = url.searchParams;
+        const str = (k: string) => clip(sp.get(k), 150) || null;
+        const num = (k: string) => (Number(sp.get(k)) > 0 ? Number(sp.get(k)) : null);
+        const list = (k: string) => (sp.get(k) ? String(sp.get(k)).split(",").map((v) => v.trim()).filter(Boolean).slice(0, 10) : null);
         return json(await routes({
-          scu: Math.min(10_000, Math.max(1, Number(url.searchParams.get("scu")) || 32)),
-          budget: Number(url.searchParams.get("budget")) || null,
-          from: clip(url.searchParams.get("from"), 150) || null,
-          illegal: url.searchParams.get("illegal") === "1",
+          scu: Math.min(10_000, Math.max(1, Number(sp.get("scu")) || 32)),
+          budget: num("budget"), minMargin: num("min_margin"),
+          from: str("from"), illegal: sp.get("illegal") === "1", noRefineryOrigin: sp.get("no_refinery") === "1",
+          fromSystem: str("from_system"), fromPlanet: str("from_planet"), fromTerminalId: num("from_terminal"), fromTypes: list("from_types"),
+          toSystem: str("to_system"), toPlanet: str("to_planet"), toTerminalId: num("to_terminal"), toTypes: list("to_types"),
+          commodity: str("commodity"), limit: 25,
         }));
+      }
+      case "GET route-options": return json(await routeOptions());
       case "GET mining": return json(await mining());
       default: return bad("Unbekannter Endpunkt", 404);
     }
   } catch (err) {
     const e = err as Error & { status?: number };
-    if (["trade", "routes", "mining"].includes(sub)) {
+    if (["trade", "routes", "route-options", "mining"].includes(sub)) {
       console.error("[companion] market data", e.message);
       return bad("Marktdaten (UEX) gerade nicht erreichbar – bitte später erneut versuchen", 503);
     }

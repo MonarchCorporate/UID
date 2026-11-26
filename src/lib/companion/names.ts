@@ -64,7 +64,8 @@ function titleWords(parts: string[]): string {
   return parts
     .filter(Boolean)
     .map(function (w: string) {
-      if (/^(mk\d+|s\d+|[a-z]\d+[a-z]*|\d+[a-z]*)$/i.test(w)) return w.toUpperCase().replace(/^MK/, 'Mk');
+      if (/^\d+i$/i.test(w)) return w.toLowerCase(); // Origin 300i, 600i, 890 Jump
+        if (/^(mk\d+|s\d+|[a-z]\d+[a-z]*|\d+[a-z]*)$/i.test(w)) return w.toUpperCase().replace(/^MK/, 'Mk');
       if (w.length <= 5 && /[A-Z]/.test(w) && w === w.toUpperCase()) return w;
       return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
     })

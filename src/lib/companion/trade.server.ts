@@ -33,6 +33,51 @@ type Terminal = {
   id: number; name: string; nickname: string | null; is_available: number; is_refinery: number;
   star_system_name: string | null; planet_name: string | null; moon_name: string | null;
   city_name: string | null; space_station_name: string | null; outpost_name: string | null;
+  id_space_station?: number | null; id_outpost?: number | null; id_city?: number | null; id_moon?: number | null; id_planet?: number | null;
+};
+
+// same location types as the Routenplaner on the website (src/lib/uex.functions.ts)
+export const LOCATION_TYPES: Array<{ value: string; label: string }> = [
+  { value: "space_station", label: "Raumstation" },
+  { value: "city", label: "Stadt" },
+  { value: "outpost", label: "Outpost" },
+  { value: "moon", label: "Mond" },
+  { value: "planet", label: "Planet" },
+  { value: "other", label: "Sonstige" },
+];
+
+function locationType(t: Terminal): string {
+  if (t.id_space_station) return "space_station";
+  if (t.id_outpost) return "outpost";
+  if (t.id_city) return "city";
+  if (t.id_moon) return "moon";
+  if (t.id_planet) return "planet";
+  return "other";
+}
+
+const slug = (name: string) => name.toLowerCase().normalize("NFKD").replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-");
+
+/** Choices for the route filters (same as the website's Routenplaner). */
+export async function routeOptions() {
+  const { comm, term } = await base();
+  const terminals = [...term.values()].map((t) => ({
+    id: t.id, name: t.name, nickname: t.nickname, system: t.star_system_name, planet: t.planet_name,
+    type: locationType(t), refinery: !!t.is_refinery,
+  })).sort((a, b) => a.name.localeCompare(b.name));
+  return {
+    systems: [...new Set(terminals.map((t) => t.system).filter(Boolean) as string[])].sort(),
+    terminals,
+    commodities: [...comm.values()].map((c) => ({ slug: slug(c.name), name: c.name, illegal: !!c.is_illegal })).sort((a, b) => a.name.localeCompare(b.name)),
+    types: LOCATION_TYPES,
+  };
+}
+
+export type RouteFilter = {
+  scu: number; budget?: number | null; from?: string | null; illegal?: boolean; limit?: number;
+  minMargin?: number | null;
+  fromSystem?: string | null; fromPlanet?: string | null; fromTerminalId?: number | null; fromTypes?: string[] | null;
+  toSystem?: string | null; toPlanet?: string | null; toTerminalId?: number | null; toTypes?: string[] | null;
+  commodity?: string | null; noRefineryOrigin?: boolean;
 };
 
 const norm = (s: unknown) => String(s ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "");
@@ -114,23 +159,45 @@ export type Route = {
 };
 
 /** Best single-hop routes for a cargo size, optionally starting at the current location. */
-export async function routes(opts: { scu: number; budget?: number | null; from?: string | null; illegal?: boolean; limit?: number }) {
+export async function routes(opts: RouteFilter) {
   const { comm, prices, term } = await base();
   const origin = opts.from ? terminalsAt(term, opts.from) : null;
+  const fromTypes = opts.fromTypes?.length ? new Set(opts.fromTypes) : null;
+  const toTypes = opts.toTypes?.length ? new Set(opts.toTypes) : null;
+  const okFrom = (id: number) => {
+    const t = term.get(id);
+    if (!t) return false;
+    if (origin && origin.size && !origin.has(id)) return false;
+    if (opts.fromTerminalId && id !== opts.fromTerminalId) return false;
+    if (opts.noRefineryOrigin && t.is_refinery) return false;
+    if (opts.fromSystem && t.star_system_name !== opts.fromSystem) return false;
+    if (opts.fromPlanet && t.planet_name !== opts.fromPlanet) return false;
+    return !fromTypes || fromTypes.has(locationType(t));
+  };
+  const okTo = (id: number) => {
+    const t = term.get(id);
+    if (!t) return false;
+    if (opts.toTerminalId && id !== opts.toTerminalId) return false;
+    if (opts.toSystem && t.star_system_name !== opts.toSystem) return false;
+    if (opts.toPlanet && t.planet_name !== opts.toPlanet) return false;
+    return !toTypes || toTypes.has(locationType(t));
+  };
   const byC = new Map<number, Price[]>();
   for (const p of prices) (byC.get(p.id_commodity) ?? byC.set(p.id_commodity, []).get(p.id_commodity)!).push(p);
   const out: Route[] = [];
   for (const [id, rows] of byC) {
     const c = comm.get(id)!;
     if (!opts.illegal && c.is_illegal) continue;
-    const buys = rows.filter((r) => r.price_buy > 0 && r.status_buy > 0 && (!origin || !origin.size || origin.has(r.id_terminal)));
-    const sells = rows.filter((r) => r.price_sell > 0 && r.status_sell > 0);
+    if (opts.commodity && slug(c.name) !== opts.commodity) continue;
+    const buys = rows.filter((r) => r.price_buy > 0 && r.status_buy > 0 && okFrom(r.id_terminal));
+    const sells = rows.filter((r) => r.price_sell > 0 && r.status_sell > 0 && okTo(r.id_terminal));
     if (!buys.length || !sells.length) continue;
     const buy = buys.reduce((a, b) => (a.price_buy < b.price_buy ? a : b));
     const sell = sells.reduce((a, b) => (a.price_sell > b.price_sell ? a : b));
     if (buy.id_terminal === sell.id_terminal) continue;
     const margin = sell.price_sell - buy.price_buy;
     if (margin <= 0) continue;
+    if (opts.minMargin && margin < opts.minMargin) continue;
     const stock = buy.scu_buy > 0 ? buy.scu_buy : opts.scu;
     const byBudget = opts.budget && opts.budget > 0 ? Math.floor(opts.budget / buy.price_buy) : opts.scu;
     const units = Math.max(0, Math.min(opts.scu, stock, byBudget));
